@@ -9,7 +9,7 @@
  * Komponen loading placeholder (shimmer) untuk satu item berita.
  */
 
-package com.muh.arifandi.dicoding.core.ui.component
+package com.muh.arifandi.dicoding.features.news.ui.component
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat

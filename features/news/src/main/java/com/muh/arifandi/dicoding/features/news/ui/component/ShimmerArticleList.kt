@@ -9,7 +9,7 @@
  * Komponen loading placeholder (shimmer) untuk daftar berita.
  */
 
-package com.muh.arifandi.dicoding.core.ui.component
+package com.muh.arifandi.dicoding.features.news.ui.component
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
