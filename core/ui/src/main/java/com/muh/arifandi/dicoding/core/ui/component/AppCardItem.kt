@@ -3,7 +3,7 @@
  * Email : arif76440@gmail.com
  * Project : My Application
  * Module : features:news:ui
- * File : NewsItem.kt
+ * File : AppCardItem.kt
  *
  * Description:
  * Menampilkan item berita dalam bentuk Card yang berisi judul, gambar, dan deskripsi singkat.

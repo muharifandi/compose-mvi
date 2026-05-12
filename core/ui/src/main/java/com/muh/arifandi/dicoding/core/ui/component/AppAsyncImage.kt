@@ -3,7 +3,7 @@
  * Email : arif76440@gmail.com
  * Project : My Application
  * Module : features:news:ui
- * File : NewsImage.kt
+ * File : AppAsyncImage.kt
  *
  * Description:
  * Komponen gambar berita yang mendukung loading state (shimmer/progress) dan error state.

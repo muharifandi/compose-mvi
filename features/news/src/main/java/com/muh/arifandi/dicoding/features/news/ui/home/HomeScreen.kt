@@ -41,7 +41,7 @@ import com.muh.arifandi.dicoding.core.ui.designsystem.ErrorView
 import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
 import com.muh.arifandi.dicoding.core.ui.designsystem.SearchBar
 import com.muh.arifandi.dicoding.features.news.domain.model.Article
-import com.muh.arifandi.dicoding.core.ui.component.NewsItem
+import com.muh.arifandi.dicoding.core.ui.component.AppCardItem
 import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeEffect
 import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeIntent
 import com.muh.arifandi.dicoding.core.ui.R as UiR

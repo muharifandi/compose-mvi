@@ -41,7 +41,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.viewinterop.AndroidView
 import com.muh.arifandi.dicoding.core.ui.designsystem.ErrorView
 import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
-import com.muh.arifandi.dicoding.core.ui.component.NewsImage
 import com.muh.arifandi.dicoding.features.news.ui.detail.state.DetailState
 import com.muh.arifandi.dicoding.core.ui.R as UiR
 

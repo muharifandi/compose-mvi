@@ -43,7 +43,7 @@ import com.muh.arifandi.dicoding.core.ui.designsystem.AppToolbar
 import com.muh.arifandi.dicoding.core.ui.designsystem.AppTextButton
 import com.muh.arifandi.dicoding.core.ui.designsystem.EmptyView
 import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
-import com.muh.arifandi.dicoding.core.ui.component.NewsItem
+import com.muh.arifandi.dicoding.core.ui.component.AppCardItem
 import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkEffect
 import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkIntent
 import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkState
