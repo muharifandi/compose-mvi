@@ -36,12 +36,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.viewinterop.AndroidView
 import com.muh.arifandi.dicoding.core.ui.designsystem.ErrorView
 import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
 import com.muh.arifandi.dicoding.features.news.ui.component.NewsImage
 import com.muh.arifandi.dicoding.features.detail.state.DetailState
+import com.muh.arifandi.dicoding.core.ui.R as UiR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,6 +51,7 @@ fun DetailContent(
     state: DetailState,
     onBackClick: () -> Unit,
     onFavoriteClick: () -> Unit,
+    modifier: Modifier = Modifier,
     onRetry: () -> Unit = {}
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -56,30 +59,31 @@ fun DetailContent(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Remove Favorite") },
-            text = { Text("Are you sure you want to remove this article from favorites?") },
+            title = { Text(text = stringResource(id = UiR.string.remove_favorite)) },
+            text = { Text(text = stringResource(id = UiR.string.remove_favorite_desc)) },
             confirmButton = {
                 TextButton(onClick = {
                     onFavoriteClick()
                     showDeleteDialog = false
                 }) {
-                    Text("Remove")
+                    Text(text = stringResource(id = UiR.string.remove))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
-                    Text("Cancel")
+                    Text(text = stringResource(id = UiR.string.cancel))
                 }
             }
         )
     }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             TopAppBar(
                 title = { 
                     Text(
-                        text = state.article?.title ?: "Article Detail",
+                        text = state.article?.title ?: stringResource(id = UiR.string.article_detail),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     ) 
@@ -88,7 +92,7 @@ fun DetailContent(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(id = UiR.string.back)
                         )
                     }
                 },
@@ -103,7 +107,7 @@ fun DetailContent(
                         Icon(
                             imageVector = if (state.isFavorite) Icons.Default.Favorite 
                                          else Icons.Default.FavoriteBorder,
-                            contentDescription = "Favorite",
+                            contentDescription = stringResource(id = UiR.string.favorite),
                             tint = if (state.isFavorite) MaterialTheme.colorScheme.primary 
                                    else MaterialTheme.colorScheme.onSurface
                         )
@@ -133,7 +137,7 @@ fun DetailContent(
                 }
                 else -> {
                     ErrorView(
-                        message = "No URL provided",
+                        message = stringResource(id = UiR.string.no_url_provided),
                         onRetry = onRetry,
                         modifier = Modifier.align(Alignment.Center)
                     )
@@ -144,7 +148,10 @@ fun DetailContent(
 }
 
 @Composable
-private fun ArticleWebView(url: String) {
+private fun ArticleWebView(
+    url: String,
+    modifier: Modifier = Modifier
+) {
     AndroidView(
         factory = { context ->
             WebView(context).apply {
@@ -153,6 +160,6 @@ private fun ArticleWebView(url: String) {
                 loadUrl(url)
             }
         },
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     )
 }

@@ -26,6 +26,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui"))
     implementation(project(":navigation"))
     
     implementation(platform(libs.androidx.compose.bom))

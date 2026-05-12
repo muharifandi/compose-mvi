@@ -1,10 +1,4 @@
 /**
- * Created by Muh. Arifandi on 07/05/26.
- * Email : arif76440@gmail.com
- * Project: My Application
- * File: SplashScreen
- */
-/**
  * Created by Muh. Arifandi on 12/05/2026
  * Email : arif76440@gmail.com
  * Project : My Application
@@ -25,20 +19,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import com.muh.arifandi.dicoding.navigation.Destinations
+import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.delay
+import com.muh.arifandi.dicoding.core.ui.R as UiR
 
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(
+    onNavigateToHome: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     LaunchedEffect(Unit) {
         delay(2000)
-        navController.navigate(Destinations.Home) {
-            popUpTo(Destinations.Splash) { inclusive = true }
-        }
+        onNavigateToHome()
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "ArifNews", style = MaterialTheme.typography.displayMedium)
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(id = UiR.string.app_name),
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }

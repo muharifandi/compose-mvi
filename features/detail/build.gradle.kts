@@ -28,10 +28,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain:news"))
-    implementation(project(":features:news:ui"))
+    implementation(project(":core:model"))
+    implementation(project(":core:domain"))
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
+    implementation(project(":features:news:ui"))
     
     androidTestImplementation(project(":core:testing"))
     testImplementation(project(":core:testing"))

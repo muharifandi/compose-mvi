@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain:news"))
+    implementation(project(":core:model"))
     implementation(project(":core:ui"))
     
     implementation(libs.androidx.compose.ui)

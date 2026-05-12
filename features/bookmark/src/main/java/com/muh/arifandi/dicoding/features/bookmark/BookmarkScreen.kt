@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -46,12 +47,15 @@ import com.muh.arifandi.dicoding.features.news.ui.component.NewsItem
 import com.muh.arifandi.dicoding.features.bookmark.state.BookmarkEffect
 import com.muh.arifandi.dicoding.features.bookmark.state.BookmarkIntent
 import com.muh.arifandi.dicoding.features.bookmark.state.BookmarkState
+import com.muh.arifandi.dicoding.core.model.Article
 import kotlinx.coroutines.flow.collectLatest
+import com.muh.arifandi.dicoding.core.ui.R as UiR
 
 @Composable
 fun BookmarkScreen(
     navController: NavController,
     onNavigateToDetail: (String) -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: BookmarkViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -69,7 +73,8 @@ fun BookmarkScreen(
         state = state,
         onBackClick = { viewModel.processIntent(BookmarkIntent.Back) },
         onArticleClick = { viewModel.processIntent(BookmarkIntent.ClickArticle(it)) },
-        onDeleteClick = { viewModel.processIntent(BookmarkIntent.DeleteFavorite(it)) }
+        onDeleteClick = { viewModel.processIntent(BookmarkIntent.DeleteFavorite(it)) },
+        modifier = modifier
     )
 }
 
@@ -78,7 +83,7 @@ fun BookmarkScreen(
 fun BookmarkContent(
     state: BookmarkState,
     onBackClick: () -> Unit,
-    onArticleClick: (com.muh.arifandi.dicoding.domain.news.model.Article) -> Unit,
+    onArticleClick: (Article) -> Unit,
     onDeleteClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -87,11 +92,11 @@ fun BookmarkContent(
     if (articleToDeleteUrl != null) {
         AlertDialog(
             onDismissRequest = { articleToDeleteUrl = null },
-            title = { Text(text = "Hapus Favorit") },
-            text = { Text(text = "Apakah Anda yakin ingin menghapus berita ini dari daftar favorit?") },
+            title = { Text(text = stringResource(id = UiR.string.delete_favorite)) },
+            text = { Text(text = stringResource(id = UiR.string.delete_favorite_desc)) },
             confirmButton = {
                 AppTextButton(
-                    text = "Hapus",
+                    text = stringResource(id = UiR.string.delete),
                     onClick = {
                         onDeleteClick(articleToDeleteUrl!!)
                         articleToDeleteUrl = null
@@ -100,7 +105,7 @@ fun BookmarkContent(
             },
             dismissButton = {
                 AppTextButton(
-                    text = "Batal",
+                    text = stringResource(id = UiR.string.cancel),
                     onClick = { articleToDeleteUrl = null }
                 )
             }
@@ -108,14 +113,15 @@ fun BookmarkContent(
     }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             AppToolbar(
-                title = "Favorites",
+                title = stringResource(id = UiR.string.favorites),
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(id = UiR.string.back)
                         )
                     }
                 }
@@ -129,7 +135,7 @@ fun BookmarkContent(
         ) {
             when {
                 state.isLoading -> LoadingView(modifier = Modifier.align(Alignment.Center))
-                state.favoriteArticles.isEmpty() -> EmptyView(message = "No favorite articles yet")
+                state.favoriteArticles.isEmpty() -> EmptyView(message = stringResource(id = UiR.string.no_favorites_yet))
                 else -> {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(
@@ -151,7 +157,7 @@ fun BookmarkContent(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Delete,
-                                        contentDescription = "Delete Favorite",
+                                        contentDescription = stringResource(id = UiR.string.favorite),
                                         tint = MaterialTheme.colorScheme.error
                                     )
                                 }

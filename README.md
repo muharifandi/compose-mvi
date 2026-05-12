@@ -1,6 +1,6 @@
 # My Application - Android Starter Foundation
 
-Proyek ini adalah foundation Android modular tingkat enterprise yang dibangun dengan prinsip Clean Architecture, MVI, dan Jetpack Compose. Dirancang untuk skalabilitas tim besar dan pemeliharaan jangka panjang.
+Proyek ini adalah foundation Android modular tingkat enterprise yang dibangun dengan prinsip Clean Architecture, MVI, dan Jetpack Compose. Dirancang untuk skalabilitas tim besar dan pemeliharaan jangka panjang, mengikuti standar resmi **Google "Now in Android" (NiA)**.
 
 ---
 
@@ -19,7 +19,7 @@ Kami menggunakan standar `.env` untuk manajemen rahasia aplikasi agar proses *on
 
 ---
 
-## 🏗️ Visualisasi Arsitektur
+## 🏗️ Visualisasi Arsitektur (Google NiA Standard)
 
 Proyek ini menggunakan **Feature-Oriented Modular Architecture**. Setiap fitur diisolasi untuk memastikan performa build yang cepat dan mencegah "Spaghetti Code".
 
@@ -39,14 +39,13 @@ graph TD
         NEWS_UI[":features:news:ui (Shared UI)"]
     end
 
-    subgraph Domain_Layer
-        DOMAIN[":domain:news (Pure Kotlin)"]
-    end
-
     subgraph Core_Layer
-        CORE_UI[":core:ui (Design System)"]
+        CORE_MODEL[":core:model (Pure Kotlin)"]
+        CORE_DOMAIN[":core:domain (UseCases)"]
+        CORE_DATA[":core:data (Repositories)"]
         CORE_NET[":core:network"]
         CORE_DB[":core:database"]
+        CORE_UI[":core:ui (Design System)"]
         CORE_COM[":core:common"]
     end
 
@@ -54,29 +53,33 @@ graph TD
     APP --> DETAIL
     APP --> BOOKMARK
     
-    HOME --> DOMAIN
+    HOME --> CORE_DOMAIN
+    HOME --> CORE_DATA
+    BOOKMARK --> CORE_DOMAIN
+    BOOKMARK --> CORE_DATA
+    DETAIL --> CORE_DOMAIN
+    DETAIL --> CORE_DATA
+
     HOME --> NEWS_UI
-    BOOKMARK --> DOMAIN
     BOOKMARK --> NEWS_UI
-    DETAIL --> DOMAIN
     DETAIL --> NEWS_UI
 
-    NEWS_UI --> CORE_UI
-    NEWS_UI --> DOMAIN
-
-    HOME --> CORE_NET
-    HOME --> CORE_DB
+    CORE_DOMAIN --> CORE_MODEL
+    CORE_DATA --> CORE_DOMAIN
+    CORE_DATA --> CORE_NET
+    CORE_DATA --> CORE_DB
     
-    CORE_NET --> CORE_COM
-    CORE_DB --> CORE_COM
+    NEWS_UI --> CORE_UI
+    NEWS_UI --> CORE_MODEL
 ```
 
 #### Penjelasan Layer:
-*   **App Layer (`:app`)**: Modul tertinggi yang merakit semua fitur. Bertanggung jawab atas inisialisasi Dependency Injection (Hilt) dan konfigurasi Navigasi Global.
-*   **Feature Layer (`:features:*`)**: Berisi logika UI dan User Flow. Setiap fitur terisolasi satu sama lain (Home tidak tahu ada Bookmark) untuk mencegah ketergantungan yang rumit.
-*   **Shared Feature UI (`:features:news:ui`)**: Menampung komponen UI yang spesifik untuk domain bisnis "News" (seperti `NewsItem`) yang digunakan oleh banyak fitur.
-*   **Domain Layer (`:domain:*`)**: Jantung aplikasi yang berisi aturan bisnis murni (Pure Kotlin). Tidak bergantung pada framework Android apa pun, sehingga sangat mudah untuk di-Unit Test.
-*   **Core Layer (`:core:*`)**: Fondasi infrastruktur yang bersifat *business-agnostic*. Modul-modul ini tidak tahu apa itu "News" atau "Article", mereka hanya menyediakan alat (Retrofit, Room, Design System).
+*   **App Layer (`:app`)**: Modul tertinggi yang merakit semua fitur.
+*   **Feature Layer (`:features:*`)**: Berisi logika UI dan ViewModel yang terisolasi.
+*   **Core Model (`:core:model`)**: Berisi entitas data murni (Pure Kotlin) yang digunakan seluruh aplikasi.
+*   **Core Domain (`:core:domain`)**: Berisi UseCases untuk abstraksi logika bisnis.
+*   **Core Data (`:core:data`)**: Implementasi Repository yang menghubungkan Network dan Database.
+*   **Core Network/DB**: Infrastruktur teknis untuk API dan penyimpanan lokal.
 
 ---
 
@@ -90,8 +93,8 @@ sequenceDiagram
         participant UI as Compose UI
         participant VM as ViewModel (State/Effect)
     end
-    participant UC as UseCase (Domain)
-    participant Repo as Repository (Data)
+    participant UC as UseCase (Core Domain)
+    participant Repo as Repository (Core Data)
 
     User->>UI: Interaksi (Klik/Input)
     UI->>VM: Kirim Intent (Action)
@@ -104,56 +107,17 @@ sequenceDiagram
     UI-->>User: Tampilan Terupdate
 ```
 
-#### Penjelasan Komponen MVI:
-*   **State**: Satu-satunya sumber kebenaran (Single Source of Truth) untuk UI. Bersifat **Immutable**.
-*   **Intent**: Mewakili niat atau aksi pengguna (seperti `SearchArticle`).
-*   **Effect**: Digunakan untuk kejadian sekali lewat yang tidak mengubah state permanen (seperti Navigasi atau Toast).
-
-#### Contoh Kode MVI:
-```kotlin
-// 1. Kirim Intent dari UI
-Button(onClick = { viewModel.processIntent(HomeIntent.Refresh) }) {
-    Text("Refresh")
-}
-
-// 2. ViewModel memproses Intent & Update State
-override fun processIntent(intent: HomeIntent) {
-    when (intent) {
-        is HomeIntent.Refresh -> {
-            setState { copy(isLoading = true) }
-            // panggil usecase...
-        }
-    }
-}
-
-// 3. UI mengamati State (Auto-update)
-val state by viewModel.state.collectAsStateWithLifecycle()
-if (state.isLoading) { LoadingView() }
-```
-
 ---
 
 ## 📚 Dokumentasi Engineering
 
-Kami menyediakan panduan mendalam untuk setiap bagian arsitektur:
-
 1.  [**Project Overview**](docs/engineering/01-overview.md) - Filosofi dan tujuan skalabilitas.
 2.  [**Architecture & Structure**](docs/engineering/02-architecture.md) - Detail modul dan arah dependensi.
 3.  [**MVI & Data Flow**](docs/engineering/03-mvi-flow.md) - Panduan manajemen state.
-4.  [**Feature Development Guide**](docs/engineering/04-development-guide.md) - Cara menambah fitur baru (Step-by-step).
+4.  [**Feature Development Guide**](docs/engineering/04-development-guide.md) - Cara menambah fitur baru.
 5.  [**Deep Dive Dependencies**](docs/engineering/05-dependencies-deep-dive.md) - Penjelasan library & plugin dengan analogi.
 6.  [**Onboarding Guide**](docs/engineering/06-onboarding.md) - Standar penamaan dan workflow Git.
 7.  [**Testing Strategy**](docs/engineering/07-testing.md) - Unit Test, UI Test, dan Robot Pattern.
-
----
-
-## 🚀 Fitur Utama
-- **Fully Modular**: Isolasi kode antar fitur untuk performa build maksimal.
-- **Clean Architecture**: Pemisahan tanggung jawab yang ketat (Data, Domain, Presentation).
-- **MVI Architecture**: State management yang *predictable* dan mudah di-debug.
-- **Design System**: Komponen UI yang reusable di `:core:ui`.
-- **Centralized Config**: Cukup kelola satu file `.env` untuk seluruh project.
-- **Unit & UI Testing**: Siap dengan MockK, Turbine, dan Robot Pattern.
 
 ---
 **Created by Muh. Arifandi**

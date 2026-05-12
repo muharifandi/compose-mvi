@@ -13,11 +13,14 @@ package com.muh.arifandi.dicoding.features.news.ui.component
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
 @Composable
-fun ShimmerArticleList() {
+fun ShimmerArticleList(
+    modifier: Modifier = Modifier
+) {
 
-    LazyColumn {
+    LazyColumn(modifier = modifier) {
 
         items(6) {
 

@@ -11,7 +11,6 @@ plugins {
     kotlin("kapt")
 }
 
-// Logic untuk membaca file .env secara manual
 val envProperties = Properties().apply {
     val envFile = rootProject.file(".env")
     if (envFile.exists()) {
@@ -33,7 +32,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
-        // Membaca dari envProperties
         buildConfigField(
             "String",
             "NEWS_API_KEY",
@@ -86,9 +84,17 @@ dependencies {
     implementation(project(":features:splash"))
     implementation(project(":features:about"))
     implementation(project(":features:bookmark"))
+    implementation(project(":features:news:ui"))
+    
+    implementation(project(":core:model"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
+    implementation(project(":core:database"))
+    implementation(project(":core:network"))
     implementation(project(":navigation"))
+
     implementation(libs.timber)
 
     implementation(platform(libs.androidx.compose.bom))

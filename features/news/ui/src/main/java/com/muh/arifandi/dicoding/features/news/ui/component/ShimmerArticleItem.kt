@@ -25,13 +25,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ShimmerArticleItem() {
+fun ShimmerArticleItem(
+    modifier: Modifier = Modifier
+) {
 
     val transition = rememberInfiniteTransition(label = "shimmer")
     val alphaAnim = transition.animateFloat(
@@ -45,7 +48,7 @@ fun ShimmerArticleItem() {
     )
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(
                 horizontal = 16.dp,
@@ -64,7 +67,7 @@ fun ShimmerArticleItem() {
                     .height(180.dp)
                     .alpha(alphaAnim.value)
                     .background(
-                        color = androidx.compose.material3.MaterialTheme.colorScheme.surfaceVariant,
+                        color = MaterialTheme.colorScheme.surfaceVariant,
                         shape = RoundedCornerShape(12.dp)
                     )
             )
@@ -75,7 +78,7 @@ fun ShimmerArticleItem() {
                     .height(20.dp)
                     .alpha(alphaAnim.value)
                     .background(
-                        color = androidx.compose.material3.MaterialTheme.colorScheme.surfaceVariant,
+                        color = MaterialTheme.colorScheme.surfaceVariant,
                         shape = RoundedCornerShape(12.dp)
                     )
             )
@@ -86,7 +89,7 @@ fun ShimmerArticleItem() {
                     .height(16.dp)
                     .alpha(alphaAnim.value)
                     .background(
-                        color = androidx.compose.material3.MaterialTheme.colorScheme.surfaceVariant,
+                        color = MaterialTheme.colorScheme.surfaceVariant,
                         shape = RoundedCornerShape(12.dp)
                     )
             )
@@ -97,7 +100,7 @@ fun ShimmerArticleItem() {
                     .height(16.dp)
                     .alpha(alphaAnim.value)
                     .background(
-                        color = androidx.compose.material3.MaterialTheme.colorScheme.surfaceVariant,
+                        color = MaterialTheme.colorScheme.surfaceVariant,
                         shape = RoundedCornerShape(12.dp)
                     )
             )

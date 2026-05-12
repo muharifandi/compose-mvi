@@ -34,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -45,10 +46,12 @@ import com.muh.arifandi.dicoding.features.about.state.AboutEffect
 import com.muh.arifandi.dicoding.features.about.state.AboutIntent
 import com.muh.arifandi.dicoding.features.about.state.AboutState
 import kotlinx.coroutines.flow.collectLatest
+import com.muh.arifandi.dicoding.core.ui.R as UiR
 
 @Composable
 fun AboutScreen(
     navController: NavController,
+    modifier: Modifier = Modifier,
     viewModel: AboutViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -63,7 +66,8 @@ fun AboutScreen(
 
     AboutContent(
         state = state,
-        onBackClick = { viewModel.processIntent(AboutIntent.Back) }
+        onBackClick = { viewModel.processIntent(AboutIntent.Back) },
+        modifier = modifier
     )
 }
 
@@ -78,12 +82,12 @@ fun AboutContent(
         modifier = modifier.semantics { contentDescription = "about_page" },
         topBar = {
             TopAppBar(
-                title = { Text("About Developer") },
+                title = { Text(text = stringResource(id = UiR.string.about_developer)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(id = UiR.string.back)
                         )
                     }
                 }
@@ -103,7 +107,7 @@ fun AboutContent(
                     .size(150.dp)
                     .clip(CircleShape)
                     .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
-                contentDescription = "Profile Picture"
+                contentDescription = stringResource(id = UiR.string.profile_picture)
             )
 
             Spacer(modifier = Modifier.height(24.dp))

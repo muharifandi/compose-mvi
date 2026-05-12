@@ -1,6 +1,6 @@
 package com.muh.arifandi.dicoding.core.testing.data
 
-import com.muh.arifandi.dicoding.domain.news.model.Article
+import com.muh.arifandi.dicoding.core.model.Article
 
 object TestArticleData {
     val dummyArticle = Article(

@@ -21,7 +21,6 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
@@ -43,7 +41,7 @@ import com.muh.arifandi.dicoding.core.ui.designsystem.ErrorView
 import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
 import com.muh.arifandi.dicoding.features.news.ui.component.NewsItem
 import com.muh.arifandi.dicoding.core.ui.designsystem.SearchBar
-import com.muh.arifandi.dicoding.domain.news.model.Article
+import com.muh.arifandi.dicoding.core.model.Article
 import com.muh.arifandi.dicoding.features.home.state.HomeEffect
 import com.muh.arifandi.dicoding.features.home.state.HomeIntent
 import com.muh.arifandi.dicoding.core.ui.R as UiR
@@ -54,6 +52,7 @@ fun HomeScreen(
     onNavigateToDetail: (String) -> Unit,
     onNavigateToAbout: () -> Unit,
     onNavigateToBookmark: () -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -77,6 +76,7 @@ fun HomeScreen(
     }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             Column {
                 AppToolbar(
@@ -88,7 +88,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Favorite,
-                                contentDescription = "bookmarks"
+                                contentDescription = stringResource(id = UiR.string.favorites)
                             )
                         }
                         IconButton(
@@ -97,7 +97,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.AccountCircle,
-                                contentDescription = "about_page"
+                                contentDescription = stringResource(id = UiR.string.about_developer)
                             )
                         }
                     }

@@ -29,12 +29,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain:news"))
-    implementation(project(":features:news:ui"))
+    implementation(project(":core:model"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
-    implementation(project(":core:database"))
-    implementation(project(":core:network"))
+    implementation(project(":features:news:ui"))
     
     androidTestImplementation(project(":core:testing"))
     testImplementation(project(":core:testing"))
@@ -45,13 +45,6 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.paging.runtime)
-    
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-    
-    implementation(libs.squareup.retrofit)
-    implementation(libs.squareup.retrofit.gson)
     
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
