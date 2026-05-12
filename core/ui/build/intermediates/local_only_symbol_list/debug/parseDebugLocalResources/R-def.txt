@@ -1,0 +1,13 @@
+R_DEF: Internal format may change without notice
+local
+string app_name
+string article_detail
+string back
+string empty_articles
+string favorite
+string jetpack_compose
+string loading_more
+string news_app
+string no_internet_connection
+string retry
+string search_news

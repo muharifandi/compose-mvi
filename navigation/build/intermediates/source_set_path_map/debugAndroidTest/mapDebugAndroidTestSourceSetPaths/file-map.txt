@@ -1,0 +1,5 @@
+com.muh.arifandi.dicoding.navigation.test.navigation-androidTest-0 /Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/navigation/build/generated/res/resValues/androidTest/debug
+com.muh.arifandi.dicoding.navigation.test.navigation-mergeDebugAndroidTestResources-1 /Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/navigation/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
+com.muh.arifandi.dicoding.navigation.test.navigation-mergeDebugAndroidTestResources-2 /Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/navigation/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
+com.muh.arifandi.dicoding.navigation.test.navigation-debugAndroidTest-3 /Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/navigation/build/intermediates/merged_res/debugAndroidTest/mergeDebugAndroidTestResources
+com.muh.arifandi.dicoding.navigation.test.navigation-debug-4 /Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/navigation/build/intermediates/packaged_res/debug/packageDebugResources

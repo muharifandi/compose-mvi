@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.muh.arifandi.dicoding.domain.news.usecase.SearchNewsUseCaseTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-11T06:11:43" hostname="Zaydans-MacBook-Pro.local" time="0.002">
+  <properties/>
+  <testcase name="invoke should call repository searchNews" classname="com.muh.arifandi.dicoding.domain.news.usecase.SearchNewsUseCaseTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

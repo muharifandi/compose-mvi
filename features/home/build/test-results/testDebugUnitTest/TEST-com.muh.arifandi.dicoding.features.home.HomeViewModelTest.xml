@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.muh.arifandi.dicoding.features.home.HomeViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-11T06:11:45" hostname="Zaydans-MacBook-Pro.local" time="0.896">
+  <properties/>
+  <testcase name="when SearchArticle intent is processed, state should update and save to SavedStateHandle" classname="com.muh.arifandi.dicoding.features.home.HomeViewModelTest" time="0.89"/>
+  <testcase name="when ClickArticle intent is processed, NavigateToDetail effect should be sent" classname="com.muh.arifandi.dicoding.features.home.HomeViewModelTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/zaydanmubaraq/.gradle/caches/8.10.2/transforms/e15061fb2f849768cc91988885ca5cac/transformed/jetified-byte-buddy-agent-1.14.17.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

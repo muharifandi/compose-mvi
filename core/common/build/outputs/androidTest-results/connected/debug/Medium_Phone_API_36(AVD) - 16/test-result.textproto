@@ -1,0 +1,24 @@
+# 2026-05-11T06:31:40.419603Z:
+test_suite_meta_data {
+}
+test_status: FAILED
+output_artifact {
+  label {
+    label: "test-results.log"
+    namespace: "com.google.testing.platform.runtime.android.driver.AndroidInstrumentationDriver"
+  }
+  source_path {
+    path: "/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/core/common/build/outputs/androidTest-results/connected/debug/Medium_Phone_API_36(AVD) - 16/testlog/test-results.log"
+  }
+  type: TEST_DATA
+  mime_type: "text/plain"
+}
+issue {
+  namespace {
+    namespace: "com.google.testing.platform.runtime.android.driver.AndroidInstrumentationDriver"
+  }
+  severity: SEVERE
+  code: 1
+  name: "INSTRUMENTATION_FAILED"
+  message: "Test run failed to complete. Instrumentation run failed due to Process crashed."
+}
