@@ -60,16 +60,18 @@ graph TD
     APP --> FEAT_ABOUT
     APP --> NAV
 
-    FEAT_NEWS --> NAV
     FEAT_SPLASH --> NAV
+    FEAT_ABOUT --> NAV
+    
+    FEAT_ABOUT --> FEAT_NEWS
     
     FEAT_NEWS --> CORE_NET
     FEAT_NEWS --> CORE_COM
     FEAT_NEWS --> CORE_UI
     
-    NAV --> CORE_COM
     FEAT_SPLASH --> CORE_UI
     FEAT_ABOUT --> CORE_UI
+    FEAT_ABOUT --> CORE_COM
 ```
 
 ### 2. Lapisan di Dalam Fitur (Internal Clean Architecture)
