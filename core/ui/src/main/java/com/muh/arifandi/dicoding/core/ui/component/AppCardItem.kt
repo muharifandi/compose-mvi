@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun NewsItem(
+fun AppCardItem(
     title: String,
     imageUrl: String,
     description: String,
@@ -44,7 +44,7 @@ fun NewsItem(
         Row(
             modifier = Modifier.padding(12.dp)
         ) {
-            NewsImage(
+            AppAsyncImage(
                 model = imageUrl,
                 modifier = Modifier
                     .size(100.dp)

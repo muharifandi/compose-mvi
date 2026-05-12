@@ -30,7 +30,7 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 
 @Composable
-fun NewsImage(
+fun AppAsyncImage(
     model: Any?,
     modifier: Modifier = Modifier,
     contentDescription: String? = null

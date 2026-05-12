@@ -133,7 +133,7 @@ fun HomeScreen(
                             ) { index ->
                                 val article = pagedArticles[index]
                                 if (article != null) {
-                                    NewsItem(
+                                    AppCardItem(
                                         title = article.title ?: "",
                                         imageUrl = article.urlToImage ?: "",
                                         description = article.description ?: "",
@@ -159,7 +159,7 @@ fun HomeScreen(
                                 key = { article: Article -> article.url },
                                 contentType = { "article_item" }
                             ) { article ->
-                                NewsItem(
+                                AppCardItem(
                                     title = article.title ?: "",
                                     imageUrl = article.urlToImage ?: "",
                                     description = article.description ?: "",

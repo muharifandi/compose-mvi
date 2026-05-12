@@ -143,7 +143,7 @@ fun BookmarkContent(
                             key = { it.url }
                         ) { article ->
                             Box {
-                                NewsItem(
+                                AppCardItem(
                                     title = article.title ?: "",
                                     imageUrl = article.urlToImage ?: "",
                                     description = article.description ?: "",

@@ -101,7 +101,7 @@ fun AboutContent(
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            NewsImage(
+            AppAsyncImage(
                 model = R.drawable.profile,
                 modifier = Modifier
                     .size(150.dp)
