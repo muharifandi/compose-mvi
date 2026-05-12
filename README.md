@@ -77,7 +77,7 @@ Kami menjamin konsistensi UI melalui aliran data satu arah:
 ```mermaid
 sequenceDiagram
     participant User
-    subgraph UI_Layer
+    box "UI Layer"
         participant UI as Compose UI
         participant VM as ViewModel (State/Effect)
     end
