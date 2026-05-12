@@ -16,7 +16,7 @@ Selamat datang di tim! Ikuti langkah-langkah ini untuk mulai berkontribusi.
 - **Mulai dari `:domain`**: Pahami model data dan aturan bisnis utama.
 - **Buka `:navigation`**: Lihat bagaimana layar-layar dalam aplikasi saling terhubung.
 - **Lihat `:core:ui`**: Pahami komponen Design System yang tersedia agar tidak membuat komponen duplikat.
-- **Pelajari `:features:home`**: Ini adalah fitur paling lengkap yang bisa dijadikan referensi untuk membuat fitur baru.
+- **Pelajari `:features:news`**: Ini adalah fitur paling lengkap yang bisa dijadikan referensi untuk membuat fitur baru.
 
 ## 4. Alur Kerja Git
 - Gunakan branch baru untuk setiap fitur/bug: `feature/nama-fitur` atau `bugfix/nama-bug`.

@@ -15,8 +15,10 @@ android {
     namespace = "com.muh.arifandi.dicoding.core.common"
     compileSdk = 35
 
+    val envProperties = rootProject.extra["envProperties"] as java.util.Properties
+
     defaultConfig {
-        minSdk = 21
+        minSdk = envProperties.getProperty("MIN_SDK")?.toInt() ?: 21
     }
 
     compileOptions {

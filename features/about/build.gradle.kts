@@ -27,10 +27,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:model"))
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
-    implementation(project(":features:news:ui"))
+    implementation(project(":features:news"))
     implementation(project(":navigation"))
 
     testImplementation(libs.junit)

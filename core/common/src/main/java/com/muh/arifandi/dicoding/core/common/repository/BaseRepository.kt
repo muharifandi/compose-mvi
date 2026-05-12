@@ -4,6 +4,9 @@ import com.muh.arifandi.dicoding.core.common.ResultState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import android.util.Log
+import java.net.UnknownHostException
+import java.net.SocketTimeoutException
+import java.io.IOException
 
 /**
  * Created by Foundation Team
@@ -18,9 +21,18 @@ abstract class BaseRepository {
         try {
             val response = call()
             emit(ResultState.Success(response))
+        } catch (e: UnknownHostException) {
+            Log.e("BaseRepository", "No Internet Connection", e)
+            emit(ResultState.Error("Tidak ada koneksi internet. Silakan periksa jaringan Anda."))
+        } catch (e: SocketTimeoutException) {
+            Log.e("BaseRepository", "Connection Timeout", e)
+            emit(ResultState.Error("Koneksi ke server terputus (timeout). Silakan coba lagi nanti."))
+        } catch (e: IOException) {
+            Log.e("BaseRepository", "Network error", e)
+            emit(ResultState.Error("Terjadi kesalahan jaringan. Silakan coba beberapa saat lagi."))
         } catch (e: Exception) {
-            Log.e("BaseRepository", "Network call failed", e)
-            emit(ResultState.Error(e.message ?: "Unknown Error occurred"))
+            Log.e("BaseRepository", "Unexpected error", e)
+            emit(ResultState.Error(e.message ?: "Terjadi kesalahan yang tidak terduga."))
         }
     }
 }

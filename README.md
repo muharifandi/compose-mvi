@@ -6,14 +6,22 @@ Proyek ini adalah foundation Android modular tingkat enterprise yang dibangun de
 
 ## 🛠️ Setup Awal
 
-Kami menggunakan standar `.env` untuk manajemen rahasia aplikasi agar proses *onboarding* tim lebih mudah dan terstandarisasi.
+Kami menggunakan standar `.env` (melalui file `config.env`) untuk manajemen konfigurasi dan rahasia aplikasi agar proses *onboarding* tim lebih mudah dan terstandarisasi.
 
 1.  **Clone** repositori ini.
-2.  Buat file baru bernama **`.env`** di root direktori proyek.
-3.  Tambahkan konfigurasi berikut ke dalam file `.env`:
+2.  Pastikan file **`config.env`** ada di root direktori proyek (atau buat baru jika belum ada).
+3.  Tambahkan konfigurasi berikut ke dalam file `config.env`:
     ```env
+    # API Config
     NEWS_API_KEY=isi_dengan_api_key_anda
     BASE_URL=https://newsapi.org/v2/
+
+    # App Metadata
+    APP_ID=com.muh.arifandi.dicoding
+    MIN_SDK=23
+    TARGET_SDK=35
+    VERSION_CODE=1
+    VERSION_NAME=1.0.0
     ```
 4.  **Sync Project** dengan Gradle Files dan jalankan aplikasi.
 
@@ -23,89 +31,44 @@ Kami menggunakan standar `.env` untuk manajemen rahasia aplikasi agar proses *on
 
 Proyek ini menggunakan **Feature-Oriented Modular Architecture**. Setiap fitur diisolasi untuk memastikan performa build yang cepat dan mencegah "Spaghetti Code".
 
-### 1. Graf Dependensi Modul
-Berikut adalah struktur bagaimana modul-modul saling terhubung:
-
-```mermaid
-graph TD
-    subgraph App_Layer
-        APP[":app (The Glue)"]
-    end
-
-    subgraph Feature_Layer
-        HOME[":features:home"]
-        DETAIL[":features:detail"]
-        BOOKMARK[":features:bookmark"]
-        NEWS_UI[":features:news:ui (Shared UI)"]
-    end
-
-    subgraph Core_Layer
-        CORE_MODEL[":core:model (Pure Kotlin)"]
-        CORE_DOMAIN[":core:domain (UseCases)"]
-        CORE_DATA[":core:data (Repositories)"]
-        CORE_NET[":core:network"]
-        CORE_DB[":core:database"]
-        CORE_UI[":core:ui (Design System)"]
-        CORE_COM[":core:common"]
-    end
-
-    APP --> HOME
-    APP --> DETAIL
-    APP --> BOOKMARK
-    
-    HOME --> CORE_DOMAIN
-    HOME --> CORE_DATA
-    BOOKMARK --> CORE_DOMAIN
-    BOOKMARK --> CORE_DATA
-    DETAIL --> CORE_DOMAIN
-    DETAIL --> CORE_DATA
-
-    HOME --> NEWS_UI
-    BOOKMARK --> NEWS_UI
-    DETAIL --> NEWS_UI
-
-    CORE_DOMAIN --> CORE_MODEL
-    CORE_DATA --> CORE_DOMAIN
-    CORE_DATA --> CORE_NET
-    CORE_DATA --> CORE_DB
-    
-    NEWS_UI --> CORE_UI
-    NEWS_UI --> CORE_MODEL
-```
-
-#### Penjelasan Layer:
-*   **App Layer (`:app`)**: Modul tertinggi yang merakit semua fitur.
-*   **Feature Layer (`:features:*`)**: Berisi logika UI dan ViewModel yang terisolasi.
-*   **Core Model (`:core:model`)**: Berisi entitas data murni (Pure Kotlin) yang digunakan seluruh aplikasi.
-*   **Core Domain (`:core:domain`)**: Berisi UseCases untuk abstraksi logika bisnis.
-*   **Core Data (`:core:data`)**: Implementasi Repository yang menghubungkan Network dan Database.
-*   **Core Network/DB**: Infrastruktur teknis untuk API dan penyimpanan lokal.
+### Struktur Modul
+*   **`:app`**: Modul utama (Entry Point) yang menghubungkan semua fitur, menyediakan `MainActivity`, inisialisasi Hilt, dan konfigurasi navigasi global.
+*   **`:features:*`**: Berisi logika bisnis per fitur. Contoh: `:features:news` menangani pengambilan berita, bookmark, dan detail.
+*   **`:core:*`**: Modul infrastruktur yang reusable:
+    *   `:core:network`: Konfigurasi Retrofit, OkHttp, Interceptor, dan penanganan error API secara tersentralisasi.
+    *   `:core:ui`: **Design System** aplikasi (Theme, Reusable Composables, Icons, Resources).
+    *   `:core:common`: Utility umum, `ResultState`, base classes, dan extensions.
+*   **`:navigation`**: Sentralisasi rute navigasi menggunakan Type-Safe Navigation Compose.
 
 ---
 
-### 2. Alur Data MVI (Unidirectional Data Flow)
-Kami menjamin konsistensi UI melalui aliran data satu arah:
+### 🔄 Alur Kerja MVI (Model-View-Intent)
+
+Aplikasi ini menerapkan pola **MVI** dengan aliran data satu arah (**Unidirectional Data Flow**) untuk menjamin *predictability* dari state UI.
+
+1.  **Intent**: User melakukan aksi (misal: mengetik di search bar). UI mengirim `Intent` ke `ViewModel`.
+2.  **Model (State)**: `ViewModel` memproses `Intent` (memanggil Use Case/Repository), lalu menghasilkan `State` baru yang bersifat *immutable*.
+3.  **View**: UI mengobservasi `State` melalui `StateFlow` dan melakukan *recomposition* secara otomatis saat state berubah.
+4.  **Effect**: Untuk aksi satu kali (seperti navigasi atau menampilkan Toast), kami menggunakan `SideEffect` agar tidak mengotori state utama.
 
 ```mermaid
-sequenceDiagram
-    participant User
-    box "UI Layer"
-        participant UI as Compose UI
-        participant VM as ViewModel (State/Effect)
-    end
-    participant UC as UseCase (Core Domain)
-    participant Repo as Repository (Core Data)
-
-    User->>UI: Interaksi (Klik/Input)
-    UI->>VM: Kirim Intent (Action)
-    VM->>UC: Panggil Logika Bisnis
-    UC->>Repo: Request Data
-    Repo-->>UC: Return Result (DTO/Entity)
-    UC-->>VM: Return Domain Model
-    VM->>VM: Update State (setState)
-    VM-->>UI: Recompositon (New State)
-    UI-->>User: Tampilan Terupdate
+graph LR
+    User -- Action --> Intent
+    Intent -- Process --> ViewModel
+    ViewModel -- Update --> State
+    State -- Render --> View
+    View -- Feedback --> User
+    ViewModel -- Single Event --> Effect
 ```
+
+---
+
+## 🚀 Perbaikan Terbaru
+
+Baru-baru ini dilakukan optimasi pada sistem jaringan:
+*   **Centralized Error Handling**: Memastikan error API (401, 429, dll) tertangkap dengan benar oleh `SafeApiCall` dan ditampilkan di UI.
+*   **Interceptor Optimization**: Logging interceptor diposisikan setelah Auth interceptor agar developer dapat memverifikasi API Key yang dikirim melalui header `X-Api-Key`.
+*   **Type-Safe News API**: Refaktor `NewsApiService` untuk mempermudah deteksi kegagalan request melalui exception handling yang lebih bersih.
 
 ---
 
@@ -115,9 +78,6 @@ sequenceDiagram
 2.  [**Architecture & Structure**](docs/engineering/02-architecture.md) - Detail modul dan arah dependensi.
 3.  [**MVI & Data Flow**](docs/engineering/03-mvi-flow.md) - Panduan manajemen state.
 4.  [**Feature Development Guide**](docs/engineering/04-development-guide.md) - Cara menambah fitur baru.
-5.  [**Deep Dive Dependencies**](docs/engineering/05-dependencies-deep-dive.md) - Penjelasan library & plugin dengan analogi.
-6.  [**Onboarding Guide**](docs/engineering/06-onboarding.md) - Standar penamaan dan workflow Git.
-7.  [**Testing Strategy**](docs/engineering/07-testing.md) - Unit Test, UI Test, dan Robot Pattern.
 
 ---
 **Created by Muh. Arifandi**

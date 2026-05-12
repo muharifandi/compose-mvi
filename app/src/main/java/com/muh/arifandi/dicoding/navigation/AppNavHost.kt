@@ -30,7 +30,13 @@ fun AppNavHost(
         modifier = modifier
     ) {
         composable<Destinations.Splash> {
-            SplashScreen(navController)
+            SplashScreen(
+                onNavigateToHome = {
+                    navController.navigate(Destinations.Home) {
+                        popUpTo(Destinations.Splash) { inclusive = true }
+                    }
+                }
+            )
         }
 
         composable<Destinations.Home> {

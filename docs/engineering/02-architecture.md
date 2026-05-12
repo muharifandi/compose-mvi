@@ -25,17 +25,13 @@ Proyek ini menerapkan **Clean Architecture** yang dimodifikasi untuk mendukung m
 Modul "Glue" yang menyatukan semuanya. Berisi `MainActivity`, konfigurasi Hilt, dan Nav Host.
 
 ### `:features:[name]`
-Modul yang berisi fitur spesifik (misal: `home`, `bookmark`). Modul ini memiliki ownership penuh terhadap UI dan logika data fiturnya sendiri.
-
-### `:features:news:ui`
-Modul UI bersama khusus untuk domain "News". Berisi komponen seperti `NewsItem` yang digunakan oleh banyak fitur.
+Modul yang berisi fitur spesifik (misal: `home`, `bookmark`, `news`). Modul ini memiliki ownership penuh terhadap UI, UseCase, dan logika data (Repository/DAO/Entity) fiturnya sendiri.
 
 ### `:core:[name]`
 Modul infrastruktur yang generic:
 - `:core:ui`: Design System murni (Buttons, Colors, Theme).
-- `:core:network`: Konfigurasi Retrofit & Interceptor.
-- `:core:database`: Konfigurasi Room Database.
-- `:core:common`: Base classes (MVI, ResultState).
+- `:core:network`: Konfigurasi Retrofit & Interceptor Global.
+- `:core:common`: Base classes (MVI, ResultState, Repository).
 - `:core:testing`: Test utilities & Robots.
 
 ### `:navigation`

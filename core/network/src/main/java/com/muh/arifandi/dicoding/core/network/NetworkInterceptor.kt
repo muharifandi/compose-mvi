@@ -22,12 +22,14 @@ class NetworkInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         
-        val url = originalRequest.url.newBuilder()
-            .addQueryParameter("apiKey", apiKey)
-            .build()
-        
+        if (apiKey.isBlank()) {
+            android.util.Log.e("NetworkInterceptor", "CRITICAL: News API Key is empty or blank!")
+        }
+
+        // NewsAPI supports both X-Api-Key header and Authorization header
         val newRequest = originalRequest.newBuilder()
-            .url(url)
+            .removeHeader("X-Api-Key")
+            .addHeader("X-Api-Key", apiKey)
             .build()
         
         return chain.proceed(newRequest)

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.muh.arifandi.dicoding.features.about.AboutViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-11T06:11:46" hostname="Zaydans-MacBook-Pro.local" time="0.092">
-  <properties/>
-  <testcase name="initial state should contain correct developer info" classname="com.muh.arifandi.dicoding.features.about.AboutViewModelTest" time="0.086"/>
-  <testcase name="when Back intent is processed, should send NavigateBack effect" classname="com.muh.arifandi.dicoding.features.about.AboutViewModelTest" time="0.006"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

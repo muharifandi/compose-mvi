@@ -17,7 +17,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain:news"))
     implementation(project(":core:common"))
     
     implementation(libs.junit)

@@ -12,7 +12,7 @@ plugins {
 }
 
 val envProperties = Properties().apply {
-    val envFile = rootProject.file(".env")
+    val envFile = rootProject.file("config.env")
     if (envFile.exists()) {
         load(FileInputStream(envFile))
     }
@@ -23,12 +23,12 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.muh.arifandi.dicoding"
-        minSdk = 23
-        targetSdk = 35
+        applicationId = envProperties.getProperty("APP_ID") ?: "com.muh.arifandi.dicoding"
+        minSdk = envProperties.getProperty("MIN_SDK")?.toInt() ?: 23
+        targetSdk = envProperties.getProperty("TARGET_SDK")?.toInt() ?: 35
         
-        versionCode = project.findProperty("VERSION_CODE")?.toString()?.toInt() ?: 1
-        versionName = project.findProperty("VERSION_NAME")?.toString() ?: "1.0.0"
+        versionCode = envProperties.getProperty("VERSION_CODE")?.toInt() ?: 1
+        versionName = envProperties.getProperty("VERSION_NAME") ?: "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
@@ -79,19 +79,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":features:home"))
-    implementation(project(":features:detail"))
     implementation(project(":features:splash"))
     implementation(project(":features:about"))
-    implementation(project(":features:bookmark"))
-    implementation(project(":features:news:ui"))
+    implementation(project(":features:news"))
     
-    implementation(project(":core:model"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:data"))
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
-    implementation(project(":core:database"))
     implementation(project(":core:network"))
     implementation(project(":navigation"))
 
