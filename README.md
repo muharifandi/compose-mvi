@@ -27,18 +27,56 @@ Kami menggunakan standar `.env` (melalui file `config.env`) untuk manajemen konf
 
 ---
 
-## 🏗️ Visualisasi Arsitektur (Google NiA Standard)
+## 🏗️ Visualisasi Arsitektur (Full Dependency Graph)
 
 Proyek ini menggunakan **Feature-Oriented Modular Architecture**. Setiap fitur diisolasi untuk memastikan performa build yang cepat dan mencegah "Spaghetti Code".
 
-### Struktur Modul
-*   **`:app`**: Modul utama (Entry Point) yang menghubungkan semua fitur, menyediakan `MainActivity`, inisialisasi Hilt, dan konfigurasi navigasi global.
-*   **`:features:*`**: Berisi logika bisnis per fitur. Contoh: `:features:news` menangani pengambilan berita, bookmark, dan detail.
-*   **`:core:*`**: Modul infrastruktur yang reusable:
-    *   `:core:network`: Konfigurasi Retrofit, OkHttp, Interceptor, dan penanganan error API secara tersentralisasi.
-    *   `:core:ui`: **Design System** aplikasi (Theme, Reusable Composables, Icons, Resources).
-    *   `:core:common`: Utility umum, `ResultState`, base classes, dan extensions.
-*   **`:navigation`**: Sentralisasi rute navigasi menggunakan Type-Safe Navigation Compose.
+### 1. Graf Dependensi Modul Lengkap
+```mermaid
+graph TD
+    subgraph App_Layer
+        APP[":app"]
+    end
+
+    subgraph Feature_Layer
+        FEAT_NEWS[":features:news"]
+        FEAT_SPLASH[":features:splash"]
+        FEAT_ABOUT[":features:about"]
+    end
+
+    subgraph Navigation_Layer
+        NAV[":navigation"]
+    end
+
+    subgraph Core_Layer
+        CORE_NET[":core:network"]
+        CORE_UI[":core:ui"]
+        CORE_COM[":core:common"]
+        CORE_TEST[":core:testing"]
+    end
+
+    APP --> FEAT_NEWS
+    APP --> FEAT_SPLASH
+    APP --> FEAT_ABOUT
+    APP --> NAV
+
+    FEAT_NEWS --> NAV
+    FEAT_SPLASH --> NAV
+    
+    FEAT_NEWS --> CORE_NET
+    FEAT_NEWS --> CORE_COM
+    FEAT_NEWS --> CORE_UI
+    
+    NAV --> CORE_COM
+    FEAT_SPLASH --> CORE_UI
+    FEAT_ABOUT --> CORE_UI
+```
+
+### 2. Lapisan di Dalam Fitur (Internal Clean Architecture)
+Setiap modul fitur memiliki struktur internal yang konsisten:
+- **`ui`**: Compose UI & MVI ViewModel.
+- **`domain`**: Use Cases & Repository Contract.
+- **`data`**: API Services, Room DB, DTOs, & Repository Implementation.
 
 ---
 
@@ -46,15 +84,13 @@ Proyek ini menggunakan **Feature-Oriented Modular Architecture**. Setiap fitur d
 
 Aplikasi ini menerapkan pola **MVI** dengan aliran data satu arah (**Unidirectional Data Flow**) untuk menjamin *predictability* dari state UI.
 
-1.  **Intent**: User melakukan aksi (misal: mengetik di search bar). UI mengirim `Intent` ke `ViewModel`.
-2.  **Model (State)**: `ViewModel` memproses `Intent` (memanggil Use Case/Repository), lalu menghasilkan `State` baru yang bersifat *immutable*.
-3.  **View**: UI mengobservasi `State` melalui `StateFlow` dan melakukan *recomposition* secara otomatis saat state berubah.
-4.  **Effect**: Untuk aksi satu kali (seperti navigasi atau menampilkan Toast), kami menggunakan `SideEffect` agar tidak mengotori state utama.
-
 ```mermaid
 graph LR
     User -- Action --> Intent
     Intent -- Process --> ViewModel
+    ViewModel -- Call --> UseCase
+    UseCase -- Request --> Repository
+    Repository -- Return --> ViewModel
     ViewModel -- Update --> State
     State -- Render --> View
     View -- Feedback --> User
@@ -65,10 +101,11 @@ graph LR
 
 ## 🚀 Perbaikan Terbaru
 
-Baru-baru ini dilakukan optimasi pada sistem jaringan:
-*   **Centralized Error Handling**: Memastikan error API (401, 429, dll) tertangkap dengan benar oleh `SafeApiCall` dan ditampilkan di UI.
-*   **Interceptor Optimization**: Logging interceptor diposisikan setelah Auth interceptor agar developer dapat memverifikasi API Key yang dikirim melalui header `X-Api-Key`.
-*   **Type-Safe News API**: Refaktor `NewsApiService` untuk mempermudah deteksi kegagalan request melalui exception handling yang lebih bersih.
+Baru-baru ini dilakukan optimasi pada sistem jaringan dan dokumentasi:
+*   **Centralized Error Handling**: Menggunakan `SafeApiCall` untuk menangani error API secara seragam (401, 429, 500) dan menampilkannya di UI.
+*   **Interceptor Optimization**: Logging interceptor kini mencatat request setelah otentikasi header `X-Api-Key` disuntikkan.
+*   **Type-Safe News API**: Refaktor service API untuk mempermudah deteksi kegagalan melalui exception handling yang lebih bersih.
+*   **CI/CD Foundation**: Struktur proyek telah disiapkan untuk mendukung integrasi berkelanjutan (Continuous Integration).
 
 ---
 

@@ -1,31 +1,48 @@
 # Panduan Pengembangan Fitur
 
-Ikuti langkah-langkah ini untuk menambahkan fitur baru (misal fitur: `profile`).
+Ikuti langkah-langkah ini untuk menambahkan fitur baru ke dalam proyek.
 
 ## 1. Tambahkan Modul Baru
-- Buat modul Android Library baru: `:features:profile`.
-- Daftarkan di `settings.gradle.kts`.
-- Tambahkan dependensi ke `:domain:[name]`, `:core:ui`, dan `:core:common` di `build.gradle.kts` fitur tersebut.
+- Buat modul Android Library baru, misal: `:features:profile`.
+- Daftarkan modul tersebut di `settings.gradle.kts`.
+- Di `build.gradle.kts` modul fitur, tambahkan dependensi wajib:
+  ```kotlin
+  dependencies {
+      implementation(project(":core:common"))
+      implementation(project(":core:network"))
+      implementation(project(":core:ui"))
+      implementation(project(":navigation"))
+      // ... dependensi Hilt & Compose lainnya
+  }
+  ```
 
-## 2. Definisikan Domain (Jika ada bisnis baru)
-- Tambahkan model di `:domain:news`.
-- Tambahkan interface repository di `:domain:news`.
-- Tambahkan UseCase jika diperlukan.
+## 2. Struktur Paket Fitur
+Buat struktur paket berikut di dalam modul baru:
+- `data`: API Service, DTO, Mapper, dan implementasi Repository.
+- `domain`: Model Domain, kontrak Repository (Interface), dan Use Cases.
+- `ui`: Screen (Composable), ViewModel, dan MVI classes (State, Intent, Effect).
 
-## 3. Implementasi Data (di dalam Modul Fitur)
-- Buat DTO (untuk API) dan Entity (untuk DB).
-- Buat Mapper untuk konversi ke Domain Model.
-- Buat implementasi Repository.
+## 3. Implementasi Network & Data
+- Gunakan `SafeApiCall` di Repository untuk menangani request jaringan.
+- Pastikan Service API mengembalikan data langsung (misal: `NewsResponse`) agar `SafeApiCall` dapat menangkap exception dengan benar.
 
-## 4. Buat UI & MVI (di dalam Modul Fitur)
-- Buat `ProfileState`, `ProfileIntent`, dan `ProfileEffect`.
-- Buat `ProfileViewModel` yang mewarisi `BaseViewModel`.
-- Buat `ProfileScreen` menggunakan Jetpack Compose.
+```kotlin
+// Contoh di Repository
+override fun getProfile(): Flow<ResultState<Profile>> = 
+    safeApiCall.flow { 
+        apiService.getProfile().toDomain() 
+    }
+```
 
-## 5. Daftarkan Navigasi
-- Tambahkan entry baru di modul `:navigation` pada file `Destinations.kt`.
-- Tambahkan composable baru di `NavHost` yang ada di modul `:app`.
+## 4. Implementasi UI & MVI
+- Buat State sebagai data class immutable.
+- Implementasikan ViewModel dengan mewarisi `BaseViewModel`.
+- Gunakan `collectAsStateWithLifecycle()` di Screen untuk mengamati state.
 
-## 6. Integrasi Dependency Injection
-- Gunakan `@HiltViewModel` pada ViewModel.
-- Gunakan `@Module` dan `@Binds` di modul fitur untuk menyediakan implementasi repository ke Hilt.
+## 5. Registrasi Navigasi
+- Tambahkan rute baru di modul `:navigation` pada file `Destinations.kt`.
+- Tambahkan rute tersebut ke `AppNavHost` di modul `:app`.
+
+## 6. Dependency Injection (Hilt)
+- Gunakan `@HiltViewModel` untuk ViewModel.
+- Buat module Hilt di dalam folder `data/di` untuk menyediakan (provide/bind) repository dan API service.
