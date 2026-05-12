@@ -2,11 +2,11 @@
  * Created by Muh. Arifandi on 12/05/2026
  * Email : arif76440@gmail.com
  * Project : My Application
- * Module : features:news:ui
+ * Module : core:ui
  * File : AppAsyncImage.kt
  *
  * Description:
- * Komponen gambar berita yang mendukung loading state (shimmer/progress) dan error state.
+ * Komponen gambar asinkron generik yang mendukung loading state (progress) dan error state.
  */
 
 package com.muh.arifandi.dicoding.core.ui.component
@@ -33,15 +33,17 @@ import coil.request.ImageRequest
 fun AppAsyncImage(
     model: Any?,
     modifier: Modifier = Modifier,
-    contentDescription: String? = null
+    contentDescription: String? = null,
+    contentScale: ContentScale = ContentScale.Crop,
+    crossfade: Boolean = true
 ) {
     SubcomposeAsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(model)
-            .crossfade(true)
+            .crossfade(crossfade)
             .build(),
         contentDescription = contentDescription,
-        contentScale = ContentScale.Crop,
+        contentScale = contentScale,
         modifier = modifier,
         loading = {
             Box(

@@ -22,21 +22,21 @@ import javax.annotation.processing.Generated;
     "KotlinInternalInJava",
     "cast"
 })
-public final class CommonModule_ProvideNavigatorFactory implements Factory<Navigator> {
+public final class CommonModule_Companion_ProvideNavigatorFactory implements Factory<Navigator> {
   @Override
   public Navigator get() {
     return provideNavigator();
   }
 
-  public static CommonModule_ProvideNavigatorFactory create() {
+  public static CommonModule_Companion_ProvideNavigatorFactory create() {
     return InstanceHolder.INSTANCE;
   }
 
   public static Navigator provideNavigator() {
-    return Preconditions.checkNotNullFromProvides(CommonModule.INSTANCE.provideNavigator());
+    return Preconditions.checkNotNullFromProvides(CommonModule.Companion.provideNavigator());
   }
 
   private static final class InstanceHolder {
-    private static final CommonModule_ProvideNavigatorFactory INSTANCE = new CommonModule_ProvideNavigatorFactory();
+    private static final CommonModule_Companion_ProvideNavigatorFactory INSTANCE = new CommonModule_Companion_ProvideNavigatorFactory();
   }
 }
