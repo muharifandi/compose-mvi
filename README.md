@@ -36,7 +36,7 @@ graph TD
         HOME[":features:home"]
         DETAIL[":features:detail"]
         BOOKMARK[":features:bookmark"]
-        NEWS_UI[":features:news:ui (Shared News UI)"]
+        NEWS_UI[":features:news:ui (Shared UI)"]
     end
 
     subgraph Domain_Layer
@@ -71,6 +71,15 @@ graph TD
     CORE_DB --> CORE_COM
 ```
 
+#### Penjelasan Layer:
+*   **App Layer (`:app`)**: Modul tertinggi yang merakit semua fitur. Bertanggung jawab atas inisialisasi Dependency Injection (Hilt) dan konfigurasi Navigasi Global.
+*   **Feature Layer (`:features:*`)**: Berisi logika UI dan User Flow. Setiap fitur terisolasi satu sama lain (Home tidak tahu ada Bookmark) untuk mencegah ketergantungan yang rumit.
+*   **Shared Feature UI (`:features:news:ui`)**: Menampung komponen UI yang spesifik untuk domain bisnis "News" (seperti `NewsItem`) yang digunakan oleh banyak fitur.
+*   **Domain Layer (`:domain:*`)**: Jantung aplikasi yang berisi aturan bisnis murni (Pure Kotlin). Tidak bergantung pada framework Android apa pun, sehingga sangat mudah untuk di-Unit Test.
+*   **Core Layer (`:core:*`)**: Fondasi infrastruktur yang bersifat *business-agnostic*. Modul-modul ini tidak tahu apa itu "News" atau "Article", mereka hanya menyediakan alat (Retrofit, Room, Design System).
+
+---
+
 ### 2. Alur Data MVI (Unidirectional Data Flow)
 Kami menjamin konsistensi UI melalui aliran data satu arah:
 
@@ -93,6 +102,33 @@ sequenceDiagram
     VM->>VM: Update State (setState)
     VM-->>UI: Recompositon (New State)
     UI-->>User: Tampilan Terupdate
+```
+
+#### Penjelasan Komponen MVI:
+*   **State**: Satu-satunya sumber kebenaran (Single Source of Truth) untuk UI. Bersifat **Immutable**.
+*   **Intent**: Mewakili niat atau aksi pengguna (seperti `SearchArticle`).
+*   **Effect**: Digunakan untuk kejadian sekali lewat yang tidak mengubah state permanen (seperti Navigasi atau Toast).
+
+#### Contoh Kode MVI:
+```kotlin
+// 1. Kirim Intent dari UI
+Button(onClick = { viewModel.processIntent(HomeIntent.Refresh) }) {
+    Text("Refresh")
+}
+
+// 2. ViewModel memproses Intent & Update State
+override fun processIntent(intent: HomeIntent) {
+    when (intent) {
+        is HomeIntent.Refresh -> {
+            setState { copy(isLoading = true) }
+            // panggil usecase...
+        }
+    }
+}
+
+// 3. UI mengamati State (Auto-update)
+val state by viewModel.state.collectAsStateWithLifecycle()
+if (state.isLoading) { LoadingView() }
 ```
 
 ---
