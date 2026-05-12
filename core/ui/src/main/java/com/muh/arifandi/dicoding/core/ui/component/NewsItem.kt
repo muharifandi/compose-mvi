@@ -9,7 +9,7 @@
  * Menampilkan item berita dalam bentuk Card yang berisi judul, gambar, dan deskripsi singkat.
  */
 
-package com.muh.arifandi.dicoding.features.news.ui.component
+package com.muh.arifandi.dicoding.core.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

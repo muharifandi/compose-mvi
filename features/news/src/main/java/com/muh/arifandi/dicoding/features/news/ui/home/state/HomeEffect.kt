@@ -1,4 +1,4 @@
-package com.muh.arifandi.dicoding.features.home.state
+package com.muh.arifandi.dicoding.features.news.ui.home.state
 
 import com.muh.arifandi.dicoding.core.common.mvi.UiEffect
 

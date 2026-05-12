@@ -9,7 +9,7 @@
  * Komponen gambar berita yang mendukung loading state (shimmer/progress) dan error state.
  */
 
-package com.muh.arifandi.dicoding.features.news.ui.component
+package com.muh.arifandi.dicoding.core.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

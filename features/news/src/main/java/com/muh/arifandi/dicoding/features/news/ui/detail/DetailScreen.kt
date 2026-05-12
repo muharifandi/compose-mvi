@@ -9,7 +9,7 @@
  * Layar detail berita yang menampilkan WebView dan tombol favorit.
  */
 
-package com.muh.arifandi.dicoding.features.detail
+package com.muh.arifandi.dicoding.features.news.ui.detail
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
@@ -22,8 +22,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.muh.arifandi.dicoding.features.detail.state.DetailEffect
-import com.muh.arifandi.dicoding.features.detail.state.DetailIntent
+import com.muh.arifandi.dicoding.features.news.ui.detail.state.DetailEffect
+import com.muh.arifandi.dicoding.features.news.ui.detail.state.DetailIntent
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

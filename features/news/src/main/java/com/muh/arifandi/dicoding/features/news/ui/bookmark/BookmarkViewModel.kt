@@ -9,14 +9,14 @@
  * ViewModel untuk layar Bookmark yang mengelola state daftar berita favorit.
  */
 
-package com.muh.arifandi.dicoding.features.bookmark
+package com.muh.arifandi.dicoding.features.news.ui.bookmark
 
 import androidx.lifecycle.viewModelScope
 import com.muh.arifandi.dicoding.core.common.mvi.BaseViewModel
 import com.muh.arifandi.dicoding.features.news.domain.repository.NewsRepository
-import com.muh.arifandi.dicoding.features.bookmark.state.BookmarkEffect
-import com.muh.arifandi.dicoding.features.bookmark.state.BookmarkIntent
-import com.muh.arifandi.dicoding.features.bookmark.state.BookmarkState
+import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkEffect
+import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkIntent
+import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

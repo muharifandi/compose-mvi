@@ -13,11 +13,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.muh.arifandi.dicoding.features.home.HomeScreen
-import com.muh.arifandi.dicoding.features.detail.DetailScreen
+import com.muh.arifandi.dicoding.features.news.ui.home.HomeScreen
+import com.muh.arifandi.dicoding.features.news.ui.detail.DetailScreen
 import com.muh.arifandi.dicoding.features.splash.SplashScreen
 import com.muh.arifandi.dicoding.features.about.AboutScreen
-import com.muh.arifandi.dicoding.features.bookmark.BookmarkScreen
+import com.muh.arifandi.dicoding.features.news.ui.bookmark.BookmarkScreen
 
 @Composable
 fun AppNavHost(

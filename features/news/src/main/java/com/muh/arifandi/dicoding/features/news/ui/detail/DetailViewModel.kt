@@ -16,15 +16,15 @@
  * dan status favorit.
  */
 
-package com.muh.arifandi.dicoding.features.detail
+package com.muh.arifandi.dicoding.features.news.ui.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.muh.arifandi.dicoding.core.common.mvi.BaseViewModel
 import com.muh.arifandi.dicoding.features.news.domain.repository.NewsRepository
-import com.muh.arifandi.dicoding.features.detail.state.DetailEffect
-import com.muh.arifandi.dicoding.features.detail.state.DetailIntent
-import com.muh.arifandi.dicoding.features.detail.state.DetailState
+import com.muh.arifandi.dicoding.features.news.ui.detail.state.DetailEffect
+import com.muh.arifandi.dicoding.features.news.ui.detail.state.DetailIntent
+import com.muh.arifandi.dicoding.features.news.ui.detail.state.DetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch

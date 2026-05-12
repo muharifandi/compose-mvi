@@ -8,7 +8,7 @@
  * Description:
  * Layar utama aplikasi yang menampilkan daftar berita (headlines) dan fitur pencarian.
  */
-package com.muh.arifandi.dicoding.features.home
+package com.muh.arifandi.dicoding.features.news.ui.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,9 +41,9 @@ import com.muh.arifandi.dicoding.core.ui.designsystem.ErrorView
 import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
 import com.muh.arifandi.dicoding.core.ui.designsystem.SearchBar
 import com.muh.arifandi.dicoding.features.news.domain.model.Article
-import com.muh.arifandi.dicoding.features.news.ui.component.NewsItem
-import com.muh.arifandi.dicoding.features.home.state.HomeEffect
-import com.muh.arifandi.dicoding.features.home.state.HomeIntent
+import com.muh.arifandi.dicoding.core.ui.component.NewsItem
+import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeEffect
+import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeIntent
 import com.muh.arifandi.dicoding.core.ui.R as UiR
 import kotlinx.coroutines.flow.collectLatest
 

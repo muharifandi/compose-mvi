@@ -1,4 +1,4 @@
-package com.muh.arifandi.dicoding.features.home
+package com.muh.arifandi.dicoding.features.news.ui.home
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -9,9 +9,9 @@ import com.muh.arifandi.dicoding.core.common.mvi.BaseViewModel
 import com.muh.arifandi.dicoding.features.news.domain.model.Article
 import com.muh.arifandi.dicoding.features.news.domain.usecase.GetTopHeadlinesUseCase
 import com.muh.arifandi.dicoding.features.news.domain.usecase.SearchNewsUseCase
-import com.muh.arifandi.dicoding.features.home.state.HomeEffect
-import com.muh.arifandi.dicoding.features.home.state.HomeIntent
-import com.muh.arifandi.dicoding.features.home.state.HomeState
+import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeEffect
+import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeIntent
+import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

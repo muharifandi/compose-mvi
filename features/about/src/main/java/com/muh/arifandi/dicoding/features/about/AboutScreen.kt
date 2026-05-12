@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.muh.arifandi.dicoding.features.news.ui.component.NewsImage
+import com.muh.arifandi.dicoding.core.ui.component.NewsImage
 import com.muh.arifandi.dicoding.features.about.state.AboutEffect
 import com.muh.arifandi.dicoding.features.about.state.AboutIntent
 import com.muh.arifandi.dicoding.features.about.state.AboutState

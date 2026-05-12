@@ -9,7 +9,7 @@
  * Layar yang menampilkan daftar berita yang telah disimpan oleh pengguna.
  */
 
-package com.muh.arifandi.dicoding.features.bookmark
+package com.muh.arifandi.dicoding.features.news.ui.bookmark
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,10 +43,10 @@ import com.muh.arifandi.dicoding.core.ui.designsystem.AppToolbar
 import com.muh.arifandi.dicoding.core.ui.designsystem.AppTextButton
 import com.muh.arifandi.dicoding.core.ui.designsystem.EmptyView
 import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
-import com.muh.arifandi.dicoding.features.news.ui.component.NewsItem
-import com.muh.arifandi.dicoding.features.bookmark.state.BookmarkEffect
-import com.muh.arifandi.dicoding.features.bookmark.state.BookmarkIntent
-import com.muh.arifandi.dicoding.features.bookmark.state.BookmarkState
+import com.muh.arifandi.dicoding.core.ui.component.NewsItem
+import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkEffect
+import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkIntent
+import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkState
 import com.muh.arifandi.dicoding.features.news.domain.model.Article
 import kotlinx.coroutines.flow.collectLatest
 import com.muh.arifandi.dicoding.core.ui.R as UiR

@@ -1,4 +1,4 @@
-package com.muh.arifandi.dicoding.features.detail.state
+package com.muh.arifandi.dicoding.features.news.ui.detail.state
 
 import com.muh.arifandi.dicoding.core.common.mvi.UiEffect
 
