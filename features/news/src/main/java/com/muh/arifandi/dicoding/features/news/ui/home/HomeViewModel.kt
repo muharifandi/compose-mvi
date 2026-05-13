@@ -4,10 +4,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.muh.arifandi.dicoding.core.common.ResultState
+import com.muh.arifandi.dicoding.core.model.ResultState
 import com.muh.arifandi.dicoding.core.common.mvi.BaseViewModel
+import com.muh.arifandi.dicoding.core.common.navigation.Navigator
+import com.muh.arifandi.dicoding.features.about.api.AboutDestinations
+import com.muh.arifandi.dicoding.features.news.api.NewsDestinations
+import com.muh.arifandi.dicoding.features.news.data.repository.NewsPagingRepository
 import com.muh.arifandi.dicoding.features.news.domain.model.Article
-import com.muh.arifandi.dicoding.features.news.domain.usecase.GetTopHeadlinesUseCase
 import com.muh.arifandi.dicoding.features.news.domain.usecase.SearchNewsUseCase
 import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeEffect
 import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeIntent
@@ -22,8 +25,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase,
     private val searchNewsUseCase: SearchNewsUseCase,
+    private val pagingRepository: NewsPagingRepository,
+    private val navigator: Navigator,
     private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel<HomeState, HomeIntent, HomeEffect>(HomeState()) {
 
@@ -57,7 +61,11 @@ class HomeViewModel @Inject constructor(
                 savedStateHandle[KEY_QUERY] = ""
                 loadPagedArticles(intent.category)
             }
-            is HomeIntent.ClickArticle -> sendEffect { HomeEffect.NavigateToDetail(intent.article.url) }
+            is HomeIntent.ClickArticle -> {
+                navigator.navigateTo(NewsDestinations.Detail(intent.article.url))
+            }
+            is HomeIntent.ClickAbout -> navigator.navigateTo(AboutDestinations)
+            is HomeIntent.ClickBookmark -> navigator.navigateTo(NewsDestinations.Bookmark)
             is HomeIntent.Refresh -> {
                 val currentQuery = savedStateHandle.get<String>(KEY_QUERY)
                 if (!currentQuery.isNullOrBlank()) searchArticles(currentQuery)
@@ -69,7 +77,7 @@ class HomeViewModel @Inject constructor(
     private fun loadPagedArticles(category: String?) {
         setState { copy(selectedCategory = category, isLoading = true, error = null, isPaging = true) }
         viewModelScope.launch {
-            getTopHeadlinesUseCase.getPaged(category)
+            pagingRepository.getPagedTopHeadlines(category)
                 .cachedIn(this)
                 .collectLatest { 
                     _pagedArticles.value = it

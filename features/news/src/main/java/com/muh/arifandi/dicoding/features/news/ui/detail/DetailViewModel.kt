@@ -21,6 +21,7 @@ package com.muh.arifandi.dicoding.features.news.ui.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.muh.arifandi.dicoding.core.common.mvi.BaseViewModel
+import com.muh.arifandi.dicoding.core.common.navigation.Navigator
 import com.muh.arifandi.dicoding.features.news.domain.repository.NewsRepository
 import com.muh.arifandi.dicoding.features.news.ui.detail.state.DetailEffect
 import com.muh.arifandi.dicoding.features.news.ui.detail.state.DetailIntent
@@ -33,6 +34,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val repository: NewsRepository,
+    private val navigator: Navigator,
     private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel<DetailState, DetailIntent, DetailEffect>(DetailState()) {
 
@@ -56,7 +58,7 @@ class DetailViewModel @Inject constructor(
                 }
             }
             is DetailIntent.ToggleFavorite -> toggleFavorite()
-            is DetailIntent.Back -> sendEffect { DetailEffect.NavigateBack }
+            is DetailIntent.Back -> navigator.navigateBack()
         }
     }
 

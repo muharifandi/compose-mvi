@@ -3,7 +3,7 @@ package com.muh.arifandi.dicoding.features.news.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.muh.arifandi.dicoding.core.common.ResultState
+import com.muh.arifandi.dicoding.core.model.ResultState
 import com.muh.arifandi.dicoding.core.common.repository.BaseRepository
 import com.muh.arifandi.dicoding.core.network.util.SafeApiCall
 import com.muh.arifandi.dicoding.features.news.data.database.dao.ArticleDao
@@ -21,7 +21,7 @@ class NewsRepositoryImpl @Inject constructor(
     private val apiService: NewsApiService,
     private val articleDao: ArticleDao,
     private val safeApiCall: SafeApiCall
-) : BaseRepository(), NewsRepository {
+) : BaseRepository(), NewsRepository, NewsPagingRepository {
 
     override fun getTopHeadlines(
         category: String?,

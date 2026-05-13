@@ -1,0 +1,4 @@
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/core/testing/src/main/java/com/muh/arifandi/dicoding/core/testing/robot/HomeRobot.kt
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/core/testing/src/main/java/com/muh/arifandi/dicoding/core/testing/robot/DetailRobot.kt
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/core/testing/src/main/java/com/muh/arifandi/dicoding/core/testing/robot/BookmarkRobot.kt
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/core/testing/src/main/java/com/muh/arifandi/dicoding/core/testing/data/TestArticleData.kt

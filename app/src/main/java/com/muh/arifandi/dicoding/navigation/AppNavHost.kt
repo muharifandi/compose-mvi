@@ -18,6 +18,9 @@ import com.muh.arifandi.dicoding.features.news.ui.detail.DetailScreen
 import com.muh.arifandi.dicoding.features.splash.SplashScreen
 import com.muh.arifandi.dicoding.features.about.AboutScreen
 import com.muh.arifandi.dicoding.features.news.ui.bookmark.BookmarkScreen
+import com.muh.arifandi.dicoding.features.splash.api.SplashDestinations
+import com.muh.arifandi.dicoding.features.news.api.NewsDestinations
+import com.muh.arifandi.dicoding.features.about.api.AboutDestinations
 
 @Composable
 fun AppNavHost(
@@ -26,55 +29,31 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.Splash,
+        startDestination = SplashDestinations,
         modifier = modifier
     ) {
-        composable<Destinations.Splash> {
-            SplashScreen(
-                onNavigateToHome = {
-                    navController.navigate(Destinations.Home) {
-                        popUpTo(Destinations.Splash) { inclusive = true }
-                    }
-                }
-            )
+        composable<SplashDestinations> {
+            SplashScreen()
         }
 
-        composable<Destinations.Home> {
-            HomeScreen(
-                onNavigateToDetail = { url ->
-                    val encodedUrl = Uri.encode(url)
-                    navController.navigate(Destinations.Detail(encodedUrl))
-                },
-                onNavigateToAbout = {
-                    navController.navigate(Destinations.About)
-                },
-                onNavigateToBookmark = {
-                    navController.navigate(Destinations.Bookmark)
-                }
-            )
+        composable<NewsDestinations.Home> {
+            HomeScreen()
         }
 
-        composable<Destinations.Detail> { backStackEntry ->
-            val detail: Destinations.Detail = backStackEntry.toRoute()
+        composable<NewsDestinations.Detail> { backStackEntry ->
+            val detail: NewsDestinations.Detail = backStackEntry.toRoute()
             val decodedUrl = Uri.decode(detail.url)
             DetailScreen(
-                url = decodedUrl,
-                navController = navController
+                url = decodedUrl
             )
         }
 
-        composable<Destinations.About> {
-            AboutScreen(navController)
+        composable<AboutDestinations> {
+            AboutScreen()
         }
 
-        composable<Destinations.Bookmark> {
-            BookmarkScreen(
-                navController = navController,
-                onNavigateToDetail = { url ->
-                    val encodedUrl = Uri.encode(url)
-                    navController.navigate(Destinations.Detail(encodedUrl))
-                }
-            )
+        composable<NewsDestinations.Bookmark> {
+            BookmarkScreen()
         }
     }
 }

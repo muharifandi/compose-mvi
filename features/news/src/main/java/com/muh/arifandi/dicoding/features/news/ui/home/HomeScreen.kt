@@ -25,7 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -49,28 +48,17 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun HomeScreen(
-    onNavigateToDetail: (String) -> Unit,
-    onNavigateToAbout: () -> Unit,
-    onNavigateToBookmark: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val pagedArticles = viewModel.pagedArticles.collectAsLazyPagingItems()
     
-    var lastClickTime by remember { mutableLongStateOf(0L) }
-
     LaunchedEffect(Unit) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                is HomeEffect.NavigateToDetail -> {
-                    val currentTime = System.currentTimeMillis()
-                    if (currentTime - lastClickTime > 500L) {
-                        onNavigateToDetail(effect.url)
-                        lastClickTime = currentTime
-                    }
-                }
                 is HomeEffect.ShowError -> { }
+                else -> { }
             }
         }
     }
@@ -83,7 +71,7 @@ fun HomeScreen(
                     title = stringResource(id = UiR.string.news_app),
                     actions = {
                         IconButton(
-                            onClick = onNavigateToBookmark,
+                            onClick = { viewModel.processIntent(HomeIntent.ClickBookmark) },
                             modifier = Modifier.testTag("bookmark_button")
                         ) {
                             Icon(
@@ -92,7 +80,7 @@ fun HomeScreen(
                             )
                         }
                         IconButton(
-                            onClick = onNavigateToAbout,
+                            onClick = { viewModel.processIntent(HomeIntent.ClickAbout) },
                             modifier = Modifier.testTag("about_button")
                         ) {
                             Icon(

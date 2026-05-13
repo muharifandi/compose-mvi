@@ -13,6 +13,8 @@ package com.muh.arifandi.dicoding.features.news.ui.bookmark
 
 import androidx.lifecycle.viewModelScope
 import com.muh.arifandi.dicoding.core.common.mvi.BaseViewModel
+import com.muh.arifandi.dicoding.core.common.navigation.Navigator
+import com.muh.arifandi.dicoding.features.news.api.NewsDestinations
 import com.muh.arifandi.dicoding.features.news.domain.repository.NewsRepository
 import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkEffect
 import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkIntent
@@ -24,7 +26,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookmarkViewModel @Inject constructor(
-    private val repository: NewsRepository
+    private val repository: NewsRepository,
+    private val navigator: Navigator
 ) : BaseViewModel<BookmarkState, BookmarkIntent, BookmarkEffect>(BookmarkState()) {
 
     init {
@@ -34,9 +37,11 @@ class BookmarkViewModel @Inject constructor(
     override fun processIntent(intent: BookmarkIntent) {
         when (intent) {
             is BookmarkIntent.LoadFavorites -> loadFavorites()
-            is BookmarkIntent.ClickArticle -> sendEffect { BookmarkEffect.NavigateToDetail(intent.article.url) }
+            is BookmarkIntent.ClickArticle -> {
+                navigator.navigateTo(NewsDestinations.Detail(intent.article.url))
+            }
             is BookmarkIntent.DeleteFavorite -> deleteFavorite(intent.url)
-            is BookmarkIntent.Back -> sendEffect { BookmarkEffect.NavigateBack }
+            is BookmarkIntent.Back -> navigator.navigateBack()
         }
     }
 

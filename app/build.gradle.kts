@@ -2,13 +2,13 @@ import java.util.Properties
 import java.io.FileInputStream
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.google.hilt)
-    alias(libs.plugins.ksp)
+    id("myapp.android.application")
+    id("myapp.android.compose")
+    id("myapp.android.hilt")
+    id("myapp.android.room")
+    id("myapp.android.paging")
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.compose.compiler)
-    kotlin("kapt")
+    alias(libs.plugins.androidx.baselineprofile)
 }
 
 val envProperties = Properties().apply {
@@ -20,12 +20,9 @@ val envProperties = Properties().apply {
 
 android {
     namespace = "com.muh.arifandi.dicoding"
-    compileSdk = 35
 
     defaultConfig {
         applicationId = envProperties.getProperty("APP_ID") ?: "com.muh.arifandi.dicoding"
-        minSdk = envProperties.getProperty("MIN_SDK")?.toInt() ?: 23
-        targetSdk = envProperties.getProperty("TARGET_SDK")?.toInt() ?: 35
         
         versionCode = envProperties.getProperty("VERSION_CODE")?.toInt() ?: 1
         versionName = envProperties.getProperty("VERSION_NAME") ?: "1.0.0"
@@ -55,17 +52,7 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -73,12 +60,10 @@ android {
             excludes += "META-INF/LICENSE-notice.md"
         }
     }
-    kapt {
-        correctErrorTypes = true
-    }
 }
 
 dependencies {
+    baselineProfile(project(":baselineprofile"))
     implementation(project(":features:splash"))
     implementation(project(":features:about"))
     implementation(project(":features:news"))
@@ -93,37 +78,34 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    
     testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.google.hilt.android)
-    kapt(libs.google.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    
     implementation(libs.squareup.retrofit)
     implementation(libs.squareup.retrofit.gson)
     implementation(libs.squareup.okhttp.logging)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.coil.compose)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.compose)
+    
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
+    
     androidTestImplementation(project(":core:testing"))
-    ksp(libs.androidx.room.compiler)
-    implementation("androidx.compose.material:material-icons-extended")
 }

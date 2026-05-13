@@ -1,6 +1,6 @@
 package com.muh.arifandi.dicoding.core.common.repository
 
-import com.muh.arifandi.dicoding.core.common.ResultState
+import com.muh.arifandi.dicoding.core.model.ResultState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import android.util.Log

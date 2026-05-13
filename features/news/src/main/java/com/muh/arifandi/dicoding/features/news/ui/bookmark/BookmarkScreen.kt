@@ -27,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,36 +37,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.muh.arifandi.dicoding.core.ui.designsystem.AppToolbar
 import com.muh.arifandi.dicoding.core.ui.designsystem.AppTextButton
 import com.muh.arifandi.dicoding.core.ui.designsystem.EmptyView
 import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
 import com.muh.arifandi.dicoding.core.ui.component.AppCardItem
-import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkEffect
 import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkIntent
 import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkState
 import com.muh.arifandi.dicoding.features.news.domain.model.Article
-import kotlinx.coroutines.flow.collectLatest
 import com.muh.arifandi.dicoding.core.ui.R as UiR
 
 @Composable
 fun BookmarkScreen(
-    navController: NavController,
-    onNavigateToDetail: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: BookmarkViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-        viewModel.effect.collectLatest { effect ->
-            when (effect) {
-                is BookmarkEffect.NavigateToDetail -> onNavigateToDetail(effect.url)
-                is BookmarkEffect.NavigateBack -> navController.popBackStack()
-            }
-        }
-    }
 
     BookmarkContent(
         state = state,

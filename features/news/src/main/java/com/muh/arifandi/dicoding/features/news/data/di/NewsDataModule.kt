@@ -1,5 +1,6 @@
 package com.muh.arifandi.dicoding.features.news.data.di
 
+import com.muh.arifandi.dicoding.features.news.data.repository.NewsPagingRepository
 import com.muh.arifandi.dicoding.features.news.data.repository.NewsRepositoryImpl
 import com.muh.arifandi.dicoding.features.news.domain.repository.NewsRepository
 import dagger.Binds
@@ -17,4 +18,10 @@ abstract class NewsDataModule {
     abstract fun bindNewsRepository(
         newsRepositoryImpl: NewsRepositoryImpl
     ): NewsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindNewsPagingRepository(
+        newsRepositoryImpl: NewsRepositoryImpl
+    ): NewsPagingRepository
 }

@@ -13,5 +13,7 @@ sealed interface HomeIntent : UiIntent {
     data class SearchArticle(val query: String) : HomeIntent
     data class FilterCategory(val category: String?) : HomeIntent
     data class ClickArticle(val article: Article) : HomeIntent
+    data object ClickAbout : HomeIntent
+    data object ClickBookmark : HomeIntent
     data object Refresh : HomeIntent
 }

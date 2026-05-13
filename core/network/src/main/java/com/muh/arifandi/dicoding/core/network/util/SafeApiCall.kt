@@ -1,6 +1,6 @@
 package com.muh.arifandi.dicoding.core.network.util
 
-import com.muh.arifandi.dicoding.core.common.ResultState
+import com.muh.arifandi.dicoding.core.model.ResultState
 import com.google.gson.Gson
 import com.muh.arifandi.dicoding.core.network.dto.ErrorResponse
 import kotlinx.coroutines.flow.Flow

@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.muh.arifandi.dicoding.features.splash.test.splash-mergeDebugAndroidTestResources-62:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "/Users/zaydanmubaraq/.gradle/caches/8.10.2/transforms/ceaeee91558304694c4b3297550b119b/transformed/jetified-material3-release/res/values-v30/values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        }
+    ]
+}

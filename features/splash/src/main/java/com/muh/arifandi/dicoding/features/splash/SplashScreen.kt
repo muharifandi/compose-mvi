@@ -23,16 +23,13 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.delay
 import com.muh.arifandi.dicoding.core.ui.R as UiR
 
+import androidx.hilt.navigation.compose.hiltViewModel
+
 @Composable
 fun SplashScreen(
-    onNavigateToHome: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: SplashViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(Unit) {
-        delay(2000)
-        onNavigateToHome()
-    }
-
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
