@@ -1,123 +1,114 @@
-# My Application - Android Starter Foundation
+# My Application - Scalable Enterprise Android Foundation
 
-Proyek ini adalah foundation Android modular tingkat enterprise yang dibangun dengan prinsip Clean Architecture, MVI, dan Jetpack Compose. Dirancang untuk skalabilitas tim besar dan pemeliharaan jangka panjang, mengikuti standar resmi **Google "Now in Android" (NiA)**.
+Selamat datang di repository **My Application**. Proyek ini merupakan **fondasi arsitektur Android tingkat enterprise** yang dibangun dengan standar industri tinggi. Dirancang sebagai *boilerplate* modular yang skalabel, proyek ini menggunakan **Clean Architecture**, **pola MVI (Model-View-Intent)**, dan **Jetpack Compose** untuk mendukung pengembangan berbagai jenis aplikasi Android modern dengan efisiensi tinggi.
 
----
+## 📝 Ringkasan Fondasi
+Fondasi ini dirancang untuk menyelesaikan tantangan umum dalam pengembangan aplikasi skala besar, seperti manajemen state yang kompleks, modularisasi yang sulit dipelihara, dan performa UI. Secara teknis, proyek ini menyediakan implementasi standar untuk **Offline-First**, **Modularisasi tingkat lanjut (API/Impl split)**, serta sistem navigasi yang terdesentralisasi.
 
-## 🛠️ Setup Awal
-
-Kami menggunakan standar `.env` (melalui file `config.env`) untuk manajemen konfigurasi dan rahasia aplikasi agar proses *onboarding* tim lebih mudah dan terstandarisasi.
-
-1.  **Clone** repositori ini.
-2.  Pastikan file **`config.env`** ada di root direktori proyek (atau buat baru jika belum ada).
-3.  Tambahkan konfigurasi berikut ke dalam file `config.env`:
-    ```env
-    # API Config
-    NEWS_API_KEY=isi_dengan_api_key_anda
-    BASE_URL=https://newsapi.org/v2/
-
-    # App Metadata
-    APP_ID=com.muh.arifandi.dicoding
-    MIN_SDK=23
-    TARGET_SDK=35
-    VERSION_CODE=1
-    VERSION_NAME=1.0.0
-    ```
-4.  **Sync Project** dengan Gradle Files dan jalankan aplikasi.
+### Key Capabilities:
+- **Modularization Engine:** Struktur modul `:api` (kontrak) dan `:impl` (detail) yang mengoptimalkan kecepatan build dan enkapsulasi fitur.
+- **Enterprise Security:** Implementasi `SecurityGuard` terintegrasi untuk deteksi Root, Emulator, dan Debug secara *out-of-the-box*.
+- **High Performance Foundation:** Integrasi *Baseline Profile* dan *Paging 3* yang siap digunakan untuk pengalaman UI tanpa hambatan.
+- **Predictable Robustness:** Arsitektur MVI yang menjamin konsistensi state UI dan kemudahan pengujian otomatis (Unit/UI Testing).
 
 ---
 
-## 🏗️ Visualisasi Arsitektur (Full Dependency Graph)
+## 📊 Alur Arsitektur MVI (Technical Flow)
+Diagram ini menjelaskan siklus *Unidirectional Data Flow* (UDF) yang menjadi standar manajemen state dalam fondasi ini.
 
-Proyek ini menggunakan **Feature-Oriented Modular Architecture**. Setiap fitur diisolasi untuk memastikan performa build yang cepat dan mencegah "Spaghetti Code".
-
-### 1. Graf Dependensi Modul Lengkap
 ```mermaid
 graph TD
-    subgraph App_Layer
-        APP[":app"]
+    subgraph View [View - Jetpack Compose]
+        UI[UI Components]
     end
 
-    subgraph Feature_Layer
-        FEAT_NEWS[":features:news"]
-        FEAT_SPLASH[":features:splash"]
-        FEAT_ABOUT[":features:about"]
+    subgraph ViewModel [ViewModel - State Holder]
+        Process[Process Intent]
+        Reducer[Update State]
     end
 
-    subgraph Navigation_Layer
-        NAV[":navigation"]
+    subgraph Model [Model - State & Side Effects]
+        State[Immutable State]
+        Effect[One-time Effects]
     end
 
-    subgraph Core_Layer
-        CORE_NET[":core:network"]
-        CORE_UI[":core:ui"]
-        CORE_COM[":core:common"]
-        CORE_TEST[":core:testing"]
-    end
-
-    APP --> FEAT_NEWS
-    APP --> FEAT_SPLASH
-    APP --> FEAT_ABOUT
-    APP --> NAV
-
-    FEAT_SPLASH --> NAV
-    FEAT_ABOUT --> NAV
-    
-    FEAT_ABOUT --> FEAT_NEWS
-    
-    FEAT_NEWS --> CORE_NET
-    FEAT_NEWS --> CORE_COM
-    FEAT_NEWS --> CORE_UI
-    
-    FEAT_SPLASH --> CORE_UI
-    FEAT_ABOUT --> CORE_UI
-    FEAT_ABOUT --> CORE_COM
+    UI -- "User Action (Intent)" --> Process
+    Process -- "Repository/UseCase" --> Data((Data Layer))
+    Data -- "Response" --> Reducer
+    Reducer -- "Emit New State" --> State
+    State -- "Reactive Binding" --> UI
+    Process -- "Fire Effect" --> Effect
+    Effect -- "Navigation/Toast/Snackbar" --> UI
 ```
-
-### 2. Lapisan di Dalam Fitur (Internal Clean Architecture)
-Setiap modul fitur memiliki struktur internal yang konsisten:
-- **`ui`**: Compose UI & MVI ViewModel.
-- **`domain`**: Use Cases & Repository Contract.
-- **`data`**: API Services, Room DB, DTOs, & Repository Implementation.
 
 ---
 
-### 🔄 Alur Kerja MVI (Model-View-Intent)
-
-Aplikasi ini menerapkan pola **MVI** dengan aliran data satu arah (**Unidirectional Data Flow**) untuk menjamin *predictability* dari state UI.
+## 🛠 Contoh Implementasi Alur Bisnis (Example Flow)
+Diagram fungsional yang menjelaskan bagaimana fondasi ini menangani perjalanan pengguna dalam sebuah aplikasi (Contoh: Fitur Berita).
 
 ```mermaid
 graph LR
-    User -- Action --> Intent
-    Intent -- Process --> ViewModel
-    ViewModel -- Call --> UseCase
-    UseCase -- Request --> Repository
-    Repository -- Return --> ViewModel
-    ViewModel -- Update --> State
-    State -- Render --> View
-    View -- Feedback --> User
-    ViewModel -- Single Event --> Effect
+    Splash[Splash Screen] --> Home[List View]
+    Home -- "Action/Filter" --> Home
+    Home -- "Select Item" --> Detail[Detail View]
+    Detail -- "Primary Action" --> LocalDB[(Local DB)]
+    Home -- "Secondary View" --> Auxiliary[Auxiliary Screen]
+    Auxiliary -- "Action" --> Detail
+    Home -- "About/Settings" --> About[About/Profile Screen]
 ```
 
 ---
 
-## 🚀 Perbaikan Terbaru
+## 🚀 Quick Start
+1. **Clone:** `git clone https://github.com/muharifandi/compose-mvi.git`
+2. **Setup:** Gunakan Android Studio Ladybug (2024.2.1) atau lebih baru.
+3. **Build:** Jalankan `./gradlew assembleDebug`.
+4. **Docs:** Baca [Onboarding Guide](docs/onboarding-guide.md) untuk memulai pengembangan fitur baru.
 
-Baru-baru ini dilakukan optimasi pada sistem jaringan dan dokumentasi:
-*   **Centralized Error Handling**: Menggunakan `SafeApiCall` untuk menangani error API secara seragam (401, 429, 500) dan menampilkannya di UI.
-*   **Interceptor Optimization**: Logging interceptor kini mencatat request setelah otentikasi header `X-Api-Key` disuntikkan.
-*   **Type-Safe News API**: Refaktor service API untuk mempermudah deteksi kegagalan melalui exception handling yang lebih bersih.
-*   **CI/CD Foundation**: Struktur proyek telah disiapkan untuk mendukung integrasi berkelanjutan (Continuous Integration).
+## 🏗 Arsitektur Utama
+Proyek ini mengadopsi standar **Modern Android Development (MAD)** dengan pilar utama:
+- **Modularization:** API/Impl split strategy untuk enkapsulasi dan build time yang optimal.
+- **Clean Architecture:** Pemisahan tanggung jawab yang jelas antara layer Presentation, Domain, dan Data.
+- **MVI Pattern:** Pola arsitektur yang menjamin *Unidirectional Data Flow* (UDF) dan state yang konsisten.
+
+### Alur MVI (Model-View-Intent):
+1. **Intent:** Merepresentasikan aksi pengguna (contoh: klik tombol, refresh halaman).
+2. **Model (State):** Satu-satunya sumber kebenaran (Single Source of Truth) untuk UI yang bersifat immutable.
+3. **View:** Jetpack Compose yang merepresentasikan State secara reaktif.
+4. **Effect:** Side-effect satu kali (one-time events) seperti navigasi, toast, atau snackbar.
 
 ---
 
-## 📚 Dokumentasi Engineering
-
-1.  [**Project Overview**](docs/engineering/01-overview.md) - Filosofi dan tujuan skalabilitas.
-2.  [**Architecture & Structure**](docs/engineering/02-architecture.md) - Detail modul dan arah dependensi.
-3.  [**MVI & Data Flow**](docs/engineering/03-mvi-flow.md) - Panduan manajemen state.
-4.  [**Feature Development Guide**](docs/engineering/04-development-guide.md) - Cara menambah fitur baru.
+## 📚 Referensi & Standar Pengembangan
+Pengembangan proyek ini merujuk pada standar industri dan dokumentasi resmi berikut:
+- **[Guide to App Architecture](https://developer.android.com/topic/architecture):** Panduan resmi Google untuk arsitektur aplikasi Android yang skalabel.
+- **[Now in Android (NiA)](https://github.com/android/nowinandroid):** Project referensi resmi Google untuk implementasi modularisasi dan tech stack terbaru.
+- **[Kotlin Coroutines & Flow](https://kotlinlang.org/docs/coroutines-overview.html):** Standar manajemen asinkron dan reaktif di Kotlin.
+- **[Jetpack Compose Guidelines](https://developer.android.com/jetpack/compose/architecture):** Praktik terbaik dalam pengembangan UI deklaratif.
+- **[MVI Architecture (Orbit/MVICore)](https://github.com/orbit-mvi/orbit-mvi):** Referensi pola MVI yang stabil dan terprediksi.
 
 ---
-**Created by Muh. Arifandi**
-Email: [arif76440@gmail.com](mailto:arif76440@gmail.com)
+
+## 📖 Dokumentasi Lengkap
+Kami menyediakan dokumentasi teknis mendalam untuk setiap aspek:
+| Dokumen | Deskripsi |
+| :--- | :--- |
+| [Architecture](docs/architecture.md) | Detail Clean Architecture & Layering. |
+| [Modularization](docs/modularization.md) | Struktur modul & Dependency Graph. |
+| [MVI Guide](docs/mvi-architecture.md) | Panduan State, Intent, & Effect. |
+| [Engineering Standards](docs/engineering-standards.md) | Coding style & Best practices. |
+| [Feature Guide](docs/feature-development.md) | Panduan membuat fitur & modul baru. |
+| [Testing Guide](docs/testing-guide.md) | Strategi pengujian & QA. |
+| [Security Guide](docs/architecture-governance.md) | Tata kelola & Aturan arsitektur. |
+
+## 🛠 Tech Stack
+- **UI:** Jetpack Compose, Material 3
+- **Network:** Retrofit, OkHttp, Kotlin Serialization
+- **Database:** Room, Paging 3
+- **DI:** Hilt (Dagger)
+- **Image:** Coil
+- **Quality:** Detekt, JUnit 5, MockK, Turbine
+
+---
+**Created by:** Muh. Arifandi  
+**Email:** arif76440@gmail.com
