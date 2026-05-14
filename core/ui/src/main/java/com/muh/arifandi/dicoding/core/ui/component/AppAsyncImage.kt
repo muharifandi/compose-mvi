@@ -6,27 +6,20 @@
  * File : AppAsyncImage.kt
  *
  * Description:
- * Komponen gambar asinkron generik yang mendukung loading state (progress) dan error state.
+ * Komponen gambar asinkron yang dioptimalkan untuk performa tinggi (menggunakan AsyncImage standar).
  */
 
 package com.muh.arifandi.dicoding.core.ui.component
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import coil.compose.SubcomposeAsyncImage
+import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
@@ -37,7 +30,7 @@ fun AppAsyncImage(
     contentScale: ContentScale = ContentScale.Crop,
     crossfade: Boolean = true
 ) {
-    SubcomposeAsyncImage(
+    AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(model)
             .crossfade(crossfade)
@@ -45,32 +38,7 @@ fun AppAsyncImage(
         contentDescription = contentDescription,
         contentScale = contentScale,
         modifier = modifier,
-        loading = {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(40.dp),
-                    strokeWidth = 2.dp
-                )
-            }
-        },
-        error = {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.errorContainer),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Warning,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onErrorContainer
-                )
-            }
-        }
+        placeholder = rememberVectorPainter(Icons.Default.Image),
+        error = rememberVectorPainter(Icons.Default.Warning)
     )
 }

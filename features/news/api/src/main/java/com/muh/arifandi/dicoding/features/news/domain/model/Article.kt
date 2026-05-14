@@ -1,5 +1,8 @@
 package com.muh.arifandi.dicoding.features.news.domain.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class Article(
     val author: String?,
     val content: String?,

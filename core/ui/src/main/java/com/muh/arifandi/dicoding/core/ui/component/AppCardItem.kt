@@ -11,7 +11,8 @@
 
 package com.muh.arifandi.dicoding.core.ui.component
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.muh.arifandi.dicoding.core.ui.util.clickableDebounced
 
 @Composable
 fun AppCardItem(
@@ -39,13 +41,14 @@ fun AppCardItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable { onClick() }
+            .clickableDebounced { onClick() }
     ) {
         Row(
             modifier = Modifier.padding(12.dp)
         ) {
             AppAsyncImage(
                 model = imageUrl,
+                contentDescription = title,
                 modifier = Modifier
                     .size(100.dp)
             )

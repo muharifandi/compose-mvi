@@ -11,6 +11,21 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.androidx.baselineprofile) apply false
+    alias(libs.plugins.module.graph.assert)
+    alias(libs.plugins.detekt) apply false
+}
+
+moduleGraphAssert {
+    maxHeight = 4
+    allowed = arrayOf(
+        ":app -> :features:.*:impl",
+        ":features:.*:impl -> :features:.*:api",
+        ":features:.* -> :core:.*",
+        ":core:.* -> :core:.*"
+    )
+    restricted = arrayOf(
+        ":features:.*:impl -> :features:.*:impl" // Prevents feature coupling
+    )
 }
 
 val envProperties = Properties().apply {

@@ -18,11 +18,25 @@ android {
     namespace = "com.muh.arifandi.dicoding.core.network"
 
     defaultConfig {
-        val baseUrl = envProperties.getProperty("BASE_URL") ?: ""
-        val apiKey = envProperties.getProperty("NEWS_API_KEY") ?: ""
+        consumerProguardFiles("consumer-rules.pro")
+        val baseUrl = envProperties.getProperty("BASE_URL")
+        val apiKey = envProperties.getProperty("NEWS_API_KEY")
         
-        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
-        buildConfigField("String", "NEWS_API_KEY", "\"$apiKey\"")
+        // Strict validation for Release builds
+        val taskNames = project.gradle.startParameter.taskNames
+        val isRelease = taskNames.any { it.contains("Release", ignoreCase = true) }
+        
+        if (baseUrl.isNullOrEmpty()) {
+            if (isRelease) throw GradleException("BASE_URL is missing in config.env for Release build!")
+            else logger.warn("Warning: BASE_URL is not defined in config.env")
+        }
+        if (apiKey.isNullOrEmpty()) {
+            if (isRelease) throw GradleException("NEWS_API_KEY is missing in config.env for Release build!")
+            else logger.warn("Warning: NEWS_API_KEY is not defined in config.env")
+        }
+
+        buildConfigField("String", "BASE_URL", "\"${baseUrl ?: ""}\"")
+        buildConfigField("String", "NEWS_API_KEY", "\"${apiKey ?: ""}\"")
     }
 
     buildFeatures {

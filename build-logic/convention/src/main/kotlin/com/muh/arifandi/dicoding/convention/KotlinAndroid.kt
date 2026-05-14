@@ -6,6 +6,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
@@ -48,9 +49,9 @@ internal fun Project.configureKotlinJvm() {
 private fun Project.configureKotlin() {
     // Use withType to workaround across project targets
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
+        compilerOptions {
             // Set JVM target to 17
-            jvmTarget = JavaVersion.VERSION_17.toString()
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 }

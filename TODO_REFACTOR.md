@@ -10,6 +10,10 @@
 - [x] Penambahan mandatory header di file-file utama yang dimodifikasi.
 - [x] Update package structure agar sesuai dengan ownership fitur.
 - [x] Update `build.gradle.kts` di berbagai module.
+- [x] Implementasi Advanced Security Hardening (SQLCipher, SSL Pinning, Root Detection).
+- [x] Implementasi Security Convention Plugin (`myapp.android.security`).
+- [x] Implementasi Feature-API/Impl separation untuk navigasi.
+- [x] Layer Domain 100% Pure Kotlin.
 
 ## Task Mendatang / Monitoring
 - [ ] Verifikasi build sukses setelah Gradle Sync penuh.

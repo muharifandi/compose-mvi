@@ -10,6 +10,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
+                apply("myapp.android.detekt")
             }
 
             extensions.configure<LibraryExtension> {

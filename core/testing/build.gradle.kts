@@ -1,29 +1,21 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    id("myapp.android.library")
 }
 
 android {
     namespace = "com.muh.arifandi.dicoding.core.testing"
-    compileSdk = 35
-    
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
 
 dependencies {
     implementation(project(":core:common"))
+    implementation(project(":core:model"))
     
-    implementation(libs.junit)
-    implementation(libs.mockk)
-    implementation(libs.kotlinx.coroutines.test)
-    implementation(libs.turbine)
+    api(libs.junit)
+    api(libs.mockk)
+    api(libs.kotlinx.coroutines.test)
+    api(libs.turbine)
+    api(libs.archunit)
     
-    implementation(libs.androidx.compose.ui.test.junit4)
-    implementation(libs.androidx.compose.ui.test.manifest)
+    api(libs.androidx.compose.ui.test.junit4)
+    debugApi(libs.androidx.compose.ui.test.manifest)
 }

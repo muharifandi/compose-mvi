@@ -8,6 +8,7 @@ dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.compose.compiler.gradlePlugin)
+    compileOnly(libs.detekt.gradlePlugin)
 }
 
 gradlePlugin {
@@ -43,6 +44,14 @@ gradlePlugin {
         register("androidPaging") {
             id = "myapp.android.paging"
             implementationClass = "AndroidPagingConventionPlugin"
+        }
+        register("androidSecurity") {
+            id = "myapp.android.security"
+            implementationClass = "AndroidSecurityConventionPlugin"
+        }
+        register("androidDetekt") {
+            id = "myapp.android.detekt"
+            implementationClass = "AndroidDetektConventionPlugin"
         }
     }
 }

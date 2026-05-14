@@ -1,0 +1,15 @@
+package com.muh.arifandi.dicoding.features.news.ui.detail.state
+
+import com.muh.arifandi.dicoding.core.architecture.mvi.UiIntent
+
+/**
+ * Created by Muh. Arifandi on 07/05/26.
+ * Email : arif76440@gmail.com
+ * Project: My Application
+ * File: DetailIntent
+ */
+sealed interface DetailIntent : UiIntent {
+    data class LoadArticle(val url: String) : DetailIntent
+    data object ToggleFavorite : DetailIntent
+    data object Back : DetailIntent
+}

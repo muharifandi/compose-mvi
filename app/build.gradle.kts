@@ -9,6 +9,7 @@ plugins {
     id("myapp.android.paging")
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.androidx.baselineprofile)
+    alias(libs.plugins.module.graph.assert)
 }
 
 val envProperties = Properties().apply {
@@ -64,17 +65,19 @@ android {
 
 dependencies {
     baselineProfile(project(":baselineprofile"))
-    implementation(project(":features:splash"))
-    implementation(project(":features:about"))
-    implementation(project(":features:news"))
+    implementation(project(":features:splash:impl"))
+    implementation(project(":features:about:impl"))
+    implementation(project(":features:news:impl"))
     
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
     implementation(project(":core:network"))
+    implementation(project(":core:architecture"))
     implementation(project(":navigation"))
 
     implementation(libs.timber)
 
+    implementation(libs.androidx.core.splashscreen)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
@@ -91,6 +94,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.leakcanary.android)
     
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
@@ -108,4 +112,23 @@ dependencies {
     testImplementation(libs.turbine)
     
     androidTestImplementation(project(":core:testing"))
+}
+
+moduleGraphAssert {
+    maxHeight = 4
+    // Strict rules to maintain the "Highly Scalable Engineering Foundation"
+    allowed = arrayOf(
+        ":app -> :navigation",
+        ":app -> :features:.*:impl",
+        ":app -> :core:.*",
+        ":navigation -> :features:.*:api",
+        ":features:.*:impl -> :features:.*:api",
+        ":features:.*:impl -> :core:.*",
+        ":features:.*:impl -> :navigation",
+        ":core:.* -> :core:.*"
+    )
+    restricted = arrayOf(
+        ":features:.*:api -> :features:.*:impl", // API cannot depend on Impl
+        ":features:.*:impl -> :features:.*:impl" // Impl cannot depend on Impl
+    )
 }

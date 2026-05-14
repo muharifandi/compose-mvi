@@ -16,9 +16,18 @@ internal fun Project.configureAndroidCompose(
         }
     }
 
+    val isLibrary = pluginManager.hasPlugin("com.android.library")
+    val config = if (isLibrary) "api" else "implementation"
+
     dependencies {
         val bom = libs.findLibrary("androidx-compose-bom").get()
-        add("api", platform(bom))
+        add(config, platform(bom))
         add("androidTestImplementation", platform(bom))
+
+        add(config, libs.findLibrary("androidx-compose-ui").get())
+        add(config, libs.findLibrary("androidx-compose-material3").get())
+        add(config, libs.findLibrary("androidx-compose-material-icons-extended").get())
+        add(config, libs.findLibrary("androidx-compose-ui-tooling-preview").get())
+        add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
     }
 }

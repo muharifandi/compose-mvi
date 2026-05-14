@@ -7,6 +7,7 @@
 plugins {
     id("myapp.android.library")
     id("myapp.android.hilt")
+    id("myapp.android.security")
 }
 
 android {

@@ -5,17 +5,33 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Hide source file and line number for security
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Hardening for Domain and Repository names
+-keep class com.muh.arifandi.dicoding.core.model.** { *; }
+-keep class com.muh.arifandi.dicoding.features.news.domain.model.** { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Obfuscate implementation details
+-repackageclasses ''
+-allowaccessmodification
+
+# Remove Log calls in production for security
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+}
+
+# SQLCipher rules
+-keep class net.sqlcipher.** { *; }
+-keep class net.sqlcipher.database.** { *; }
+
+# Security Hardening: Protect sensitive logic
+-keep class com.muh.arifandi.dicoding.core.common.security.StringObfuscator { *; }
+-keep class com.muh.arifandi.dicoding.core.common.security.SecurityProvider {
+    public boolean isDeviceRooted();
+    public boolean isHookingDetected();
+    public boolean isRunningOnEmulator();
+}

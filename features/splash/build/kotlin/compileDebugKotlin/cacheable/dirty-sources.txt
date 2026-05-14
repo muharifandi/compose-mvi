@@ -1,0 +1,2 @@
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/features/splash/src/main/java/com/muh/arifandi/dicoding/features/splash/SplashScreen.kt
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/features/splash/src/main/java/com/muh/arifandi/dicoding/features/splash/SplashViewModel.kt

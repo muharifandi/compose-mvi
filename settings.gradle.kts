@@ -11,6 +11,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
@@ -26,17 +27,24 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "My Application"
+
+// App & Navigation
 include(":app")
+include(":navigation")
+include(":baselineprofile")
+
+// Core Modules
 include(":core:common")
+include(":core:architecture")
 include(":core:model")
 include(":core:network")
 include(":core:ui")
 include(":core:testing")
-include(":features:splash")
+
+// Feature Modules
+include(":features:splash:impl")
 include(":features:splash:api")
-include(":features:about")
+include(":features:about:impl")
 include(":features:about:api")
-include(":features:news")
+include(":features:news:impl")
 include(":features:news:api")
-include(":navigation")
-include(":baselineprofile")

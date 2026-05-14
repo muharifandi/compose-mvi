@@ -1,7 +1,9 @@
 package com.muh.arifandi.dicoding.baselineprofile
 
+import androidx.benchmark.macro.Direction
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.uiautomator.By
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,9 +27,14 @@ class BaselineProfileGenerator {
         packageName = "com.muh.arifandi.dicoding",
         includeInStartupProfile = true
     ) {
-        // This block defines the app's critical user journey. Here we exercise the
-        // features we want to optimize for.
         pressHome()
         startActivityAndWait()
+
+        // Optimize Scrolling
+        device.findObject(By.res("article_item"))?.fling(Direction.DOWN)
+        
+        // Optimize Detail Navigation
+        device.findObject(By.res("article_item"))?.click()
+        device.waitForIdle()
     }
 }

@@ -13,6 +13,7 @@
 package com.muh.arifandi.dicoding.di
 
 import com.muh.arifandi.dicoding.BuildConfig
+import com.muh.arifandi.dicoding.core.common.security.StringObfuscator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,5 +33,8 @@ object ConfigModule {
     @Provides
     @Singleton
     @Named("apiKey")
-    fun provideApiKey(): String = BuildConfig.NEWS_API_KEY
+    fun provideApiKey(): String {
+        // Return raw for now to match plain text in config.env
+        return BuildConfig.NEWS_API_KEY
+    }
 }

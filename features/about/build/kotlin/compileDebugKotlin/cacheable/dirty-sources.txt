@@ -1,0 +1,5 @@
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/features/about/src/main/java/com/muh/arifandi/dicoding/features/about/AboutViewModel.kt
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/features/about/src/main/java/com/muh/arifandi/dicoding/features/about/AboutScreen.kt
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/features/about/src/main/java/com/muh/arifandi/dicoding/features/about/state/AboutIntent.kt
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/features/about/src/main/java/com/muh/arifandi/dicoding/features/about/state/AboutEffect.kt
+/Users/zaydanmubaraq/Documents/Project/MobileDev/composeui/MyApplication/features/about/src/main/java/com/muh/arifandi/dicoding/features/about/state/AboutState.kt
