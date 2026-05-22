@@ -7,7 +7,7 @@ object TestArticleData {
         title = "Android Jetpack",
         description = "Modern Android Development",
         url = "https://developer.android.com",
-        imageUrl = "https://image.com",
+        urlToImage = "https://image.com",
         author = "Google",
         publishedAt = "2024-05-26T10:00:00Z"
     )

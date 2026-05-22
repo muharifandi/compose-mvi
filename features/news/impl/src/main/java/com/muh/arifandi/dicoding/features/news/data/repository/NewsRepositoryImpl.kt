@@ -10,7 +10,7 @@ import com.muh.arifandi.dicoding.features.news.data.database.dao.ArticleDao
 import com.muh.arifandi.dicoding.features.news.data.mapper.toDomain
 import com.muh.arifandi.dicoding.features.news.data.database.entity.ArticleEntity
 import com.muh.arifandi.dicoding.features.news.data.network.api.NewsApiService
-import com.muh.arifandi.dicoding.features.news.domain.model.Article
+import com.muh.arifandi.dicoding.core.model.Article
 import com.muh.arifandi.dicoding.features.news.domain.model.Source
 import com.muh.arifandi.dicoding.features.news.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow

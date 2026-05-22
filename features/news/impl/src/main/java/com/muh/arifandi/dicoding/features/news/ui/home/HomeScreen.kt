@@ -4,10 +4,8 @@
  * Project : My Application
  * Module : features:home
  * File : HomeScreen.kt
- *
- * Description:
- * Layar utama aplikasi yang menampilkan daftar berita (headlines) dan fitur pencarian.
  */
+
 package com.muh.arifandi.dicoding.features.news.ui.home
 
 import androidx.compose.foundation.layout.Box
@@ -26,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -35,13 +32,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.muh.arifandi.dicoding.core.ui.designsystem.AppToolbar
-import com.muh.arifandi.dicoding.core.ui.designsystem.EmptyView
-import com.muh.arifandi.dicoding.core.ui.designsystem.ErrorView
-import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
-import com.muh.arifandi.dicoding.core.ui.designsystem.SearchBar
-import com.muh.arifandi.dicoding.features.news.domain.model.Article
-import com.muh.arifandi.dicoding.core.ui.component.AppCardItem
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaTopAppBar
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaEmptyView
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaErrorView
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaLoadingView
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaSearchBar
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaNewsCard
+import com.muh.arifandi.dicoding.core.model.Article
 import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeEffect
 import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeIntent
 import com.muh.arifandi.dicoding.core.ui.R as UiR
@@ -68,7 +65,7 @@ fun HomeScreen(
         modifier = modifier,
         topBar = {
             Column {
-                AppToolbar(
+                SakaTopAppBar(
                     title = stringResource(id = UiR.string.news_app),
                     actions = {
                         IconButton(
@@ -91,7 +88,7 @@ fun HomeScreen(
                         }
                     }
                 )
-                SearchBar(
+                SakaSearchBar(
                     onSearch = { viewModel.processIntent(HomeIntent.SearchArticle(it)) }
                 )
             }
@@ -104,10 +101,10 @@ fun HomeScreen(
         ) {
             if (state.isPaging) {
                 when (pagedArticles.loadState.refresh) {
-                    is LoadState.Loading -> LoadingView(modifier = Modifier.align(Alignment.Center).testTag("loading_view"))
+                    is LoadState.Loading -> SakaLoadingView(modifier = Modifier.align(Alignment.Center).testTag("loading_view"))
                     is LoadState.Error -> {
                         val e = pagedArticles.loadState.refresh as LoadState.Error
-                        ErrorView(
+                        SakaErrorView(
                             message = e.error.message ?: "Unknown Error",
                             onRetry = { pagedArticles.retry() },
                             modifier = Modifier.align(Alignment.Center)
@@ -115,7 +112,7 @@ fun HomeScreen(
                     }
                     else -> {
                         if (pagedArticles.itemCount == 0 && pagedArticles.loadState.append is LoadState.NotLoading) {
-                            EmptyView(
+                            SakaEmptyView(
                                 message = "Belum ada berita untuk kategori ini.",
                                 modifier = Modifier.align(Alignment.Center)
                             )
@@ -131,7 +128,7 @@ fun HomeScreen(
                                         val onClick = remember(article) {
                                             { viewModel.processIntent(HomeIntent.ClickArticle(article)) }
                                         }
-                                        AppCardItem(
+                                        SakaNewsCard(
                                             title = article.title ?: "",
                                             imageUrl = article.urlToImage ?: "",
                                             description = article.description ?: "",
@@ -145,13 +142,13 @@ fun HomeScreen(
                 }
             } else {
                 when {
-                    state.isLoading -> LoadingView(modifier = Modifier.align(Alignment.Center).testTag("loading_view"))
-                    state.error != null -> ErrorView(
+                    state.isLoading -> SakaLoadingView(modifier = Modifier.align(Alignment.Center).testTag("loading_view"))
+                    state.error != null -> SakaErrorView(
                         message = state.error!!,
                         onRetry = { viewModel.processIntent(HomeIntent.Refresh) },
                         modifier = Modifier.align(Alignment.Center)
                     )
-                    state.filteredArticles.isEmpty() -> EmptyView(
+                    state.filteredArticles.isEmpty() -> SakaEmptyView(
                         message = "Pencarian tidak ditemukan.",
                         modifier = Modifier.align(Alignment.Center)
                     )
@@ -165,7 +162,7 @@ fun HomeScreen(
                                 val onClick = remember(article) {
                                     { viewModel.processIntent(HomeIntent.ClickArticle(article)) }
                                 }
-                                AppCardItem(
+                                SakaNewsCard(
                                     title = article.title ?: "",
                                     imageUrl = article.urlToImage ?: "",
                                     description = article.description ?: "",

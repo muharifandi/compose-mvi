@@ -4,9 +4,6 @@
  * Project : My Application
  * Module : features:bookmark
  * File : BookmarkScreen.kt
- *
- * Description:
- * Layar yang menampilkan daftar berita yang telah disimpan oleh pengguna.
  */
 
 package com.muh.arifandi.dicoding.features.news.ui.bookmark
@@ -17,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,14 +33,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.muh.arifandi.dicoding.core.ui.designsystem.AppToolbar
-import com.muh.arifandi.dicoding.core.ui.designsystem.AppTextButton
-import com.muh.arifandi.dicoding.core.ui.designsystem.EmptyView
-import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
-import com.muh.arifandi.dicoding.core.ui.component.AppCardItem
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaTopAppBar
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaButton
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaButtonType
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaEmptyView
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaLoadingView
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaNewsCard
 import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkIntent
 import com.muh.arifandi.dicoding.features.news.ui.bookmark.state.BookmarkState
-import com.muh.arifandi.dicoding.features.news.domain.model.Article
+import com.muh.arifandi.dicoding.core.model.Article
 import com.muh.arifandi.dicoding.core.ui.R as UiR
 
 @Composable
@@ -80,8 +77,9 @@ fun BookmarkContent(
             title = { Text(text = stringResource(id = UiR.string.delete_favorite)) },
             text = { Text(text = stringResource(id = UiR.string.delete_favorite_desc)) },
             confirmButton = {
-                AppTextButton(
+                SakaButton(
                     text = stringResource(id = UiR.string.delete),
+                    type = SakaButtonType.LINK,
                     onClick = {
                         onDeleteClick(articleToDeleteUrl!!)
                         articleToDeleteUrl = null
@@ -89,8 +87,9 @@ fun BookmarkContent(
                 )
             },
             dismissButton = {
-                AppTextButton(
+                SakaButton(
                     text = stringResource(id = UiR.string.cancel),
+                    type = SakaButtonType.LINK,
                     onClick = { articleToDeleteUrl = null }
                 )
             }
@@ -100,16 +99,9 @@ fun BookmarkContent(
     Scaffold(
         modifier = modifier,
         topBar = {
-            AppToolbar(
+            SakaTopAppBar(
                 title = stringResource(id = UiR.string.favorites),
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(id = UiR.string.back)
-                        )
-                    }
-                }
+                onBackClick = onBackClick
             )
         }
     ) { paddingValues ->
@@ -119,8 +111,8 @@ fun BookmarkContent(
                 .padding(paddingValues)
         ) {
             when {
-                state.isLoading -> LoadingView(modifier = Modifier.align(Alignment.Center))
-                state.favoriteArticles.isEmpty() -> EmptyView(message = stringResource(id = UiR.string.no_favorites_yet))
+                state.isLoading -> SakaLoadingView(modifier = Modifier.align(Alignment.Center))
+                state.favoriteArticles.isEmpty() -> SakaEmptyView(message = stringResource(id = UiR.string.no_favorites_yet))
                 else -> {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(
@@ -132,7 +124,7 @@ fun BookmarkContent(
                                 { onArticleClick(article) }
                             }
                             Box {
-                                AppCardItem(
+                                SakaNewsCard(
                                     title = article.title ?: "",
                                     imageUrl = article.urlToImage ?: "",
                                     description = article.description ?: "",

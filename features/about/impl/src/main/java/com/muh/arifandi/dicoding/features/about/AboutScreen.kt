@@ -4,9 +4,6 @@
  * Project : My Application
  * Module : features:about
  * File : AboutScreen.kt
- *
- * Description:
- * Layar profil pembuat aplikasi.
  */
 
 package com.muh.arifandi.dicoding.features.about
@@ -27,21 +24,18 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaAsyncImage
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaTopAppBar
 import com.muh.arifandi.dicoding.features.about.state.AboutIntent
-import com.muh.arifandi.dicoding.features.about.state.AboutState
 import com.muh.arifandi.dicoding.core.ui.R as UiR
 
 @Composable
@@ -52,7 +46,6 @@ fun AboutScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     AboutContent(
-        state = state,
         onBackClick = { viewModel.processIntent(AboutIntent.Back) },
         modifier = modifier
     )
@@ -61,15 +54,14 @@ fun AboutScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutContent(
-    state: AboutState,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        modifier = modifier.semantics { contentDescription = "about_page" },
+        modifier = modifier,
         topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = UiR.string.about_developer)) },
+            SakaTopAppBar(
+                title = stringResource(id = UiR.string.about_developer),
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -85,7 +77,7 @@ fun AboutContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(24.dp),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SakaAsyncImage(
@@ -97,17 +89,15 @@ fun AboutContent(
                 contentDescription = stringResource(id = UiR.string.profile_picture)
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = state.name,
+                text = "Muh. Arifandi",
                 style = MaterialTheme.typography.headlineMedium
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
             Text(
-                text = state.email,
+                text = "arif76440@gmail.com",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.secondary
             )

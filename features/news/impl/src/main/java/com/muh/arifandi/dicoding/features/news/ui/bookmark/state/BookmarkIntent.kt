@@ -1,7 +1,7 @@
 package com.muh.arifandi.dicoding.features.news.ui.bookmark.state
 
 import com.muh.arifandi.dicoding.core.architecture.mvi.UiIntent
-import com.muh.arifandi.dicoding.features.news.domain.model.Article
+import com.muh.arifandi.dicoding.core.model.Article
 
 sealed interface BookmarkIntent : UiIntent {
     data object LoadFavorites : BookmarkIntent

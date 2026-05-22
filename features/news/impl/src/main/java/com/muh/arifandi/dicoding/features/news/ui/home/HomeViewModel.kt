@@ -10,7 +10,7 @@ import com.muh.arifandi.dicoding.core.common.navigation.Navigator
 import com.muh.arifandi.dicoding.features.about.api.AboutDestinations
 import com.muh.arifandi.dicoding.features.news.api.NewsDestinations
 import com.muh.arifandi.dicoding.features.news.data.repository.NewsPagingRepository
-import com.muh.arifandi.dicoding.features.news.domain.model.Article
+import com.muh.arifandi.dicoding.core.model.Article
 import com.muh.arifandi.dicoding.features.news.domain.usecase.SearchNewsUseCase
 import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeEffect
 import com.muh.arifandi.dicoding.features.news.ui.home.state.HomeIntent

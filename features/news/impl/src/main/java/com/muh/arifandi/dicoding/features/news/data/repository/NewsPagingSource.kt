@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.muh.arifandi.dicoding.features.news.data.mapper.toDomain
 import com.muh.arifandi.dicoding.features.news.data.network.api.NewsApiService
-import com.muh.arifandi.dicoding.features.news.domain.model.Article
+import com.muh.arifandi.dicoding.core.model.Article
 
 class NewsPagingSource(
     private val apiService: NewsApiService,

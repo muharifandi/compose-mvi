@@ -1,7 +1,7 @@
 package com.muh.arifandi.dicoding.features.news.ui.home.state
 
 import com.muh.arifandi.dicoding.core.architecture.mvi.UiState
-import com.muh.arifandi.dicoding.features.news.domain.model.Article
+import com.muh.arifandi.dicoding.core.model.Article
 
 /**
  * Created by Muh. Arifandi on 07/05/26.

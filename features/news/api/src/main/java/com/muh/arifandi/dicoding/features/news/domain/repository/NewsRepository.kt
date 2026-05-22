@@ -1,7 +1,7 @@
 package com.muh.arifandi.dicoding.features.news.domain.repository
 
 import com.muh.arifandi.dicoding.core.model.ResultState
-import com.muh.arifandi.dicoding.features.news.domain.model.Article
+import com.muh.arifandi.dicoding.core.model.Article
 import com.muh.arifandi.dicoding.features.news.domain.model.Source
 import kotlinx.coroutines.flow.Flow
 

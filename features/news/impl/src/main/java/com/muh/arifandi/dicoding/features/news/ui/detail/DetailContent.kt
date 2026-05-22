@@ -4,9 +4,6 @@
  * Project : My Application
  * Module : features:detail
  * File : DetailContent.kt
- *
- * Description:
- * Konten utama layar detail berita yang menampilkan WebView dan integrasi favorit.
  */
 
 package com.muh.arifandi.dicoding.features.news.ui.detail
@@ -17,7 +14,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.AlertDialog
@@ -28,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,10 +32,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.viewinterop.AndroidView
-import com.muh.arifandi.dicoding.core.ui.designsystem.ErrorView
-import com.muh.arifandi.dicoding.core.ui.designsystem.LoadingView
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaErrorView
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaLoadingView
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaTopAppBar
 import com.muh.arifandi.dicoding.features.news.ui.detail.state.DetailState
 import com.muh.arifandi.dicoding.core.ui.R as UiR
 
@@ -79,22 +74,9 @@ fun DetailContent(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar(
-                title = { 
-                    Text(
-                        text = state.article?.title ?: stringResource(id = UiR.string.article_detail),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    ) 
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(id = UiR.string.back)
-                        )
-                    }
-                },
+            SakaTopAppBar(
+                title = state.article?.title ?: stringResource(id = UiR.string.article_detail),
+                onBackClick = onBackClick,
                 actions = {
                     IconButton(onClick = {
                         if (state.isFavorite) {
@@ -122,10 +104,10 @@ fun DetailContent(
         ) {
             when {
                 state.isLoading -> {
-                    LoadingView(modifier = Modifier.align(Alignment.Center))
+                    SakaLoadingView(modifier = Modifier.align(Alignment.Center))
                 }
                 state.error != null -> {
-                    ErrorView(
+                    SakaErrorView(
                         message = state.error,
                         onRetry = onRetry,
                         modifier = Modifier.align(Alignment.Center)
@@ -135,7 +117,7 @@ fun DetailContent(
                     ArticleWebView(url = state.url)
                 }
                 else -> {
-                    ErrorView(
+                    SakaErrorView(
                         message = stringResource(id = UiR.string.no_url_provided),
                         onRetry = onRetry,
                         modifier = Modifier.align(Alignment.Center)

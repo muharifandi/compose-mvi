@@ -3,7 +3,7 @@ package com.muh.arifandi.dicoding.features.news.data.mapper
 import com.muh.arifandi.dicoding.features.news.data.database.entity.ArticleEntity
 import com.muh.arifandi.dicoding.features.news.data.network.dto.ArticleResponse
 import com.muh.arifandi.dicoding.features.news.data.network.dto.SourceDetailResponse
-import com.muh.arifandi.dicoding.features.news.domain.model.Article
+import com.muh.arifandi.dicoding.core.model.Article
 import com.muh.arifandi.dicoding.features.news.domain.model.Source
 
 fun ArticleResponse.toDomain() = Article(
