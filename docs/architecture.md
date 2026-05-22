@@ -32,12 +32,57 @@ Implementasi dari pengambilan data.
 
 ---
 
-## 3. Dependency Direction
-Arah dependensi selalu **masuk ke dalam** (menuju Domain Layer).
+## 3. Dependency Direction & Modularization
+Arah dependensi selalu **masuk ke dalam** (menuju Domain Layer) dan mengikuti pola **Feature-API/Impl**.
 
-`Presentation -> Domain <- Data`
+### Visualisasi Struktur Modul
+```mermaid
+graph TD
+    subgraph App_Layer
+        APP[":app"]
+    end
 
-Pola ini menggunakan **Dependency Inversion Principle (DIP)** dari SOLID.
+    subgraph Feature_Layer
+        subgraph News_Feature
+            NEWS_API[":features:news:api"]
+            NEWS_IMPL[":features:news:impl"]
+        end
+        subgraph About_Feature
+            ABOUT_API[":features:about:api"]
+            ABOUT_IMPL[":features:about:impl"]
+        end
+    end
+
+    subgraph Navigation_Layer
+        NAV[":navigation"]
+    end
+
+    subgraph Core_Layer
+        CORE_NET[":core:network"]
+        CORE_UI[":core:ui"]
+        CORE_ARC[":core:architecture"]
+        CORE_MOD[":core:model"]
+    end
+
+    APP --> NEWS_IMPL
+    APP --> ABOUT_IMPL
+    APP --> NAV
+
+    NEWS_IMPL --> NEWS_API
+    NEWS_IMPL --> CORE_NET
+    NEWS_IMPL --> CORE_ARC
+    NEWS_IMPL --> CORE_UI
+    NEWS_IMPL --> CORE_MOD
+
+    ABOUT_IMPL --> ABOUT_API
+    ABOUT_IMPL --> CORE_UI
+
+    NAV --> NEWS_API
+    NAV --> ABOUT_API
+    NAV --> CORE_ARC
+```
+
+Pola ini menggunakan **Dependency Inversion Principle (DIP)** dari SOLID. Modul `:impl` bergantung pada `:api` miliknya sendiri dan modul `:core`. Modul lain hanya bergantung pada `:api` untuk melakukan navigasi atau menggunakan model data publik.
 
 ---
 

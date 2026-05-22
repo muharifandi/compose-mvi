@@ -1,1 +1,0 @@
-com.muh.arifandi.dicoding.features.splash.api

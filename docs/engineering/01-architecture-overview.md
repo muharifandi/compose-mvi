@@ -1,9 +1,3 @@
-/**
- * Created by Muh. Arifandi
- * Project: My Application
- * Engineering Documentation
- */
-
 # Arsitektur My Application
 
 Proyek ini menggunakan **Highly Scalable Engineering Foundation** berbasis pola Big Tech.

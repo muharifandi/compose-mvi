@@ -65,9 +65,20 @@ class FakeNewsRepository : NewsRepository {
 
 ---
 
-## 5. Testing Checklist
+## 5. Robot Pattern (Maintainable UI Test)
+Untuk menjaga maintainability UI test, kami menggunakan **Robot Pattern** yang memisahkan logika interaksi (apa yang dilakukan) dari skenario test (apa yang diuji).
+
+- **Robot**: Berisi fungsi interaksi teknis seperti `clickSearch()`, `verifyArticleIsShown()`.
+- **Test**: Berisi skenario bisnis tingkat tinggi seperti `testSearchArticleSuccess()`.
+
+Manfaat: Jika ID elemen UI berubah, kita hanya perlu mengubah kodenya di satu tempat (Robot class).
+
+---
+
+## 6. Testing Checklist
 - [ ] Unit Test untuk UseCase (Bisnis Logika).
 - [ ] Unit Test untuk ViewModel (State & Effect).
 - [ ] UI Test untuk komponen kritis di `:core:ui`.
 - [ ] Edge case (Error network, list kosong) sudah dites.
 - [ ] Coroutine menggunakan `TestDispatcher`.
+- [ ] Menggunakan data dummy dari `:core:testing`.

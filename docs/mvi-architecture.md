@@ -35,14 +35,38 @@ sealed class HomeEffect : UiEffect {
 ---
 
 ## 2. Alur Data (Unidirectional Data Flow)
-1. **User** melakukan aksi (klik tombol) -> **Intent**.
-2. **ViewModel** menerima Intent -> Proses ke Repository/UseCase.
-3. **ViewModel** memperbarui **State** secara atomik.
-4. **Compose** mengamati State -> **Recomposition** UI.
+1. **User Action**: User melakukan aksi (klik tombol) -> **Intent**.
+2. **ViewModel Processing**: **ViewModel** menerima Intent -> Proses ke Repository/UseCase.
+3. **State Update**: **ViewModel** memperbarui **State** secara atomik menggunakan `setState`.
+4. **Effect Processing**: Jika diperlukan aksi satu kali, ViewModel memanggil `sendEffect`.
+5. **UI Recomposition**: **Compose** mengamati State via `collectAsStateWithLifecycle()` -> **Recomposition** UI.
 
----
+## 3. Implementasi Teknis (BaseViewModel)
+Semua ViewModel dalam proyek ini mewarisi `BaseViewModel` dari `:core:architecture` untuk standarisasi boilerplate.
 
-## 3. Contoh Implementasi ViewModel
+```kotlin
+abstract class BaseViewModel<S : UiState, I : UiIntent, E : UiEffect>(
+    initialState: S
+) : ViewModel() {
+    private val _state = MutableStateFlow(initialState)
+    val state = _state.asStateFlow()
+
+    private val _effect = Channel<E>(Channel.BUFFERED)
+    val effect = _effect.receiveAsFlow()
+
+    abstract fun onIntent(intent: I)
+
+    protected fun setState(reduce: S.() -> S) {
+        _state.update { it.reduce() }
+    }
+
+    protected fun sendEffect(effect: E) {
+        viewModelScope.launch { _effect.send(effect) }
+    }
+}
+```
+
+### Contoh Implementasi ViewModel
 ```kotlin
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -55,23 +79,7 @@ class HomeViewModel @Inject constructor(
             is HomeIntent.Search -> searchNews(intent.query)
         }
     }
-
-    private fun loadNews() {
-        viewModelScope.launch {
-            setState { copy(isLoading = true) }
-            getNewsUseCase().collect { result ->
-                when (result) {
-                    is ResultState.Success -> setState { 
-                        copy(isLoading = false, articles = result.data) 
-                    }
-                    is ResultState.Error -> {
-                        setState { copy(isLoading = false) }
-                        sendEffect(HomeEffect.ShowError(result.message))
-                    }
-                }
-            }
-        }
-    }
+    // ... loadNews implementation ...
 }
 ```
 
