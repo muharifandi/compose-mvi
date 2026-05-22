@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Saka Feature Generator (Revised with Compose Preview)
+# Saka Feature Generator (Revised with Namespace fix)
 # Usage: ./generate_feature.sh <feature_name>
 
 FEATURE_NAME=$1
@@ -39,11 +39,15 @@ dependencies {
 }
 EOF
 
-# 3. Buat build.gradle.kts untuk IMPL
+# 3. Buat build.gradle.kts untuk IMPL (Fix: Added Namespace)
 cat <<EOF > "${FEATURE_DIR}/impl/build.gradle.kts"
 plugins {
     id("myapp.android.feature")
     id("myapp.android.hilt")
+}
+
+android {
+    namespace = "${FEATURE_PACKAGE}"
 }
 
 dependencies {
@@ -193,5 +197,5 @@ if ! grep -q ":features:${FEATURE_NAME}:impl" settings.gradle.kts; then
     echo "include(\":features:${FEATURE_NAME}:impl\")" >> settings.gradle.kts
 fi
 
-echo "✅ Fitur ${FEATURE_NAME} berhasil dibuat dengan Compose Preview!"
+echo "✅ Fitur ${FEATURE_NAME} berhasil dibuat dengan Namespace yang benar!"
 echo "Saran: Lakukan 'Gradle Sync' sekarang."

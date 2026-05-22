@@ -3,6 +3,10 @@ plugins {
     id("myapp.android.hilt")
 }
 
+android {
+    namespace = "com.muh.arifandi.dicoding.features.onboarding"
+}
+
 dependencies {
     implementation(project(":features:onboarding:api"))
     implementation(project(":core:architecture"))
