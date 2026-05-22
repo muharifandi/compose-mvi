@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Saka Feature Generator (Revised with Namespace fix)
+# Saka Feature Generator (Revised with Dynamic Header & Preview)
 # Usage: ./generate_feature.sh <feature_name>
 
 FEATURE_NAME=$1
@@ -10,10 +10,17 @@ if [ -z "$FEATURE_NAME" ]; then
     exit 1
 fi
 
+# Konfigurasi Header
+AUTHOR="Muh. Arifandi"
+EMAIL="arif76440@gmail.com"
+PROJECT="My Application"
+CURRENT_DATE=$(date +"%d/%m/%Y")
+
 # Nama paket dasar
 BASE_PACKAGE="com.muh.arifandi.dicoding"
 FEATURE_PACKAGE="${BASE_PACKAGE}.features.${FEATURE_NAME}"
 FEATURE_DIR="features/${FEATURE_NAME}"
+MODULE_NAME="features:${FEATURE_NAME}"
 
 echo "🚀 Memulai pembuatan fitur: ${FEATURE_NAME}..."
 
@@ -29,6 +36,20 @@ mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_N
 mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/di"
 mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/navigation"
 
+# Fungsi untuk membuat Header
+create_header() {
+    local file_name=$1
+    cat <<EOF
+/**
+ * Created by ${AUTHOR} on ${CURRENT_DATE}
+ * Email : ${EMAIL}
+ * Project : ${PROJECT}
+ * Module : ${MODULE_NAME}
+ * File : ${file_name}
+ */
+EOF
+}
+
 # 2. Buat build.gradle.kts untuk API
 cat <<EOF > "${FEATURE_DIR}/api/build.gradle.kts"
 plugins {
@@ -39,7 +60,7 @@ dependencies {
 }
 EOF
 
-# 3. Buat build.gradle.kts untuk IMPL (Fix: Added Namespace)
+# 3. Buat build.gradle.kts untuk IMPL
 cat <<EOF > "${FEATURE_DIR}/impl/build.gradle.kts"
 plugins {
     id("myapp.android.feature")
@@ -65,7 +86,9 @@ EOF
 CLASS_NAME_PREFIX="$(tr '[:lower:]' '[:upper:]' <<< ${FEATURE_NAME:0:1})${FEATURE_NAME:1}"
 
 # State
-cat <<EOF > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/state/${CLASS_NAME_PREFIX}State.kt"
+{
+    create_header "${CLASS_NAME_PREFIX}State.kt"
+    cat <<EOF
 package ${FEATURE_PACKAGE}.ui.state
 
 import com.muh.arifandi.dicoding.core.architecture.mvi.UiState
@@ -77,9 +100,12 @@ data class ${CLASS_NAME_PREFIX}State(
     val data: String? = null
 ) : UiState
 EOF
+} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/state/${CLASS_NAME_PREFIX}State.kt"
 
 # Intent
-cat <<EOF > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/state/${CLASS_NAME_PREFIX}Intent.kt"
+{
+    create_header "${CLASS_NAME_PREFIX}Intent.kt"
+    cat <<EOF
 package ${FEATURE_PACKAGE}.ui.state
 
 import com.muh.arifandi.dicoding.core.architecture.mvi.UiIntent
@@ -88,9 +114,12 @@ sealed interface ${CLASS_NAME_PREFIX}Intent : UiIntent {
     data object LoadInitialData : ${CLASS_NAME_PREFIX}Intent
 }
 EOF
+} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/state/${CLASS_NAME_PREFIX}Intent.kt"
 
 # Effect
-cat <<EOF > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/state/${CLASS_NAME_PREFIX}Effect.kt"
+{
+    create_header "${CLASS_NAME_PREFIX}Effect.kt"
+    cat <<EOF
 package ${FEATURE_PACKAGE}.ui.state
 
 import com.muh.arifandi.dicoding.core.architecture.mvi.UiEffect
@@ -99,9 +128,12 @@ sealed interface ${CLASS_NAME_PREFIX}Effect : UiEffect {
     data class ShowError(val message: String) : ${CLASS_NAME_PREFIX}Effect
 }
 EOF
+} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/state/${CLASS_NAME_PREFIX}Effect.kt"
 
 # 5. Buat ViewModel
-cat <<EOF > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/${CLASS_NAME_PREFIX}ViewModel.kt"
+{
+    create_header "${CLASS_NAME_PREFIX}ViewModel.kt"
+    cat <<EOF
 package ${FEATURE_PACKAGE}.ui
 
 import com.muh.arifandi.dicoding.core.architecture.mvi.BaseViewModel
@@ -120,9 +152,12 @@ class ${CLASS_NAME_PREFIX}ViewModel @Inject constructor() :
     }
 }
 EOF
+} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/${CLASS_NAME_PREFIX}ViewModel.kt"
 
 # 6. Buat Screen dengan Preview
-cat <<EOF > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/${CLASS_NAME_PREFIX}Screen.kt"
+{
+    create_header "${CLASS_NAME_PREFIX}Screen.kt"
+    cat <<EOF
 package ${FEATURE_PACKAGE}.ui
 
 import androidx.compose.foundation.layout.Box
@@ -188,6 +223,7 @@ private fun ${CLASS_NAME_PREFIX}ScreenLoadingPreview() {
     }
 }
 EOF
+} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/${CLASS_NAME_PREFIX}Screen.kt"
 
 # 7. Daftarkan di settings.gradle.kts (Hanya jika belum ada)
 if ! grep -q ":features:${FEATURE_NAME}:api" settings.gradle.kts; then
@@ -197,5 +233,5 @@ if ! grep -q ":features:${FEATURE_NAME}:impl" settings.gradle.kts; then
     echo "include(\":features:${FEATURE_NAME}:impl\")" >> settings.gradle.kts
 fi
 
-echo "✅ Fitur ${FEATURE_NAME} berhasil dibuat dengan Namespace yang benar!"
+echo "✅ Fitur ${FEATURE_NAME} berhasil dibuat dengan Header KDoc dinamis!"
 echo "Saran: Lakukan 'Gradle Sync' sekarang."
