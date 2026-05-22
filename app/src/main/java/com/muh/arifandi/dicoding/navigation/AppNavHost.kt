@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.muh.arifandi.dicoding.core.architecture.navigation.FeatureApi
-import com.muh.arifandi.dicoding.features.news.api.NewsDestinations
 import com.muh.arifandi.dicoding.features.onboarding.api.OnboardingDestinations
 
 @Composable

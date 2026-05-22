@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaAsyncImage
 import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaButton
 import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaLoadingView
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaScaffold
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.MyApplicationTheme
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.SakaTheme
 import com.muh.arifandi.dicoding.features.onboarding.domain.model.OnboardingPage
@@ -68,7 +68,7 @@ internal fun OnboardingContent(
     // Ambil data halaman saat ini dari list yang ada di state
     val currentPageData = state.items.getOrNull(state.currentPage)
 
-    Scaffold(
+    SakaScaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
             // Bagian bawah untuk Tombol Navigasi

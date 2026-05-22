@@ -31,26 +31,37 @@ Skrip ini akan menghasilkan struktur folder dan file berikut:
 - `features/<nama_fitur>/impl`: Modul implementasi (Android Library).
 
 ### 2. Boilerplate Arsitektur (Layer UI)
-Skrip akan membuat file MVI yang terpisah sesuai standar enterprise:
+Skrip akan membuat file MVI dan Navigasi yang terpisah sesuai standar enterprise:
 - `ui/state/<Feature>State.kt`: Definisi data class Immutable state.
 - `ui/state/<Feature>Intent.kt`: Definisi sealed interface untuk user action.
-- `ui/state/<Feature>Effect.kt`: Definisi sealed interface untuk side effects (navigasi, toast, dll).
-- `ui/<Feature>ViewModel.kt`: Implementasi `BaseViewModel` dengan fungsi `processIntent`.
-- `ui/<Feature>Screen.kt`: Composable screen utama yang berisi:
-    - `${Feature}Screen`: Entry point (Stateful) yang berinteraksi dengan ViewModel.
-    - `${Feature}Content`: UI murni (Stateless) yang memudahkan pengujian dan Preview.
-    - `${Feature}ScreenPreview`: @Preview untuk melihat UI secara instan dengan data dummy.
-    - `${Feature}ScreenLoadingPreview`: @Preview khusus untuk melihat state loading.
+- `ui/state/<Feature>Effect.kt`: Definisi sealed interface untuk side effects.
+- `ui/<Feature>ViewModel.kt`: Implementasi `BaseViewModel`.
+- `ui/<Feature>Screen.kt`: Composable screen utama (Stateful & Stateless) menggunakan `SakaScaffold`.
+- `api/<Feature>Destinations.kt`: Definisi rute navigasi (Type-safe).
+- `navigation/<Feature>FeatureApiImpl.kt`: Registrasi rute ke NavGraph.
+- `di/NavigationModule.kt`: Hilt module untuk Dependency Injection navigasi.
 
 ### 3. Konfigurasi Otomatis
 - Mendaftarkan modul baru di `settings.gradle.kts`.
-- Mengkonfigurasi `build.gradle.kts` dengan plugin konvensi `myapp.kotlin.library` (API) dan `myapp.android.feature` (IMPL).
-- Menambahkan dependensi dasar seperti `core:architecture`, `core:ui`, dan `navigation`.
+- Mengkonfigurasi `build.gradle.kts` dengan dependensi standar (`core:ui`, `core:architecture`, dll).
 
-## ⚠️ Hal yang Perlu Diperhatikan
-- **Lower Case**: Selalu gunakan huruf kecil untuk parameter nama fitur.
-- **Gradle Sync**: Setelah menjalankan skrip, Anda **wajib** melakukan Gradle Sync agar modul baru dikenali oleh Android Studio.
-- **Manual Step**: Anda masih perlu mendaftarkan API implementasi di modul `navigation` dan melakukan Dependency Injection di modul `:app` jika diperlukan.
+## 🛠 Langkah Integrasi Manual (PENTING)
+
+Setelah menjalankan skrip, fitur tidak akan langsung muncul di aplikasi. Anda harus:
+
+1.  **Gradle Sync**: Tekan gajah di Android Studio.
+2.  **Daftarkan di Modul Navigation**:
+    Buka `navigation/build.gradle.kts` dan tambahkan:
+    ```kotlin
+    dependencies {
+        api(project(":features:<nama_fitur>:api"))
+    }
+    ```
+3.  **Navigasi**:
+    Panggil fitur menggunakan `NavController`:
+    ```kotlin
+    navController.navigate(<Feature>Destinations)
+    ```
 
 ## 🛠 Troubleshooting
 Jika terjadi error "Unresolved reference: myapp", pastikan Anda menggunakan versi terbaru skrip yang menggunakan `id("myapp...")` alih-alih `alias(libs.plugins.myapp...)`, karena skrip ini merujuk langsung ke *convention plugins* internal.

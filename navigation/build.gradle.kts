@@ -17,6 +17,7 @@ dependencies {
     api(project(":features:news:api"))
     api(project(":features:about:api"))
     api(project(":features:splash:api"))
+    api(project(":features:onboarding:api"))
 
     implementation(libs.kotlinx.serialization.json)
 }
