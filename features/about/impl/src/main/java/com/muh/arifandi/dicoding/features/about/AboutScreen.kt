@@ -39,7 +39,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.muh.arifandi.dicoding.core.ui.component.AppAsyncImage
+import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaAsyncImage
 import com.muh.arifandi.dicoding.features.about.state.AboutIntent
 import com.muh.arifandi.dicoding.features.about.state.AboutState
 import com.muh.arifandi.dicoding.core.ui.R as UiR
@@ -88,8 +88,8 @@ fun AboutContent(
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AppAsyncImage(
-                model = R.drawable.profile,
+            SakaAsyncImage(
+                model = com.muh.arifandi.dicoding.features.about.R.drawable.profile,
                 modifier = Modifier
                     .size(150.dp)
                     .clip(CircleShape)
