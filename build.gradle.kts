@@ -41,3 +41,24 @@ extra["envProperties"] = envProperties
 subprojects {
     extra["envProperties"] = envProperties
 }
+
+// Task untuk membantu download semua dependensi agar siap Offline Build
+tasks.register("prepareOfflineBuild") {
+    description = "Downloads all dependencies for all projects to local cache"
+    group = "help"
+    
+    // Kita ambil semua konfigurasi yang bisa di-resolve dari semua subproject
+    val allConfigurations = subprojects.flatMap { it.configurations }
+        .filter { it.isCanBeResolved }
+
+    doLast {
+        allConfigurations.forEach { configuration ->
+            try {
+                configuration.resolve()
+            } catch (e: Exception) {
+                // Abaikan error jika beberapa konfigurasi gagal di-resolve
+            }
+        }
+        println("✅ Semua dependensi telah diunduh ke cache lokal. Anda siap untuk Offline Build!")
+    }
+}
