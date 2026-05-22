@@ -3,6 +3,10 @@ plugins {
     id("myapp.android.hilt")
 }
 
+android {
+    namespace = "com.muh.arifandi.dicoding.features.register"
+}
+
 dependencies {
     implementation(project(":features:register:api"))
     implementation(project(":core:architecture"))
