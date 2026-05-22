@@ -62,14 +62,7 @@ fun AboutContent(
         topBar = {
             SakaTopAppBar(
                 title = stringResource(id = UiR.string.about_developer),
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(id = UiR.string.back)
-                        )
-                    }
-                }
+                onBackClick = onBackClick
             )
         }
     ) { paddingValues ->
