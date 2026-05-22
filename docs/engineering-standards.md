@@ -36,6 +36,7 @@ Dokumen ini mendefinisikan standar penulisan kode, tata kelola arsitektur, dan a
 ## 5. ViewModel & MVI
 - **UDF (Unidirectional Data Flow):** Jangan pernah mengubah state langsung dari UI. Selalu kirim Intent ke ViewModel.
 - **Immutable State:** Gunakan `data class` dengan `val` untuk State.
+- **MVI File Separation:** Pisahkan `State`, `Intent`, dan `Effect` ke dalam file masing-masing (contoh: `HomeState.kt`, `HomeIntent.kt`, `HomeEffect.kt`) di dalam package `ui.state`.
 - **Lifecycle Aware:** Gunakan `collectAsStateWithLifecycle()` di Screen.
 
 ## 6. Documentation Convention
