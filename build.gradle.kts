@@ -47,16 +47,17 @@ tasks.register("prepareOfflineBuild") {
     description = "Downloads all dependencies for all projects to local cache"
     group = "help"
     
-    // Kita ambil semua konfigurasi yang bisa di-resolve dari semua subproject
-    val allConfigurations = subprojects.flatMap { it.configurations }
-        .filter { it.isCanBeResolved }
-
     doLast {
-        allConfigurations.forEach { configuration ->
-            try {
-                configuration.resolve()
-            } catch (e: Exception) {
-                // Abaikan error jika beberapa konfigurasi gagal di-resolve
+        subprojects.forEach { subproject ->
+            println("📦 Menyiapkan dependensi untuk: ${subproject.path}")
+            subproject.configurations.forEach { configuration ->
+                if (configuration.isCanBeResolved) {
+                    try {
+                        configuration.resolve()
+                    } catch (e: Exception) {
+                        // Abaikan error pada konfigurasi internal yang spesifik
+                    }
+                }
             }
         }
         println("✅ Semua dependensi telah diunduh ke cache lokal. Anda siap untuk Offline Build!")

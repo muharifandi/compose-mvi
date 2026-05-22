@@ -117,8 +117,9 @@ graph TD
 1. **Clone:** `git clone https://github.com/muharifandi/compose-mvi.git`
 2. **Setup:** Gunakan Android Studio Ladybug (2024.2.1) atau lebih baru.
 3. **Build:** Jalankan `./gradlew assembleDebug`.
-4. **Generate Feature:** Gunakan skrip `./generate_feature.sh <nama_fitur>` untuk membuat modul baru secara instan.
-5. **Docs:** Baca [Onboarding Guide](docs/onboarding-guide.md) untuk memulai pengembangan fitur baru.
+4. **Offline Ready:** Jalankan `./gradlew prepareOfflineBuild --no-configuration-cache` saat online untuk mendukung pengembangan tanpa internet.
+5. **Generate Feature:** Gunakan skrip `./generate_feature.sh <nama_fitur>` untuk membuat modul baru secara instan.
+6. **Docs:** Baca [Onboarding Guide](docs/onboarding-guide.md) untuk memulai pengembangan fitur baru.
 
 ---
 
@@ -144,6 +145,7 @@ Kami menyediakan dokumentasi teknis mendalam untuk setiap aspek:
 | :--- | :--- |
 | [Playbook](docs/engineering-playbook.md) | Pusat navigasi seluruh standar engineering. |
 | [Feature Generator](docs/feature-generator.md) | Cara menggunakan skrip otomatisasi fitur. |
+| [Offline Guide](docs/offline-guide.md) | Panduan pengembangan tanpa koneksi internet. |
 | [Architecture](docs/architecture.md) | Detail Clean Architecture, Layering, & Data Flow. |
 | [Design System](docs/ui-component-guide.md) | Katalog komponen UI Saka (Button, Card, dll). |
 | [Modularization](docs/modularization.md) | Struktur modul & aturan dependency. |
