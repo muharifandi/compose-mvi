@@ -20,11 +20,24 @@ internal fun Project.configureKotlinAndroid(
 
         defaultConfig {
             minSdk = 24
+            
+            // Konfigurasi flag linker untuk 16 KB page alignment
+            externalNativeBuild {
+                cmake {
+                    arguments("-DANDROID_EXT_LINKER_FLAGS=-Wl,-z,max-page-size=16384")
+                }
+            }
         }
 
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_17
             targetCompatibility = JavaVersion.VERSION_17
+        }
+
+        packaging {
+            jniLibs {
+                useLegacyPackaging = false
+            }
         }
     }
 

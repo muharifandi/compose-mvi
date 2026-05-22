@@ -12,6 +12,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.muh.arifandi.dicoding.core.architecture.navigation.FeatureApi
+import com.muh.arifandi.dicoding.features.login.api.LoginDestinations
 import com.muh.arifandi.dicoding.features.onboarding.api.OnboardingDestinations
 import com.muh.arifandi.dicoding.features.onboarding.ui.OnboardingScreen
 import javax.inject.Inject
@@ -24,7 +25,9 @@ class OnboardingFeatureApiImpl @Inject constructor() : FeatureApi {
         navGraphBuilder.composable<OnboardingDestinations> {
             OnboardingScreen(
                 onNavigateToLogin = {
-                    // Navigasi ke login
+                    navController.navigate(LoginDestinations) {
+                        popUpTo(OnboardingDestinations) { inclusive = true }
+                    }
                 }
             )
         }

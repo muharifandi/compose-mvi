@@ -9,20 +9,23 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val repository: OnboardingRepository // Inject Repository di sini
-) : BaseViewModel<OnboardingState, OnboardingIntent, OnboardingEffect>(OnboardingState()) {
+) : BaseViewModel<OnboardingState, OnboardingIntent, OnboardingEffect>(
+    OnboardingState(items = repository.getOnboardingPages())
+) {
 
     override fun processIntent(intent: OnboardingIntent) {
         when (intent) {
             is OnboardingIntent.LoadPages -> {
-                // Ambil data dari repository
-                val pages = repository.getOnboardingPages()
-                setState { copy(items = pages) }
+                // Data sudah dimuat saat inisialisasi, fungsi ini bisa tetap ada jika butuh refresh
             }
             is OnboardingIntent.NextPage -> {
                 val next = state.value.currentPage + 1
                 if (next < state.value.items.size) {
                     setState { copy(currentPage = next) }
                 }
+            }
+            is OnboardingIntent.GetStarted -> {
+                sendEffect { OnboardingEffect.NavigateToLogin }
             }
             else -> {}
         }

@@ -45,6 +45,61 @@ Skrip akan membuat file MVI dan Navigasi yang terpisah sesuai standar enterprise
 - Mendaftarkan modul baru di `settings.gradle.kts`.
 - Mengkonfigurasi `build.gradle.kts` dengan dependensi standar (`core:ui`, `core:architecture`, dll).
 
+## 🧭 Panduan Navigasi & Pengiriman Data
+
+Proyek ini menggunakan **Jetpack Compose Navigation Type-Safe** (berbasis rute objek/class).
+
+### 1. Navigasi Tanpa Data (Simple)
+Cukup panggil objek `Destinations` yang sudah dibuat otomatis.
+```kotlin
+navController.navigate(OnboardingDestinations)
+```
+
+### 2. Mengirim Data Teks atau Primitif (String, Int, dll)
+Ubah `data object` menjadi `data class` di file `Destinations.kt` pada modul API.
+```kotlin
+// Di features/news/api/.../NewsDestinations.kt
+@Serializable
+data class NewsDetail(val newsId: String)
+```
+**Cara Kirim:**
+```kotlin
+navController.navigate(NewsDetail(newsId = "123"))
+```
+**Cara Terima:**
+```kotlin
+// Di FeatureApiImpl
+composable<NewsDetail> { backStackEntry ->
+    val detail: NewsDetail = backStackEntry.toRoute()
+    NewsDetailScreen(id = detail.newsId)
+}
+```
+
+### 3. Mengirim Object / Data Class Kompleks
+Untuk mengirim objek, Anda harus mendaftarkan `CustomNavType`. Namun, **sangat disarankan** hanya mengirim ID (String/Long) dan membiarkan layar tujuan mengambil data dari Repository/Database/Network.
+
+Jika *terpaksa* harus mengirim objek:
+1. Pastikan class tersebut `@Serializable`.
+2. Gunakan `Json.encodeToString` untuk mengubahnya menjadi string.
+
+### 4. Navigasi Antar Fitur (Integrasi)
+Navigasi antar fitur dilakukan melalui callback di `FeatureApiImpl`. Hal ini menjaga agar modul fitur tidak saling bergantung langsung.
+
+**Contoh di Onboarding ke Login:**
+```kotlin
+// OnboardingFeatureApiImpl.kt
+composable<OnboardingDestinations> {
+    OnboardingScreen(
+        onNavigateToLogin = {
+            navController.navigate(LoginDestinations) {
+                // Menghapus onboarding dari backstack agar tidak bisa kembali
+                popUpTo(OnboardingDestinations) { inclusive = true }
+            }
+        }
+    )
+}
+```
+
 ## 🛠 Langkah Integrasi Manual (PENTING)
 
 Setelah menjalankan skrip, fitur tidak akan langsung muncul di aplikasi. Anda harus:

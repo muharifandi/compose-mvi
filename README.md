@@ -152,6 +152,7 @@ Kami menyediakan dokumentasi teknis mendalam untuk setiap aspek:
 | [MVI Guide](docs/mvi-architecture.md) | Panduan State, Intent, & Effect. |
 | [Standards](docs/engineering-standards.md) | Aturan coding, arsitektur, & workflow. |
 | [Feature Guide](docs/feature-development.md) | Panduan langkah demi langkah membuat fitur baru. |
+| [App Lifecycle](docs/app-lifecycle.md) | Diagram alur aplikasi dari Startup hingga Finish. |
 | [Testing Guide](docs/testing-guide.md) | Strategi pengujian & Robot Pattern. |
 
 ---

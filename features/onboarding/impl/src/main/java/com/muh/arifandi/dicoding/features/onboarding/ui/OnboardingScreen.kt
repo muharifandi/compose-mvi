@@ -9,10 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -22,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaAsyncImage
 import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaButton
-import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaLoadingView
 import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaScaffold
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.MyApplicationTheme
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.SakaTheme
@@ -38,12 +40,7 @@ fun OnboardingScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    // 1. Trigger muat data saat pertama kali layar dibuka
-    LaunchedEffect(Unit) {
-        viewModel.processIntent(OnboardingIntent.LoadPages)
-    }
-
-    // 2. Tangani Side Effects (seperti Navigasi)
+    // 1. Tangani Side Effects (seperti Navigasi)
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
@@ -65,63 +62,98 @@ internal fun OnboardingContent(
     onIntent: (OnboardingIntent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Ambil data halaman saat ini dari list yang ada di state
-    val currentPageData = state.items.getOrNull(state.currentPage)
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = { state.items.size }
+    )
+
+    // Sinkronisasi pagerState dengan state.currentPage jika ada navigasi dari tombol
+    LaunchedEffect(state.currentPage) {
+        if (state.items.isNotEmpty() && pagerState.currentPage != state.currentPage) {
+            pagerState.animateScrollToPage(state.currentPage)
+        }
+    }
+
+    // Sinkronisasi balik jika user swipe manual
+    LaunchedEffect(pagerState.currentPage) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            if (state.items.isNotEmpty() && page != state.currentPage) {
+                // Opsional: panggil intent untuk update currentPage di ViewModel
+                // onIntent(OnboardingIntent.PageChanged(page)) 
+            }
+        }
+    }
 
     SakaScaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
             // Bagian bawah untuk Tombol Navigasi
-            Box(modifier = Modifier
-                .padding(24.dp)
-                .fillMaxWidth()) {
-                SakaButton(
-                    text = if (state.currentPage == state.items.size - 1) "Mulai" else "Lanjut",
-                    onClick = {
-                        if (state.currentPage == state.items.size - 1) {
-                            onIntent(OnboardingIntent.GetStarted)
-                        } else {
-                            onIntent(OnboardingIntent.NextPage)
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
+            if (state.items.isNotEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .fillMaxWidth()
+                ) {
+                    SakaButton(
+                        text = if (state.currentPage == state.items.size - 1) "Mulai" else "Lanjut",
+                        onClick = {
+                            if (state.currentPage == state.items.size - 1) {
+                                onIntent(OnboardingIntent.GetStarted)
+                            } else {
+                                onIntent(OnboardingIntent.NextPage)
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally, // Sumbu silang (Horizontal)
-            verticalArrangement = Arrangement.Center
-        ) {
-            if (currentPageData != null) {
-                // Ilustrasi Gambar
-                SakaAsyncImage(
-                    model = currentPageData.imageRes,
-                    modifier = Modifier.size(280.dp)
-                )
+        if (state.items.isNotEmpty()) {
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize(),
+                beyondViewportPageCount = 1 // Melakukan pre-load gambar di halaman sebelahnya agar smooth
+            ) { pageIndex ->
+                val pageData = state.items.getOrNull(pageIndex)
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    if (pageData != null) {
+                        // Ilustrasi Gambar
+                        SakaAsyncImage(
+                            model = pageData.imageRes,
+                            modifier = Modifier.size(280.dp),
+                            crossfade = false, // Matikan crossfade untuk gambar offline agar instan
+                            showPlaceholder = false // Matikan placeholder agar tidak berkedip ikon
+                        )
 
-                Spacer(modifier = Modifier.height(32.dp))
+                        Spacer(modifier = Modifier.height(32.dp))
 
-                // Judul
-                Text(
-                    text = currentPageData.title,
-                    style = SakaTheme.typography.title1,
-                    textAlign = TextAlign.Center
-                )
+                        // Judul
+                        Text(
+                            text = pageData.title,
+                            style = SakaTheme.typography.title1,
+                            textAlign = TextAlign.Center
+                        )
 
-                Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                // Deskripsi
-                Text(
-                    text = currentPageData.description,
-                    style = SakaTheme.typography.body3,
-                    textAlign = TextAlign.Center,
-                    color = SakaTheme.colors.neutralGrey
-                )
+                        // Deskripsi
+                        Text(
+                            text = pageData.description,
+                            style = SakaTheme.typography.body3,
+                            textAlign = TextAlign.Center,
+                            color = SakaTheme.colors.neutralGrey
+                        )
+                    }
+                }
             }
         }
     }

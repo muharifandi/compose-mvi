@@ -23,9 +23,9 @@ mockk = "1.13.12"
 turbine = "1.1.0"
 timber = "5.0.1"
 javaxInject = "1"
-sqlcipher = "4.5.4"
+sqlcipher = "4.6.1"
 sqlite-ktx = "2.4.0"
-rootbeer = "0.1.0"
+rootbeer = "0.1.2"
 security-crypto = "1.1.0-alpha06"
 detekt = "1.23.6"
 archunit = "1.3.0"
@@ -71,7 +71,7 @@ turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine
 javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javaxInject" }
 leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 archunit = { group = "com.tngtech.archunit", name = "archunit", version.ref = "archunit" }
-sqlcipher-android = { group = "net.zetetic", name = "android-database-sqlcipher", version.ref = "sqlcipher" }
+sqlcipher-android = { group = "net.zetetic", name = "sqlcipher-android", version.ref = "sqlcipher" }
 androidx-sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sqlite-ktx" }
 androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "security-crypto" }
 rootbeer = { group = "com.scottyab", name = "rootbeer-lib", version.ref = "rootbeer" }

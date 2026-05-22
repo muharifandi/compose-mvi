@@ -55,6 +55,9 @@ android {
     }
 
     packaging {
+        jniLibs {
+            useLegacyPackaging = false
+        }
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/LICENSE.md"
@@ -69,6 +72,8 @@ dependencies {
     implementation(project(":features:about:impl"))
     implementation(project(":features:news:impl"))
     implementation(project(":features:onboarding:impl"))
+    implementation(project(":features:login:impl"))
+    implementation(project(":features:register:impl"))
     
     implementation(project(":core:ui"))
     implementation(project(":core:common"))

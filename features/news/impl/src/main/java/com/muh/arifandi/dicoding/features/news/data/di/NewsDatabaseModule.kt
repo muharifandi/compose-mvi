@@ -1,7 +1,7 @@
 package com.muh.arifandi.dicoding.features.news.data.di
 
 import android.content.Context
-import net.sqlcipher.database.SupportFactory
+import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
 import androidx.room.Room
 import com.muh.arifandi.dicoding.features.news.data.database.NewsDatabase
 import dagger.Module
@@ -19,7 +19,7 @@ object NewsDatabaseModule {
     @Singleton
     fun provideNewsDatabase(@ApplicationContext context: Context): NewsDatabase {
         val passphrase = "secure_passphrase_placeholder".toByteArray()
-        val factory = SupportFactory(passphrase)
+        val factory = SupportOpenHelperFactory(passphrase)
         
         return Room.databaseBuilder(
             context,

@@ -32,7 +32,8 @@ fun SakaAsyncImage(
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.Crop,
-    crossfade: Boolean = true
+    crossfade: Boolean = true,
+    showPlaceholder: Boolean = true
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
@@ -42,8 +43,8 @@ fun SakaAsyncImage(
         contentDescription = contentDescription,
         contentScale = contentScale,
         modifier = modifier,
-        placeholder = rememberVectorPainter(Icons.Default.Image),
-        error = rememberVectorPainter(Icons.Default.Warning)
+        placeholder = if (showPlaceholder) rememberVectorPainter(Icons.Default.Image) else null,
+        error = if (showPlaceholder) rememberVectorPainter(Icons.Default.Warning) else null
     )
 }
 
