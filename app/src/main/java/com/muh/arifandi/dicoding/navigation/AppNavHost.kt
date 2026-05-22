@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.muh.arifandi.dicoding.core.architecture.navigation.FeatureApi
 import com.muh.arifandi.dicoding.features.news.api.NewsDestinations
+import com.muh.arifandi.dicoding.features.onboarding.api.OnboardingDestinations
 
 @Composable
 fun AppNavHost(
@@ -21,7 +22,7 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NewsDestinations.Home,
+        startDestination = OnboardingDestinations,
         modifier = modifier
     ) {
         featureApis.forEach { api ->

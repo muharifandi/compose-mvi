@@ -68,6 +68,7 @@ dependencies {
     implementation(project(":features:splash:impl"))
     implementation(project(":features:about:impl"))
     implementation(project(":features:news:impl"))
+    implementation(project(":features:onboarding:impl"))
     
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
