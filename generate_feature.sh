@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Saka Feature Generator (Revised)
+# Saka Feature Generator (Revised with Compose Preview)
 # Usage: ./generate_feature.sh <feature_name>
 
 FEATURE_NAME=$1
@@ -117,25 +117,70 @@ class ${CLASS_NAME_PREFIX}ViewModel @Inject constructor() :
 }
 EOF
 
-# 6. Buat Screen
+# 6. Buat Screen dengan Preview
 cat <<EOF > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/${CLASS_NAME_PREFIX}Screen.kt"
 package ${FEATURE_PACKAGE}.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaLoadingView
+import com.muh.arifandi.dicoding.core.ui.designsystem.theme.MyApplicationTheme
+import ${FEATURE_PACKAGE}.ui.state.${CLASS_NAME_PREFIX}State
 
 @Composable
 fun ${CLASS_NAME_PREFIX}Screen(
     viewModel: ${CLASS_NAME_PREFIX}ViewModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    ${CLASS_NAME_PREFIX}Content(state = state)
+}
 
-    if (state.isLoading) {
-        SakaLoadingView()
-    } else {
-        // Build your UI here
+@Composable
+internal fun ${CLASS_NAME_PREFIX}Content(
+    state: ${CLASS_NAME_PREFIX}State,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        if (state.isLoading) {
+            SakaLoadingView()
+        } else {
+            Text(text = "Welcome to ${CLASS_NAME_PREFIX} Screen")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ${CLASS_NAME_PREFIX}ScreenPreview() {
+    MyApplicationTheme {
+        ${CLASS_NAME_PREFIX}Content(
+            state = ${CLASS_NAME_PREFIX}State(
+                isLoading = false,
+                data = "Preview Data"
+            )
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ${CLASS_NAME_PREFIX}ScreenLoadingPreview() {
+    MyApplicationTheme {
+        ${CLASS_NAME_PREFIX}Content(
+            state = ${CLASS_NAME_PREFIX}State(
+                isLoading = true
+            )
+        )
     }
 }
 EOF
@@ -148,5 +193,5 @@ if ! grep -q ":features:${FEATURE_NAME}:impl" settings.gradle.kts; then
     echo "include(\":features:${FEATURE_NAME}:impl\")" >> settings.gradle.kts
 fi
 
-echo "✅ Fitur ${FEATURE_NAME} berhasil direvisi dan dibuat!"
+echo "✅ Fitur ${FEATURE_NAME} berhasil dibuat dengan Compose Preview!"
 echo "Saran: Lakukan 'Gradle Sync' sekarang."

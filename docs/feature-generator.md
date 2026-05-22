@@ -36,7 +36,11 @@ Skrip akan membuat file MVI yang terpisah sesuai standar enterprise:
 - `ui/state/<Feature>Intent.kt`: Definisi sealed interface untuk user action.
 - `ui/state/<Feature>Effect.kt`: Definisi sealed interface untuk side effects (navigasi, toast, dll).
 - `ui/<Feature>ViewModel.kt`: Implementasi `BaseViewModel` dengan fungsi `processIntent`.
-- `ui/<Feature>Screen.kt`: Composable screen utama dengan `collectAsStateWithLifecycle`.
+- `ui/<Feature>Screen.kt`: Composable screen utama yang berisi:
+    - `${Feature}Screen`: Entry point (Stateful) yang berinteraksi dengan ViewModel.
+    - `${Feature}Content`: UI murni (Stateless) yang memudahkan pengujian dan Preview.
+    - `${Feature}ScreenPreview`: @Preview untuk melihat UI secara instan dengan data dummy.
+    - `${Feature}ScreenLoadingPreview`: @Preview khusus untuk melihat state loading.
 
 ### 3. Konfigurasi Otomatis
 - Mendaftarkan modul baru di `settings.gradle.kts`.
