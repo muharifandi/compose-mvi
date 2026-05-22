@@ -9,7 +9,7 @@ Dokumen ini membantu developer baru memahami codebase dan mulai berkontribusi da
 
 ## 2. Urutan Memahami Codebase
 Jangan mencoba memahami semuanya sekaligus. Ikuti urutan ini:
-1. **[Deep Dive: Dependencies & Plugins](engineering/05-dependencies-deep-dive.md)**: Pahami "MENGAPA" kita menggunakan stack teknologi ini.
+1. **[Deep Dive: Dependencies & Plugins](dependencies-deep-dive.md)**: Pahami "MENGAPA" kita menggunakan stack teknologi ini.
 2. **`:core:architecture`**: Pahami base class MVI (`BaseViewModel`).
 3. **`:features:splash:impl`**: Lihat implementasi fitur paling sederhana.
 4. **`:navigation`**: Pahami bagaimana navigasi antar modul bekerja.

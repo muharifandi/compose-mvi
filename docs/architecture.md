@@ -86,7 +86,17 @@ Pola ini menggunakan **Dependency Inversion Principle (DIP)** dari SOLID. Modul 
 
 ---
 
-## 4. Contoh Implementasi
+## 4. Distributed Navigation (Navigasi Terdistribusi)
+Modul `:app` tidak lagi mengimpor implementasi Screen secara langsung. Navigasi didaftarkan secara otomatis melalui interface `FeatureApi`:
+1.  **Fitur API**: Mendefinisikan rute (Destinations) di modul `:api`.
+2.  **Fitur Impl**: Mengimplementasikan `FeatureApi` dan mendaftarkan rutenya di `registerGraph`.
+3.  **Hilt Multibinding**: Modul `:app` mengumpulkan semua implementasi `FeatureApi` secara otomatis untuk membangun `AppNavHost`.
+
+Pola ini memutus ketergantungan langsung antara `:app` dan layar spesifik, sehingga mempercepat kompilasi modul `:app`.
+
+---
+
+## 5. Contoh Implementasi
 
 ### Repository Interface (Domain)
 ```kotlin
@@ -106,7 +116,36 @@ class GetTopHeadlinesUseCase @Inject constructor(
 
 ---
 
-## 5. Anti-Pattern yang Harus Dihindari
+## 5. End-to-End Data Flow
+
+Aliran data dalam aplikasi mengikuti pola reaktif menggunakan Kotlin Flow.
+
+```mermaid
+sequenceDiagram
+    participant UI as Compose Screen
+    participant VM as ViewModel
+    participant UC as UseCase
+    participant REP as Repository
+    participant API as Remote API
+    participant DB as Local DB
+
+    UI->>VM: Kirim Intent (Refresh)
+    VM->>VM: Update State (Loading = true)
+    VM->>UC: Execute UseCase
+    UC->>REP: Fetch Data
+    REP->>API: Network Request
+    API-->>REP: Return DTO
+    REP->>REP: Map DTO to Entity/Model
+    REP->>DB: Save to Cache
+    REP-->>UC: Return Flow<Model>
+    UC-->>VM: Emit Result
+    VM->>VM: Update State (Loading = false, Data = result)
+    VM-->>UI: Observe State Change (Recomposition)
+```
+
+---
+
+## 6. Anti-Pattern yang Harus Dihindari
 - **God ViewModel:** Menaruh logika bisnis atau parsing JSON di dalam ViewModel.
 - **Context Leak:** Mengirim `Context` ke Repository atau UseCase.
 - **Circular Dependency:** Module A butuh B, Module B butuh A.
@@ -114,5 +153,5 @@ class GetTopHeadlinesUseCase @Inject constructor(
 
 ---
 
-## 6. Kesimpulan
-Dengan mematuhi struktur ini, aplikasi kita akan memiliki batas arsitektur (*boundary*) yang jelas, mengurangi risiko regresi saat ada perubahan kode di masa depan.
+## 7. Kesimpulan
+Dengan mematuhi struktur ini, aplikasi kita akan memiliki batas arsitektur (*boundary*) yang jelas, mengurangi risiko regresi, dan siap untuk diskalakan seiring bertambahnya fitur dan pengembang.

@@ -24,7 +24,16 @@ Untuk menjaga konsistensi di ribuan baris kode, kami menggunakan:
 
 ---
 
-## 4. SOLID Principle Implementation
+## 4. Build Performance Optimization
+Untuk mendukung 100+ modul tanpa memperlambat produktivitas, kami menerapkan:
+- **Configuration Cache**: Menghindari konfigurasi ulang Gradle yang berulang.
+- **Remote Build Cache**: Berbagi hasil kompilasi antar mesin developer dan CI.
+- **Non-Transitive R Classes**: Mempercepat kompilasi modul UI dengan membatasi cakupan resource.
+- **Lazy Task Configuration**: Menggunakan API Gradle yang *lazy* untuk mempercepat fase konfigurasi.
+
+---
+
+## 5. SOLID Principle Implementation
 - **S (Single Responsibility):** UseCase hanya melakukan satu hal.
 - **O (Open/Closed):** Menambahkan fitur baru dengan membuat modul baru, bukan memodifikasi modul yang sudah stabil.
 - **L (Liskov Substitution):** Repository implementasi dapat diganti tanpa merusak UseCase.
@@ -33,7 +42,7 @@ Untuk menjaga konsistensi di ribuan baris kode, kami menggunakan:
 
 ---
 
-## 5. Menghindari "God Module"
+## 6. Menghindari "God Module"
 Jika modul `:core:common` atau `:core:ui` menjadi terlalu besar:
 1. Identifikasi sub-domain (misal: `:core:ui:components`, `:core:ui:theme`).
 2. Pecah modul tersebut menjadi lebih kecil.
@@ -41,5 +50,5 @@ Jika modul `:core:common` atau `:core:ui` menjadi terlalu besar:
 
 ---
 
-## 6. Kesimpulan
-Skalabilitas bukan hanya tentang kode, tapi tentang proses. Arsitektur modular dengan Clean Architecture dan MVI memberikan struktur yang kokoh bagi bisnis untuk tumbuh tanpa terhambat oleh "Technical Debt" yang menumpuk.
+## 7. Kesimpulan
+Skalabilitas bukan hanya tentang kode, tapi tentang proses dan sistem build. Arsitektur modular dengan Clean Architecture, MVI, dan optimasi Gradle memberikan struktur yang kokoh bagi bisnis untuk tumbuh tanpa terhambat oleh "Technical Debt".

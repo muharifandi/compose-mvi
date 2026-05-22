@@ -1,17 +1,33 @@
 # Saka Design System - UI Component Guide
 
-Dokumen ini adalah katalog resmi dan panduan penggunaan seluruh komponen UI yang tersedia di modul `:core:ui`. Komponen ini dirancang untuk memastikan konsistensi visual di seluruh aplikasi **SakaAndroid**.
+Dokumen ini adalah katalog resmi dan panduan penggunaan seluruh komponen UI yang tersedia di modul `:core:ui`. Komponen ini dirancang untuk memastikan konsistensi visual dan aksesibilitas di seluruh aplikasi **SakaAndroid**.
 
 ## Daftar Isi
-1. [Fondasi & Tema](#1-fondasi--tema)
-2. [Tombol (SakaButton)](#2-tombol-sakabutton)
-3. [Input Teks (SakaTextField)](#3-input-teks-sakatextfield)
-4. [Navigasi Atas (TopAppBar & NavigationBar)](#4-navigasi-atas-topappbar--navigationbar)
-5. [Navigasi Utama (TabBar & ModalDrawer)](#5-navigasi-utama-tabbar--modaldrawer)
-6. [Kontainer (SakaCard & SakaNewsCard)](#6-kontainer-sakacard--sakanewscard)
-7. [Kontrol (SakaSwitch)](#7-kontrol-sakaswitch)
-8. [Feedback States (Loading, Error, Empty)](#8-feedback-states-loading-error-empty)
-9. [Media & Pencarian (AsyncImage & SearchBar)](#9-media--pencarian-asyncimage--searchbar)
+1. [Prinsip Design System](#prinsip-design-system)
+2. [Fondasi & Tema](#1-fondasi--tema)
+3. [Tombol (SakaButton)](#2-tombol-sakabutton)
+4. [Input Teks (SakaTextField)](#3-input-teks-sakatextfield)
+5. [Navigasi Atas (TopAppBar & NavigationBar)](#4-navigasi-atas-topappbar--navigationbar)
+6. [Navigasi Utama (TabBar & ModalDrawer)](#5-navigasi-utama-tabbar--modaldrawer)
+7. [Kontainer (SakaCard & SakaNewsCard)](#6-kontainer-sakacard--sakanewscard)
+8. [Kontrol (SakaSwitch)](#7-kontrol-sakaswitch)
+9. [Feedback States (Loading, Error, Empty)](#8-feedback-states-loading-error-empty)
+10. [Media & Pencarian (AsyncImage & SearchBar)](#9-media--pencarian-asyncimage--searchbar)
+
+---
+
+## Prinsip Design System
+
+### A. Dark Mode Support
+Semua komponen di `:core:ui` wajib mendukung **Dark Mode**. Gunakan warna dari `SakaTheme.colors` agar dapat berubah secara otomatis. Hindari penggunaan `Color.White` secara hardcoded.
+
+### B. Aksesibilitas (Accessibility)
+UI harus inklusif bagi semua pengguna:
+- **Content Description:** Wajib untuk Image/Icon fungsional.
+- **Minimum Touch Target:** Pastikan area klik minimal 48x48dp.
+
+### C. Spasi (Spacing)
+Gunakan sistem kelipatan 4dp/8dp untuk margin dan padding. Gunakan konstanta dari modul `:core:ui` jika tersedia.
 
 ---
 

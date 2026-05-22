@@ -1,12 +1,12 @@
-# Panduan Testing Android (Testing Guide)
+# Strategi & Panduan Testing
 
-Dokumen ini menjelaskan arsitektur dan standar pengujian yang digunakan untuk menjaga stabilitas aplikasi.
+Dokumen ini menjelaskan arsitektur dan standar pengujian yang digunakan untuk menjaga stabilitas aplikasi dari unit terkecil hingga alur pengguna utuh.
 
 ## 1. Piramida Testing
 Kami mengikuti strategi **Test Pyramid** untuk menyeimbangkan kecepatan dan akurasi:
 - **Unit Tests (70%)**: Menguji logika bisnis di UseCase, ViewModel, dan Mapper. Cepat dan dijalankan di JVM.
 - **Integration Tests (20%)**: Menguji interaksi antar komponen, seperti Repository dengan Database.
-- **UI & E2E Tests (10%)**: Menguji UI Compose dan alur pengguna ujung-ke-ujung.
+- **UI & E2E Tests (10%)**: Menguji UI Compose dan alur pengguna ujung-ke-ujung (End-to-End).
 
 ---
 
@@ -38,17 +38,24 @@ Gunakan `runTest` dari library `kotlinx-coroutines-test` dan `test()` dari libra
 
 ---
 
-## 3. Compose UI Testing
-Kami menggunakan **Semantics** untuk menemukan elemen UI dan melakukan aksi.
-```kotlin
-@Test
-fun myTest() {
-    composeTestRule.setContent {
-        MyScreen(state = HomeState(articles = listOf(...)))
-    }
+## 3. Compose UI & E2E Testing
+E2E testing menguji aplikasi sebagai satu kesatuan, idealnya menggunakan *real network* atau *staging environment*.
 
-    composeTestRule.onNodeWithText("Judul Berita").assertIsDisplayed()
-    composeTestRule.onNodeWithTag("btn_back").performClick()
+### Robot Pattern (Best Practice)
+Kami menggunakan **Robot Pattern** untuk memisahkan logika pengujian dari detail implementasi UI agar test lebih mudah dibaca dan dipelihara.
+
+- **Robot**: Berisi fungsi interaksi teknis seperti `clickSearch()`, `verifyArticleIsShown()`.
+- **Test**: Berisi skenario bisnis tingkat tinggi seperti `testSearchArticleSuccess()`.
+
+```kotlin
+class NewsRobot(private val composeTestRule: ComposeTestRule) {
+    fun checkArticleIsVisible(title: String) {
+        composeTestRule.onNodeWithText(title).assertIsDisplayed()
+    }
+    
+    fun clickArticle(title: String) {
+        composeTestRule.onNodeWithText(title).performClick()
+    }
 }
 ```
 
@@ -65,13 +72,10 @@ class FakeNewsRepository : NewsRepository {
 
 ---
 
-## 5. Robot Pattern (Maintainable UI Test)
-Untuk menjaga maintainability UI test, kami menggunakan **Robot Pattern** yang memisahkan logika interaksi (apa yang dilakukan) dari skenario test (apa yang diuji).
-
-- **Robot**: Berisi fungsi interaksi teknis seperti `clickSearch()`, `verifyArticleIsShown()`.
-- **Test**: Berisi skenario bisnis tingkat tinggi seperti `testSearchArticleSuccess()`.
-
-Manfaat: Jika ID elemen UI berubah, kita hanya perlu mengubah kodenya di satu tempat (Robot class).
+## 5. Automation Workflow
+1. **Trigger:** Setiap kali ada merge ke branch `develop`.
+2. **Execution:** Jalankan `./gradlew connectedDebugAndroidTest` via CI/CD.
+3. **Reporting:** Report diunggah ke Firebase Test Lab atau platform QA lainnya.
 
 ---
 
@@ -82,3 +86,4 @@ Manfaat: Jika ID elemen UI berubah, kita hanya perlu mengubah kodenya di satu te
 - [ ] Edge case (Error network, list kosong) sudah dites.
 - [ ] Coroutine menggunakan `TestDispatcher`.
 - [ ] Menggunakan data dummy dari `:core:testing`.
+- [ ] Robot sudah didefinisikan untuk setiap layar utama.

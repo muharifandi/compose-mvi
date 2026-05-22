@@ -6,6 +6,7 @@ Selamat datang di repository **SakaAndroid**. Proyek ini merupakan **fondasi ars
 Fondasi ini dirancang untuk menyelesaikan tantangan umum dalam pengembangan aplikasi skala besar, seperti manajemen state yang kompleks, modularisasi yang sulit dipelihara, dan performa UI. Secara teknis, proyek ini menyediakan implementasi standar untuk **Offline-First**, **Modularisasi tingkat lanjut (API/Impl split)**, serta sistem navigasi yang terdesentralisasi.
 
 ### Key Capabilities:
+- **Saka Design System:** Sistem UI terpusat dengan komponen yang Figma-compliant, mendukung *Custom Shadow*, *Pill-shape Buttons*, dan transisi animasi halus.
 - **Modularization Engine:** Struktur modul `:api` (kontrak) dan `:impl` (detail) yang mengoptimalkan kecepatan build dan enkapsulasi fitur.
 - **Enterprise Security:** Implementasi `SecurityGuard` terintegrasi untuk deteksi Root, Emulator, dan Debug secara *out-of-the-box*.
 - **High Performance Foundation:** Integrasi *Baseline Profile* dan *Paging 3* yang siap digunakan untuk pengalaman UI tanpa hambatan.
@@ -44,7 +45,7 @@ graph TD
 ---
 
 ## 🛠 Contoh Implementasi Alur Bisnis (Example Flow)
-Diagram fungsional yang menjelaskan bagaimana fondasi ini menangani perjalanan pengguna dalam sebuah aplikasi (Contoh: Fitur Berita).
+Diagram fungsional yang menjelaskan bagaimana fondasi ini menangani perjalanan pengguna dalam sebuah aplikasi secara modular.
 
 ```mermaid
 graph LR
@@ -59,23 +60,72 @@ graph LR
 
 ---
 
+## 📦 Struktur Modul & Dependency Graph (Module Visualization)
+SakaAndroid menggunakan struktur **Multi-module** tingkat lanjut dengan pemisahan `:api` dan `:impl` untuk mendukung skalabilitas build dan enkapsulasi kode.
+
+```mermaid
+graph TD
+    subgraph App_Layer [App Layer]
+        APP[":app"]
+    end
+
+    subgraph Navigation_Layer [Navigation Layer]
+        NAV[":navigation"]
+    end
+
+    subgraph Feature_Layer [Feature Layer]
+        subgraph Feature_X [Feature X]
+            FX_API[":features:X:api"]
+            FX_IMPL[":features:X:impl"]
+        end
+    end
+
+    subgraph Core_Layer [Core Layer]
+        CORE_ARC[":core:architecture"]
+        CORE_UI[":core:ui"]
+        CORE_NET[":core:network"]
+        CORE_MOD[":core:model"]
+        CORE_COM[":core:common"]
+    end
+
+    subgraph Build_Logic [Build Logic]
+        CONV[":build-logic:convention"]
+    end
+
+    %% Dependencies
+    APP --> FX_IMPL
+    APP --> NAV
+
+    FX_IMPL --> FX_API
+    FX_IMPL --> CORE_ARC
+    FX_IMPL --> CORE_UI
+    FX_IMPL --> CORE_NET
+    FX_IMPL --> CORE_MOD
+
+    NAV --> FX_API
+    NAV --> CORE_ARC
+
+    %% Build logic applied (Simplified)
+    CONV -.-> APP
+    CONV -.-> Feature_Layer
+    CONV -.-> Core_Layer
+```
+
+---
+
 ## 🚀 Quick Start
 1. **Clone:** `git clone https://github.com/muharifandi/compose-mvi.git`
 2. **Setup:** Gunakan Android Studio Ladybug (2024.2.1) atau lebih baru.
 3. **Build:** Jalankan `./gradlew assembleDebug`.
 4. **Docs:** Baca [Onboarding Guide](docs/onboarding-guide.md) untuk memulai pengembangan fitur baru.
 
+---
+
 ## 🏗 Arsitektur Utama
 Proyek ini mengadopsi standar **Modern Android Development (MAD)** dengan pilar utama:
 - **Modularization:** API/Impl split strategy untuk enkapsulasi dan build time yang optimal.
 - **Clean Architecture:** Pemisahan tanggung jawab yang jelas antara layer Presentation, Domain, dan Data.
 - **MVI Pattern:** Pola arsitektur yang menjamin *Unidirectional Data Flow* (UDF) dan state yang konsisten.
-
-### Alur MVI (Model-View-Intent):
-1. **Intent:** Merepresentasikan aksi pengguna (contoh: klik tombol, refresh halaman).
-2. **Model (State):** Satu-satunya sumber kebenaran (Single Source of Truth) untuk UI yang bersifat immutable.
-3. **View:** Jetpack Compose yang merepresentasikan State secara reaktif.
-4. **Effect:** Side-effect satu kali (one-time events) seperti navigasi, toast, atau snackbar.
 
 ---
 
@@ -84,8 +134,6 @@ Pengembangan proyek ini merujuk pada standar industri dan dokumentasi resmi beri
 - **[Guide to App Architecture](https://developer.android.com/topic/architecture):** Panduan resmi Google untuk arsitektur aplikasi Android yang skalabel.
 - **[Now in Android (NiA)](https://github.com/android/nowinandroid):** Project referensi resmi Google untuk implementasi modularisasi dan tech stack terbaru.
 - **[Kotlin Coroutines & Flow](https://kotlinlang.org/docs/coroutines-overview.html):** Standar manajemen asinkron dan reaktif di Kotlin.
-- **[Jetpack Compose Guidelines](https://developer.android.com/jetpack/compose/architecture):** Praktik terbaik dalam pengembangan UI deklaratif.
-- **[MVI Architecture (Orbit/MVICore)](https://github.com/orbit-mvi/orbit-mvi):** Referensi pola MVI yang stabil dan terprediksi.
 
 ---
 
@@ -93,16 +141,19 @@ Pengembangan proyek ini merujuk pada standar industri dan dokumentasi resmi beri
 Kami menyediakan dokumentasi teknis mendalam untuk setiap aspek:
 | Dokumen | Deskripsi |
 | :--- | :--- |
-| [Architecture](docs/architecture.md) | Detail Clean Architecture & Layering. |
-| [Modularization](docs/modularization.md) | Struktur modul & Dependency Graph. |
+| [Playbook](docs/engineering-playbook.md) | Pusat navigasi seluruh standar engineering. |
+| [Architecture](docs/architecture.md) | Detail Clean Architecture, Layering, & Data Flow. |
+| [Design System](docs/ui-component-guide.md) | Katalog komponen UI Saka (Button, Card, dll). |
+| [Modularization](docs/modularization.md) | Struktur modul & aturan dependency. |
 | [MVI Guide](docs/mvi-architecture.md) | Panduan State, Intent, & Effect. |
-| [Engineering Standards](docs/engineering-standards.md) | Coding style & Best practices. |
-| [Feature Guide](docs/feature-development.md) | Panduan membuat fitur & modul baru. |
-| [Testing Guide](docs/testing-guide.md) | Strategi pengujian & QA. |
-| [Security Guide](docs/architecture-governance.md) | Tata kelola & Aturan arsitektur. |
+| [Standards](docs/engineering-standards.md) | Aturan coding, arsitektur, & workflow. |
+| [Feature Guide](docs/feature-development.md) | Panduan langkah demi langkah membuat fitur baru. |
+| [Testing Guide](docs/testing-guide.md) | Strategi pengujian & Robot Pattern. |
+
+---
 
 ## 🛠 Tech Stack
-- **UI:** Jetpack Compose, Material 3
+- **UI:** Jetpack Compose, Material 3, **Saka Design System**
 - **Network:** Retrofit, OkHttp, Kotlin Serialization
 - **Database:** Room, Paging 3
 - **DI:** Hilt (Dagger)
