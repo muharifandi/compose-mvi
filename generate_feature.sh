@@ -18,6 +18,9 @@ CURRENT_DATE=$(date +"%d/%m/%Y")
 
 # Nama paket dasar
 BASE_PACKAGE="com.muh.arifandi.dicoding"
+# Konversi titik ke slash untuk path direktori
+PACKAGE_PATH=${BASE_PACKAGE//.//}/features/${FEATURE_NAME}
+
 FEATURE_PACKAGE="${BASE_PACKAGE}.features.${FEATURE_NAME}"
 FEATURE_DIR="features/${FEATURE_NAME}"
 MODULE_NAME_API="features:${FEATURE_NAME}:api"
@@ -26,16 +29,16 @@ MODULE_NAME_IMPL="features:${FEATURE_NAME}:impl"
 echo "🚀 Memulai pembuatan fitur: ${FEATURE_NAME}..."
 
 # 1. Buat struktur folder
-mkdir -p "${FEATURE_DIR}/api/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/api"
-mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/data/network"
-mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/data/repository"
-mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/data/mapper"
-mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/domain/model"
-mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/domain/usecase"
-mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/domain/repository"
-mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/state"
-mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/di"
-mkdir -p "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/navigation"
+mkdir -p "${FEATURE_DIR}/api/src/main/java/${PACKAGE_PATH}/api"
+mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/data/network"
+mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/data/repository"
+mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/data/mapper"
+mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/domain/model"
+mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/domain/usecase"
+mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/domain/repository"
+mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/state"
+mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/di"
+mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/navigation"
 
 # Fungsi untuk membuat Header
 create_header() {
@@ -104,7 +107,7 @@ data class ${CLASS_NAME_PREFIX}State(
     val data: String? = null
 ) : UiState
 EOF
-} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/state/${CLASS_NAME_PREFIX}State.kt"
+} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/state/${CLASS_NAME_PREFIX}State.kt"
 
 # Intent
 {
@@ -118,7 +121,7 @@ sealed interface ${CLASS_NAME_PREFIX}Intent : UiIntent {
     data object LoadInitialData : ${CLASS_NAME_PREFIX}Intent
 }
 EOF
-} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/state/${CLASS_NAME_PREFIX}Intent.kt"
+} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/state/${CLASS_NAME_PREFIX}Intent.kt"
 
 # Effect
 {
@@ -132,7 +135,7 @@ sealed interface ${CLASS_NAME_PREFIX}Effect : UiEffect {
     data class ShowError(val message: String) : ${CLASS_NAME_PREFIX}Effect
 }
 EOF
-} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/state/${CLASS_NAME_PREFIX}Effect.kt"
+} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/state/${CLASS_NAME_PREFIX}Effect.kt"
 
 # 5. Buat Destinations di API
 {
@@ -145,7 +148,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object ${CLASS_NAME_PREFIX}Destinations
 EOF
-} > "${FEATURE_DIR}/api/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/api/${CLASS_NAME_PREFIX}Destinations.kt"
+} > "${FEATURE_DIR}/api/src/main/java/${PACKAGE_PATH}/api/${CLASS_NAME_PREFIX}Destinations.kt"
 
 # 6. Buat FeatureApiImpl di IMPL
 {
@@ -172,7 +175,7 @@ class ${CLASS_NAME_PREFIX}FeatureApiImpl @Inject constructor() : FeatureApi {
     }
 }
 EOF
-} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/navigation/${CLASS_NAME_PREFIX}FeatureApiImpl.kt"
+} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/navigation/${CLASS_NAME_PREFIX}FeatureApiImpl.kt"
 
 # 7. Buat DI Module untuk Navigation
 {
@@ -198,7 +201,7 @@ interface NavigationModule {
     fun bind${CLASS_NAME_PREFIX}FeatureApi(impl: ${CLASS_NAME_PREFIX}FeatureApiImpl): FeatureApi
 }
 EOF
-} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/di/NavigationModule.kt"
+} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/di/NavigationModule.kt"
 
 # 8. Buat ViewModel
 {
@@ -222,7 +225,7 @@ class ${CLASS_NAME_PREFIX}ViewModel @Inject constructor() :
     }
 }
 EOF
-} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/${CLASS_NAME_PREFIX}ViewModel.kt"
+} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/${CLASS_NAME_PREFIX}ViewModel.kt"
 
 # 9. Buat Screen dengan SakaScaffold
 {
@@ -307,7 +310,7 @@ private fun ${CLASS_NAME_PREFIX}ScreenLoadingPreview() {
     }
 }
 EOF
-} > "${FEATURE_DIR}/impl/src/main/java/${BASE_PACKAGE}/features/${FEATURE_NAME}/ui/${CLASS_NAME_PREFIX}Screen.kt"
+} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/${CLASS_NAME_PREFIX}Screen.kt"
 
 # 10. Daftarkan di settings.gradle.kts
 if ! grep -q ":features:${FEATURE_NAME}:api" settings.gradle.kts; then
