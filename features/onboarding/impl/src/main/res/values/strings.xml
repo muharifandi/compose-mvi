@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_next">Lanjut</string>
+    <string name="onboarding_start">Mulai</string>
+    <string name="onboarding_page1_title">Kelola Saldo</string>
+    <string name="onboarding_page1_desc">Pantau saldo dan transaksi perbankan Anda kapan saja.</string>
+    <string name="onboarding_page2_title">Transfer Aman</string>
+    <string name="onboarding_page2_desc">Kirim uang ke mana saja dengan enkripsi tingkat tinggi.</string>
+    <string name="onboarding_page3_title">Investasi Masa Depan</string>
+    <string name="onboarding_page3_desc">Mulai investasi reksa dana langsung dari aplikasi.</string>
+</resources>

@@ -1,6 +1,7 @@
 package com.muh.arifandi.dicoding.features.onboarding.domain.model
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 
 /**
  * Created by Muh. Arifandi on 23/05/26.
@@ -9,7 +10,7 @@ import androidx.annotation.DrawableRes
  * File: OnboardingPage
  */
 data class OnboardingPage(
-    val title: String,
-    val description: String,
+    @StringRes val titleRes: Int,
+    @StringRes val descriptionRes: Int,
     @DrawableRes val imageRes: Int
 )

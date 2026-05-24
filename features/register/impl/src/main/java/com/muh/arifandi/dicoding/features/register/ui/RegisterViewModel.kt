@@ -11,7 +11,20 @@ class RegisterViewModel @Inject constructor() :
 
     override fun processIntent(intent: RegisterIntent) {
         when (intent) {
-            is RegisterIntent.LoadInitialData -> { /* Logic */ }
+            is RegisterIntent.NameChanged -> setState { copy(name = intent.value) }
+            is RegisterIntent.EmailChanged -> setState { copy(email = intent.value) }
+            is RegisterIntent.PasswordChanged -> setState { copy(password = intent.value) }
+            is RegisterIntent.AgreementChanged -> setState { copy(isAgreed = intent.value) }
+            is RegisterIntent.Submit -> handleRegistration()
+            is RegisterIntent.NavigateToLogin -> sendEffect { RegisterEffect.NavigateToLogin }
         }
+    }
+
+    private fun handleRegistration() {
+        // Logic untuk hit API register
+        setState { copy(isLoading = true) }
+        // Simulasi sukses
+        setState { copy(isLoading = false) }
+        sendEffect { RegisterEffect.NavigateToLogin }
     }
 }

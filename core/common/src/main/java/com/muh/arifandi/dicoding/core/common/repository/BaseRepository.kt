@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:common
+ * File : BaseRepository.kt
+ *
+ * Description:
+ * Kelas dasar Repository untuk melakukan standardisasi penanganan error dan emisi flow di seluruh fitur.
+ */
+
 package com.muh.arifandi.dicoding.core.common.repository
 
 import com.muh.arifandi.dicoding.core.model.ResultState
@@ -7,11 +18,6 @@ import android.util.Log
 import java.net.UnknownHostException
 import java.net.SocketTimeoutException
 import java.io.IOException
-
-/**
- * Created by Foundation Team
- * Generic BaseRepository to standardize error handling and flow emission across features.
- */
 abstract class BaseRepository {
 
     protected fun <T> safeNetworkCall(

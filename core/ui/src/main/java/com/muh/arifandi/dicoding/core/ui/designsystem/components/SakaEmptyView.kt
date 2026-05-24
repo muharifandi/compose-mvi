@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : SakaEmptyView.kt
+ *
+ * Description:
+ * Tampilan State Kosong (Empty State) untuk Saka Design System.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.designsystem.components
 
 import androidx.compose.foundation.layout.Box

@@ -2,8 +2,11 @@
  * Created by Muh. Arifandi on 12/05/2026
  * Email : arif76440@gmail.com
  * Project : My Application
- * Module : features:home
+ * Module : features:news:impl
  * File : HomeScreen.kt
+ *
+ * Description:
+ * Layar utama berita yang menampilkan daftar berita terbaru dengan dukungan pagination dan pencarian.
  */
 
 package com.muh.arifandi.dicoding.features.news.ui.home

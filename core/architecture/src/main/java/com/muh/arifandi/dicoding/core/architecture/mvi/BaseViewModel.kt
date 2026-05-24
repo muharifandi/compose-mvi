@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:architecture
+ * File : BaseViewModel.kt
+ *
+ * Description:
+ * Kelas dasar ViewModel yang menerapkan pola MVI (Model-View-Intent) dengan StateFlow dan Channel.
+ */
+
 package com.muh.arifandi.dicoding.core.architecture.mvi
 
 import androidx.lifecycle.ViewModel
@@ -8,13 +19,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
-/**
- * Created by Muh. Arifandi on 06/05/26.
- * Email : arif76440@gmail.com
- * Project: My Application
- * File: BaseViewModel
- */
 abstract class BaseViewModel<S : UiState, I : UiIntent, E : UiEffect>(
     initialState: S
 ) : ViewModel() {

@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : Type.kt
+ *
+ * Description:
+ * Konfigurasi font dan gaya teks menggunakan Poppins untuk Saka Design System.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.designsystem.theme
 
 import androidx.compose.material3.Typography

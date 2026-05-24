@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:common
+ * File : NavigationManager.kt
+ *
+ * Description:
+ * Manajer navigasi terpusat yang menggunakan SharedFlow untuk mengirim perintah navigasi antar modul.
+ */
+
 package com.muh.arifandi.dicoding.core.common.navigation
 
 import kotlinx.coroutines.flow.MutableSharedFlow

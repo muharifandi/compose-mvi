@@ -5,6 +5,10 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class RegisterState(
+    val name: String = "",
+    val email: String = "",
+    val password: String = "",
+    val isAgreed: Boolean = false,
     val isLoading: Boolean = false,
-    val data: String? = null
+    val error: String? = null
 ) : UiState

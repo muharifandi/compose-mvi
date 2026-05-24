@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : features:onboarding:impl
+ * File : OnboardingScreen.kt
+ *
+ * Description:
+ * Layar onboarding yang memperkenalkan fitur-fitur utama aplikasi kepada pengguna baru.
+ */
+
 package com.muh.arifandi.dicoding.features.onboarding.ui
 
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +40,8 @@ import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaButton
 import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaScaffold
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.MyApplicationTheme
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.SakaTheme
+import com.muh.arifandi.dicoding.core.ui.R as CoreR
+import com.muh.arifandi.dicoding.features.onboarding.R
 import com.muh.arifandi.dicoding.features.onboarding.domain.model.OnboardingPage
 import com.muh.arifandi.dicoding.features.onboarding.ui.state.OnboardingEffect
 import com.muh.arifandi.dicoding.features.onboarding.ui.state.OnboardingIntent
@@ -94,8 +108,13 @@ internal fun OnboardingContent(
                         .padding(24.dp)
                         .fillMaxWidth()
                 ) {
+                    val buttonText = if (state.currentPage == state.items.size - 1) {
+                        stringResource(R.string.onboarding_start)
+                    } else {
+                        stringResource(R.string.onboarding_next)
+                    }
                     SakaButton(
-                        text = if (state.currentPage == state.items.size - 1) "Mulai" else "Lanjut",
+                        text = buttonText,
                         onClick = {
                             if (state.currentPage == state.items.size - 1) {
                                 onIntent(OnboardingIntent.GetStarted)
@@ -138,7 +157,7 @@ internal fun OnboardingContent(
 
                         // Judul
                         Text(
-                            text = pageData.title,
+                            text = stringResource(pageData.titleRes),
                             style = SakaTheme.typography.title1,
                             textAlign = TextAlign.Center
                         )
@@ -147,7 +166,7 @@ internal fun OnboardingContent(
 
                         // Deskripsi
                         Text(
-                            text = pageData.description,
+                            text = stringResource(pageData.descriptionRes),
                             style = SakaTheme.typography.body3,
                             textAlign = TextAlign.Center,
                             color = SakaTheme.colors.neutralGrey
@@ -166,7 +185,11 @@ private fun OnboardingPreview() {
         OnboardingContent(
             state = OnboardingState(
                 items = listOf(
-                    OnboardingPage("Judul Preview", "Deskripsi singkat untuk testing.", 0)
+                    OnboardingPage(
+                        titleRes = R.string.onboarding_page1_title,
+                        descriptionRes = R.string.onboarding_page1_desc,
+                        imageRes = CoreR.drawable.ic_onboarding_1
+                    )
                 ),
                 currentPage = 0
             ),

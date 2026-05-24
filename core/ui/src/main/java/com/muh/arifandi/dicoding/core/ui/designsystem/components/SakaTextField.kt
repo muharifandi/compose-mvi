@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : SakaTextField.kt
+ *
+ * Description:
+ * Komponen Input Teks kustom untuk Saka Design System, termasuk Password, Search, dan Currency field.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.designsystem.components
 
 import androidx.compose.foundation.layout.Column
@@ -68,6 +79,8 @@ fun SakaTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     singleLine: Boolean = true,
+    minLines: Int = 1,
+    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     enabled: Boolean = true,
     readOnly: Boolean = false
 ) {
@@ -96,7 +109,15 @@ fun SakaTextField(
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             readOnly = readOnly,
-            placeholder = placeholder?.let { { Text(it) } },
+            placeholder = placeholder?.let {
+                {
+                    Text(
+                        text = it,
+                        style = SakaTheme.typography.body2,
+                        color = SakaTheme.colors.neutralGrey
+                    )
+                }
+            },
             isError = isError,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
@@ -104,6 +125,8 @@ fun SakaTextField(
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             singleLine = singleLine,
+            minLines = minLines,
+            maxLines = maxLines,
             shape = RoundedCornerShape(12.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = SakaTheme.colors.primary,
@@ -113,7 +136,9 @@ fun SakaTextField(
                 unfocusedLabelColor = SakaTheme.colors.neutralGrey,
                 cursorColor = SakaTheme.colors.primary,
                 disabledBorderColor = SakaTheme.colors.neutralPlatinum,
-                disabledTextColor = SakaTheme.colors.neutralGrey
+                disabledTextColor = SakaTheme.colors.neutralGrey,
+                focusedPlaceholderColor = SakaTheme.colors.neutralGrey,
+                unfocusedPlaceholderColor = SakaTheme.colors.neutralGrey
             ),
             textStyle = SakaTheme.typography.body2
         )
@@ -153,7 +178,8 @@ fun SakaPasswordField(
     placeholder: String? = "Password",
     helperText: String? = null,
     isError: Boolean = false,
-    errorMessage: String? = null
+    errorMessage: String? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
@@ -167,7 +193,7 @@ fun SakaPasswordField(
         isError = isError,
         errorMessage = errorMessage,
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = keyboardOptions,
         trailingIcon = {
             val image = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
             val description = if (passwordVisible) "Hide password" else "Show password"

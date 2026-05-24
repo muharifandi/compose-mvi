@@ -13,6 +13,7 @@ Dokumen ini adalah katalog resmi dan panduan penggunaan seluruh komponen UI yang
 8. [Kontrol (SakaSwitch)](#7-kontrol-sakaswitch)
 9. [Feedback States (Loading, Error, Empty)](#8-feedback-states-loading-error-empty)
 10. [Media & Pencarian (AsyncImage & SearchBar)](#9-media--pencarian-asyncimage--searchbar)
+11. [Label & Badge (SakaTextLabel)](#10-label--badge-sakatextlabel)
 
 ---
 
@@ -83,9 +84,15 @@ SakaTextField(
 ```
 
 ### `SakaPasswordField`
-Input password dengan toggle mata otomatis.
+Input password dengan toggle mata otomatis serta dukungan validasi error.
 ```kotlin
-SakaPasswordField(value = pass, onValueChange = { pass = it }, label = "Password")
+SakaPasswordField(
+    value = pass, 
+    onValueChange = { pass = it }, 
+    label = "Password",
+    isError = pass.length < 8,
+    errorMessage = "Password minimal 8 karakter"
+)
 ```
 
 ### `SakaCurrencyField`
@@ -204,6 +211,26 @@ SakaAsyncImage(model = "url_gambar", modifier = Modifier.size(100.dp))
 Input pencarian terintegrasi untuk header list.
 ```kotlin
 SakaSearchBar(onSearch = { query -> /* Filter list */ })
+```
+
+---
+
+## 10. Label & Badge (SakaTextLabel)
+
+### `SakaTextLabel`
+Komponen label status atau tag kustom dengan berbagai varian warna.
+| Properti | Tipe | Deskripsi |
+| :--- | :--- | :--- |
+| `text` | `String` | Teks yang ditampilkan. |
+| `variant` | `SakaTextLabelVariant` | `PRIMARY`, `SUCCESS`, `WARNING`, `ERROR`, `INFO`, `NEUTRAL`. |
+
+**Contoh Kode:**
+```kotlin
+// Label Success
+SakaTextLabel(text = "Lunas", variant = SakaTextLabelVariant.SUCCESS)
+
+// Label Error
+SakaTextLabel(text = "Gagal", variant = SakaTextLabelVariant.ERROR)
 ```
 
 ---

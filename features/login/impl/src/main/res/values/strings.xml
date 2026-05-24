@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_welcome">Welcome Back</string>
+    <string name="login_subtitle">Hello there, sign in to continue</string>
+    <string name="login_forgot_password">Forgot your password ?</string>
+    <string name="login_sign_in">Sign in</string>
+    <string name="login_no_account">Don\'t have an account? </string>
+    <string name="login_sign_up">Sign Up</string>
+</resources>

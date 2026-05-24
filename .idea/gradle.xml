@@ -36,6 +36,9 @@
             <option value="$PROJECT_DIR$/features/about" />
             <option value="$PROJECT_DIR$/features/about/api" />
             <option value="$PROJECT_DIR$/features/about/impl" />
+            <option value="$PROJECT_DIR$/features/forgotpassword" />
+            <option value="$PROJECT_DIR$/features/forgotpassword/api" />
+            <option value="$PROJECT_DIR$/features/forgotpassword/impl" />
             <option value="$PROJECT_DIR$/features/login" />
             <option value="$PROJECT_DIR$/features/login/api" />
             <option value="$PROJECT_DIR$/features/login/impl" />

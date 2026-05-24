@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:common
+ * File : NetworkConnectivityObserver.kt
+ *
+ * Description:
+ * Implementasi ConnectivityObserver menggunakan ConnectivityManager untuk mendeteksi perubahan status jaringan.
+ */
+
 package com.muh.arifandi.dicoding.core.common.util
 
 import android.content.Context

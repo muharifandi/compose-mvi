@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : SakaAsyncImage.kt
+ *
+ * Description:
+ * Komponen Gambar Asinkron yang dioptimalkan untuk Saka Design System menggunakan Coil.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.designsystem.components
 
 import androidx.compose.material.icons.Icons

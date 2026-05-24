@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : SakaErrorView.kt
+ *
+ * Description:
+ * Tampilan Error standar untuk Saka Design System dengan tombol coba lagi.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.designsystem.components
 
 import androidx.compose.foundation.layout.Arrangement

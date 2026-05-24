@@ -1,8 +1,12 @@
 /**
- * Created by Muh. Arifandi on 07/05/26.
+ * Created by Muh. Arifandi on 12/05/2026
  * Email : arif76440@gmail.com
- * Project: My Application
- * File: AppNavHost
+ * Project : My Application
+ * Module : app
+ * File : AppNavHost.kt
+ *
+ * Description:
+ * Komponen navigasi utama yang menggabungkan seluruh grafik navigasi dari berbagai modul fitur.
  */
 package com.muh.arifandi.dicoding.navigation
 

@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : root
+ * File : build.gradle.kts
+ *
+ * Description:
+ * File build Gradle tingkat root untuk konfigurasi plugin global dan manajemen dependensi.
+ */
+
 import java.util.Properties
 import java.io.FileInputStream
 

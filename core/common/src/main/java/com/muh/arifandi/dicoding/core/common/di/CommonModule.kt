@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:common
+ * File : CommonModule.kt
+ *
+ * Description:
+ * Modul Hilt untuk menyediakan dependensi utilitas umum seperti ConnectivityObserver dan Navigator.
+ */
+
 package com.muh.arifandi.dicoding.core.common.di
 
 import com.muh.arifandi.dicoding.core.common.navigation.NavigationManager

@@ -1,10 +1,4 @@
 /**
- * Created by Muh. Arifandi on 07/05/26.
- * Email : arif76440@gmail.com
- * Project: My Application
- * File: MainActivity
- */
-/**
  * Created by Muh. Arifandi on 12/05/2026
  * Email : arif76440@gmail.com
  * Project : My Application
@@ -12,7 +6,7 @@
  * File : MainActivity.kt
  *
  * Description:
- * Entry point utama aplikasi yang menginisialisasi Compose dan Navigasi.
+ * Entry point utama aplikasi yang menginisialisasi Compose, Navigasi, dan pengecekan integritas keamanan.
  */
 
 package com.muh.arifandi.dicoding

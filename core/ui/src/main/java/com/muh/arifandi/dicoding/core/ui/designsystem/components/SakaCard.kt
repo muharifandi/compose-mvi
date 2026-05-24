@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : SakaCard.kt
+ *
+ * Description:
+ * Komponen Card kustom dengan dukungan bayangan (shadow) sesuai parameter Figma.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.designsystem.components
 
 import androidx.compose.foundation.shape.RoundedCornerShape

@@ -2,8 +2,11 @@
  * Created by Muh. Arifandi on 12/05/2026
  * Email : arif76440@gmail.com
  * Project : My Application
- * Module : features:about
+ * Module : features:about:impl
  * File : AboutScreen.kt
+ *
+ * Description:
+ * Layar profil pengembang yang menampilkan informasi nama, email, dan foto profil.
  */
 
 package com.muh.arifandi.dicoding.features.about

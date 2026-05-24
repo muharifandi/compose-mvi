@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : SakaTabBar.kt
+ *
+ * Description:
+ * Komponen Tab Bar dinamis dengan animasi halus dan dukungan scroll otomatis.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.designsystem.components
 
 import androidx.compose.animation.animateColorAsState

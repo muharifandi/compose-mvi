@@ -1,15 +1,19 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : app
+ * File : App.kt
+ *
+ * Description:
+ * Kelas Application utama yang menginisialisasi Hilt, Timber, dan library native SQLCipher.
+ */
+
 package com.muh.arifandi.dicoding
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
-
-/**
- * Created by Muh. Arifandi on 06/05/26.
- * Email : arif76440@gmail.com
- * Project: My Application
- * File: App
- */
 @HiltAndroidApp
 class App : Application() {
     override fun onCreate() {

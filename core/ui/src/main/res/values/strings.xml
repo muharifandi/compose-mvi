@@ -22,4 +22,10 @@
     <string name="no_favorites_yet">No favorite articles yet</string>
     <string name="about_developer">About Developer</string>
     <string name="profile_picture">Profile Picture</string>
+
+    <!-- Shared Placeholders -->
+    <string name="placeholder_email">Email Address</string>
+    <string name="placeholder_password">Password</string>
+    <string name="placeholder_name">Full Name</string>
+    <string name="placeholder_phone_format">(+84)</string>
 </resources>

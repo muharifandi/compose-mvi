@@ -2,8 +2,11 @@
  * Created by Muh. Arifandi on 12/05/2026
  * Email : arif76440@gmail.com
  * Project : My Application
- * Module : features:bookmark
+ * Module : features:news:impl
  * File : BookmarkScreen.kt
+ *
+ * Description:
+ * Layar bookmark yang menampilkan daftar berita yang telah disimpan oleh pengguna.
  */
 
 package com.muh.arifandi.dicoding.features.news.ui.bookmark

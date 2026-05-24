@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : Theme.kt
+ *
+ * Description:
+ * Konfigurasi tema utama untuk Saka Design System, termasuk skema warna dan tipografi.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.designsystem.theme
 
 import android.os.Build
@@ -98,7 +109,8 @@ fun MyApplicationTheme(
 
     CompositionLocalProvider(
         LocalSakaColors provides customColors,
-        LocalSakaTypography provides SakaTypographyStyles
+        LocalSakaTypography provides SakaTypographyStyles,
+        LocalSakaDimens provides rememberSakaDimens()
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
@@ -111,4 +123,5 @@ fun MyApplicationTheme(
 object SakaTheme {
     val colors: SakaColors @Composable get() = LocalSakaColors.current
     val typography: SakaTypography @Composable get() = LocalSakaTypography.current
+    val dimens: SakaDimens @Composable get() = LocalSakaDimens.current
 }

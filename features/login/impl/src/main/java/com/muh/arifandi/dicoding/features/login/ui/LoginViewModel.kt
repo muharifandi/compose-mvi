@@ -12,6 +12,21 @@ class LoginViewModel @Inject constructor() :
     override fun processIntent(intent: LoginIntent) {
         when (intent) {
             is LoginIntent.LoadInitialData -> { /* Logic */ }
+            is LoginIntent.EmailChanged -> {
+                setState { copy(email = intent.value) }
+            }
+            is LoginIntent.PasswordChanged -> {
+                setState { copy(password = intent.value) }
+            }
+            is LoginIntent.Submit -> {
+                // Handle Login logic
+            }
+            is LoginIntent.NavigateToRegister -> {
+                sendEffect { LoginEffect.NavigateToRegister }
+            }
+            is LoginIntent.NavigateToForgotPassword -> {
+                sendEffect { LoginEffect.NavigateToForgotPassword }
+            }
         }
     }
 }

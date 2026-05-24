@@ -9,6 +9,8 @@ android {
 
 dependencies {
     implementation(project(":features:login:api"))
+    implementation(project(":features:register:api"))
+    implementation(project(":features:forgotpassword:api"))
     implementation(project(":core:architecture"))
     implementation(project(":core:ui"))
     implementation(project(":core:network"))

@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:architecture
+ * File : FeatureApi.kt
+ *
+ * Description:
+ * Interface yang harus diimplementasikan oleh setiap modul fitur untuk mendaftarkan rute navigasinya.
+ */
+
 package com.muh.arifandi.dicoding.core.architecture.navigation
 
 import androidx.navigation.NavGraphBuilder

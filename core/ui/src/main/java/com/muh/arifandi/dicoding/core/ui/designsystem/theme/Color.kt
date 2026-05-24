@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : Color.kt
+ *
+ * Description:
+ * Definisi palet warna untuk Saka Design System.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.designsystem.theme
 
 import androidx.compose.ui.graphics.Color

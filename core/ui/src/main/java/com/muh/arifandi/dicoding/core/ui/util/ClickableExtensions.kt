@@ -1,3 +1,14 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : ClickableExtensions.kt
+ *
+ * Description:
+ * Extension function untuk menangani klik yang di-debounce guna mencegah klik ganda.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.util
 
 import androidx.compose.foundation.clickable

@@ -1,15 +1,19 @@
+/**
+ * Created by Muh. Arifandi on 12/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui
+ * File : Typography.kt
+ *
+ * Description:
+ * Data class untuk mendefinisikan skala tipografi dalam Saka Design System.
+ */
+
 package com.muh.arifandi.dicoding.core.ui.designsystem.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
-
-/**
- * Created by Muh. Arifandi on 06/05/26.
- * Email : arif76440@gmail.com
- * Project: My Application
- * File: Typography
- */
 @Immutable
 data class SakaTypography(
     val title1: TextStyle,

@@ -4,6 +4,9 @@
  * Project : My Application
  * Module : core:model
  * File : Article.kt
+ *
+ * Description:
+ * Data class yang merepresentasikan entitas Berita (Article) dalam aplikasi.
  */
 
 package com.muh.arifandi.dicoding.core.model
