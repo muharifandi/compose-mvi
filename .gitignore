@@ -45,3 +45,4 @@ Thumbs.db
 
 # Baseline Profile
 /baselineprofile/build/
+.idea/planningMode.xml
