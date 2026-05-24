@@ -1,237 +1,184 @@
 # Saka Design System - UI Component Guide
 
-Dokumen ini adalah katalog resmi dan panduan penggunaan seluruh komponen UI yang tersedia di modul `:core:ui`. Komponen ini dirancang untuk memastikan konsistensi visual dan aksesibilitas di seluruh aplikasi **SakaAndroid**.
-
-## Daftar Isi
-1. [Prinsip Design System](#prinsip-design-system)
-2. [Fondasi & Tema](#1-fondasi--tema)
-3. [Tombol (SakaButton)](#2-tombol-sakabutton)
-4. [Input Teks (SakaTextField)](#3-input-teks-sakatextfield)
-5. [Navigasi Atas (TopAppBar & NavigationBar)](#4-navigasi-atas-topappbar--navigationbar)
-6. [Navigasi Utama (TabBar & ModalDrawer)](#5-navigasi-utama-tabbar--modaldrawer)
-7. [Kontainer (SakaCard & SakaNewsCard)](#6-kontainer-sakacard--sakanewscard)
-8. [Kontrol (SakaSwitch)](#7-kontrol-sakaswitch)
-9. [Feedback States (Loading, Error, Empty)](#8-feedback-states-loading-error-empty)
-10. [Media & Pencarian (AsyncImage & SearchBar)](#9-media--pencarian-asyncimage--searchbar)
-11. [Label & Badge (SakaTextLabel)](#10-label--badge-sakatextlabel)
-
----
-
-## Prinsip Design System
-
-### A. Dark Mode Support
-Semua komponen di `:core:ui` wajib mendukung **Dark Mode**. Gunakan warna dari `SakaTheme.colors` agar dapat berubah secara otomatis. Hindari penggunaan `Color.White` secara hardcoded.
-
-### B. Aksesibilitas (Accessibility)
-UI harus inklusif bagi semua pengguna:
-- **Content Description:** Wajib untuk Image/Icon fungsional.
-- **Minimum Touch Target:** Pastikan area klik minimal 48x48dp.
-
-### C. Spasi (Spacing)
-Gunakan sistem kelipatan 4dp/8dp untuk margin dan padding. Gunakan konstanta dari modul `:core:ui` jika tersedia.
+Dokumen ini adalah katalog resmi dan panduan penggunaan seluruh komponen UI yang tersedia di modul `:core:ui`. Komponen ini dirancang untuk memastikan konsistensi visual, aksesibilitas, dan skalabilitas di seluruh aplikasi **SakaAndroid**.
 
 ---
 
 ## 1. Fondasi & Tema
 Seluruh komponen menggunakan identitas visual **Saka**.
 - **Warna**: `SakaTheme.colors` (Primary, Neutral, Semantic).
-- **Tipografi**: Font **Poppins** via `SakaTheme.typography`.
+- **Tipografi**: Font **Poppins** melalui `SakaTheme.typography`.
 
 ---
 
-## 2. Tombol (SakaButton)
-Komponen tombol tunggal yang mendukung berbagai tipe melalui parameter `type`.
+## 2. Perbankan (SakaCreditCard)
+Komponen kartu kredit premium yang mendukung masking data sensitif dan latar belakang fleksibel (URL atau Drawable).
 
-### `SakaButton`
+### Properti
 | Properti | Tipe | Deskripsi |
 | :--- | :--- | :--- |
-| `type` | `SakaButtonType` | `PRIMARY`, `ERROR`, `NEUTRAL`, `ICON`, `LINK`. |
+| `holderName` | `String` | Nama pemilik kartu (di-mask jika `isVisible` false). |
+| `cardType` | `String` | Kategori kartu (contoh: "Visa Gold", "Platinum"). |
+| `cardNumber` | `String` | Nomor kartu 16 digit (di-mask jika `isVisible` false). |
+| `balance` | `String` | Saldo tersedia (di-mask jika `isVisible` false). |
+| `gradientColors` | `List<Color>` | Warna fallback jika `backgroundModel` null. |
+| `isVisible` | `Boolean` | Status visibilitas data sensitif. |
+| `onToggleVisibility` | `() -> Unit` | Callback saat ikon mata diklik. |
+| `backgroundModel` | `Any?` | Sumber gambar (URL String, Drawable ID, atau File). |
+| `modifier` | `Modifier` | Pengaturan layout (size, padding, dll). |
+
+### Contoh Penggunaan
+```kotlin
+SakaCreditCard(
+    holderName = "John Smith",
+    cardType = "Amazon Platinum",
+    cardNumber = "4756 1234 5678 9018",
+    balance = "$3,469.52",
+    isVisible = isVisible,
+    onToggleVisibility = { isVisible = !isVisible },
+    backgroundModel = R.drawable.ic_card_bg
+)
+```
+
+---
+
+## 3. Tombol (SakaButton)
+Komponen tombol tunggal yang mendukung berbagai tipe melalui parameter `type`.
+
+### Properti
+| Properti | Tipe | Deskripsi |
+| :--- | :--- | :--- |
 | `text` | `String?` | Label tombol. |
+| `onClick` | `() -> Unit` | Aksi saat tombol diklik. |
+| `type` | `SakaButtonType` | `PRIMARY`, `ERROR`, `NEUTRAL`, `ICON`, `LINK`. |
 | `icon` | `ImageVector?` | Ikon (khusus tipe `ICON`). |
 | `isLoading` | `Boolean` | Menampilkan loader (khusus tipe `PRIMARY`). |
+| `enabled` | `Boolean` | Status aktif tombol (Default: true). |
 
-**Contoh Kode:**
+### Contoh Penggunaan
 ```kotlin
-// Tombol Utama
-SakaButton(type = SakaButtonType.PRIMARY, text = "Sign In", onClick = { })
-
-// Tombol Loading
-SakaButton(type = SakaButtonType.PRIMARY, text = "Sign In", isLoading = true, onClick = { })
-
-// Tombol Bahaya (Merah)
-SakaButton(type = SakaButtonType.ERROR, text = "Delete Account", onClick = { })
-
-// Tombol Ikon (Lingkaran)
-SakaButton(type = SakaButtonType.ICON, icon = Icons.Default.Add, onClick = { })
+SakaButton(
+    text = "Sign In",
+    onClick = { /* login action */ },
+    type = SakaButtonType.PRIMARY,
+    isLoading = false
+)
 ```
 
 ---
 
-## 3. Input Teks (SakaTextField)
-Tersedia dalam berbagai varian untuk kebutuhan form yang berbeda.
+## 4. Input Teks (SakaTextField)
+Tersedia dalam berbagai varian (Base, Password, Currency) untuk kebutuhan form.
 
-### `SakaTextField` (Base)
-Mendukung label, asterisk (*), dan pesan error.
+### Properti
+| Properti | Tipe | Deskripsi |
+| :--- | :--- | :--- |
+| `value` | `String` | Nilai teks input. |
+| `onValueChange` | `(String) -> Unit` | Callback saat teks berubah. |
+| `label` | `String` | Label di atas input. |
+| `placeholder` | `String` | Teks bantuan di dalam input. |
+| `isError` | `Boolean` | Menampilkan status error (merah). |
+| `errorMessage` | `String?` | Pesan error di bawah input. |
+| `isRequired` | `Boolean` | Menampilkan tanda bintang (*). |
+
+### Contoh Penggunaan
 ```kotlin
 SakaTextField(
-    value = text,
-    onValueChange = { text = it },
+    value = username,
+    onValueChange = { username = it },
     label = "Username",
-    isRequired = true,
-    isError = text.isEmpty(),
-    errorMessage = "Wajib diisi"
+    isRequired = true
 )
-```
-
-### `SakaPasswordField`
-Input password dengan toggle mata otomatis serta dukungan validasi error.
-```kotlin
-SakaPasswordField(
-    value = pass, 
-    onValueChange = { pass = it }, 
-    label = "Password",
-    isError = pass.length < 8,
-    errorMessage = "Password minimal 8 karakter"
-)
-```
-
-### `SakaCurrencyField`
-Input dengan suffix mata uang dan garis pemisah.
-```kotlin
-SakaCurrencyField(value = amt, onValueChange = { amt = it }, label = "Amount", currency = "USD")
 ```
 
 ---
 
-## 4. Navigasi Atas (TopAppBar & NavigationBar)
+## 5. Navigasi (TopAppBar, NavigationBar & TabBar)
 
 ### `SakaTopAppBar`
-Header standar untuk layar fitur.
-```kotlin
-SakaTopAppBar(title = "Detail News", onBackClick = { navigator.back() })
-```
+Header standar untuk layar fitur utama.
+- **Properti**: `title` (String), `onBackClick` (Unit), `actions` (RowScope).
 
 ### `SakaNavigationBar`
 Header khusus alur login/onboarding dengan judul rata kiri.
-```kotlin
-SakaNavigationBar(title = "Forgot password", onBackClick = { })
-```
-
----
-
-## 5. Navigasi Utama (TabBar & ModalDrawer)
+- **Properti**: `title` (String), `onBackClick` (Unit), `backgroundColor` (Color).
 
 ### `SakaTabBar`
-Tab bar bawah dinamis dengan animasi smooth. Otomatis bisa di-scroll jika item > 4.
-```kotlin
-SakaTabBar(
-    items = listOf(SakaTabItem("Home", Icons.Default.Home), ...),
-    selectedIndex = activeIndex,
-    onItemSelected = { activeIndex = it }
-)
-```
-
-### `SakaModalDrawer`
-Drawer samping yang bisa muncul dari `LEFT` atau `RIGHT`.
-```kotlin
-SakaModalDrawer(
-    side = SakaDrawerSide.RIGHT,
-    drawerState = state,
-    drawerContent = {
-        SakaDrawerItem(label = "Profile", icon = Icons.Default.Person, isSelected = true, onClick = { })
-    }
-) {
-    // Content
-}
-```
+Tab bar bawah dinamis dengan animasi transisi halus.
+- **Properti**: `items` (List<SakaTabItem>), `selectedIndex` (Int), `onItemSelected` (Unit).
 
 ---
 
-## 6. Kontainer (SakaCard & SakaNewsCard)
+## 6. Kontainer (SakaCard, SakaScaffold & SakaModalDrawer)
 
 ### `SakaCard`
-Base container dengan bayangan (shadow) Figma-compliant.
-```kotlin
-SakaCard(isSmallShadow = false) {
-    Text("Konten di dalam kartu")
-}
-```
+Base container dengan sistem bayangan (*shadow*) kustom Saka.
+- **Properti**: `isSmallShadow` (Boolean), `shape` (Shape), `backgroundColor` (Color).
 
-### `SakaNewsCard`
-Komponen kartu siap pakai untuk daftar item berita.
-```kotlin
-SakaNewsCard(
-    title = "Judul Berita",
-    imageUrl = "https://...",
-    description = "Ringkasan berita...",
-    onClick = { }
-)
-```
+### `SakaScaffold`
+Struktur layar utama yang menangani insets sistem (status bar & navigation bar) secara otomatis.
+- **Properti**: `topBar`, `bottomBar`, `floatingActionButton`, `applyNavigationPadding` (Boolean).
+
+### `SakaModalDrawer`
+Drawer navigasi samping yang mendukung orientasi dari kiri atau kanan.
+- **Properti**: `side` (SakaDrawerSide), `drawerState` (DrawerState), `drawerContent` (Composable).
 
 ---
 
-## 7. Kontrol (SakaSwitch)
+## 7. Kontrol (SakaSwitch & SakaCheckbox)
 
 ### `SakaSwitch`
-Tombol geser modern dengan animasi warna.
+Tombol geser modern untuk pengaturan status On/Off.
 ```kotlin
 SakaSwitch(checked = isEnabled, onCheckedChange = { isEnabled = it })
+```
+
+### `SakaCheckbox`
+Input pilihan centang standar.
+```kotlin
+SakaCheckbox(checked = isSelected, onCheckedChange = { isSelected = it })
 ```
 
 ---
 
 ## 8. Feedback States (Loading, Error, Empty)
+Komponen standar untuk menangani berbagai kondisi state layar.
 
-### `SakaLoadingView`
-```kotlin
-SakaLoadingView(message = "Memuat data...")
-```
-
-### `SakaErrorView`
-```kotlin
-SakaErrorView(message = "Koneksi gagal", onRetry = { fetchData() })
-```
-
-### `SakaEmptyView`
-```kotlin
-SakaEmptyView(message = "Tidak ada riwayat transaksi")
-```
+- **`SakaLoadingView(message: String)`**: Menampilkan animasi pemuatan.
+- **`SakaErrorView(message: String, onRetry: () -> Unit)`**: Menampilkan pesan error dan tombol coba lagi.
+- **`SakaEmptyView(message: String)`**: Menampilkan ilustrasi saat data kosong.
 
 ---
 
 ## 9. Media & Pencarian (AsyncImage & SearchBar)
 
 ### `SakaAsyncImage`
-Pemuatan gambar asinkron yang dioptimalkan dengan Coil.
-```kotlin
-SakaAsyncImage(model = "url_gambar", modifier = Modifier.size(100.dp))
-```
+Pemuatan gambar asinkron Coil dengan dukungan URL, Drawable, dan File.
+- **Properti**: `model` (Any), `contentScale`, `crossfade` (Boolean), `showPlaceholder` (Boolean).
 
 ### `SakaSearchBar`
-Input pencarian terintegrasi untuk header list.
-```kotlin
-SakaSearchBar(onSearch = { query -> /* Filter list */ })
-```
+Input pencarian terintegrasi dengan state internal otomatis.
+- **Properti**: `onSearch` (String -> Unit), `placeholder` (String).
 
 ---
 
-## 10. Label & Badge (SakaTextLabel)
+## 10. Label & Status (SakaTextLabel)
 
 ### `SakaTextLabel`
-Komponen label status atau tag kustom dengan berbagai varian warna.
-| Properti | Tipe | Deskripsi |
-| :--- | :--- | :--- |
-| `text` | `String` | Teks yang ditampilkan. |
-| `variant` | `SakaTextLabelVariant` | `PRIMARY`, `SUCCESS`, `WARNING`, `ERROR`, `INFO`, `NEUTRAL`. |
+Komponen label status/tag dengan varian warna semantik.
+- **Varian**: `PRIMARY`, `SUCCESS`, `WARNING`, `ERROR`, `INFO`, `NEUTRAL`.
+- **Contoh**: `SakaTextLabel(text = "Completed", variant = SakaTextLabelVariant.SUCCESS)`
 
-**Contoh Kode:**
-```kotlin
-// Label Success
-SakaTextLabel(text = "Lunas", variant = SakaTextLabelVariant.SUCCESS)
+---
 
-// Label Error
-SakaTextLabel(text = "Gagal", variant = SakaTextLabelVariant.ERROR)
-```
+## 11. Tata Letak (SakaResponsiveLayout & MasterMenuGridItem)
+
+### `SakaResponsiveLayout`
+Komponen pembantu untuk menangani perubahan layout otomatis berdasarkan ukuran layar (Phone vs Tablet).
+
+### `MasterMenuGridItem`
+Item menu dashboard dengan ukuran tetap **80x80dp** untuk visualisasi tanpa scroll.
+- **Properti**: `item` (MasterMenuItem), `modifier` (Modifier).
 
 ---
 

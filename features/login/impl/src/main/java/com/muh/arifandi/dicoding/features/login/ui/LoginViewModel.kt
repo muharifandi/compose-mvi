@@ -1,8 +1,11 @@
 package com.muh.arifandi.dicoding.features.login.ui
 
+import androidx.lifecycle.viewModelScope
 import com.muh.arifandi.dicoding.core.architecture.mvi.BaseViewModel
 import com.muh.arifandi.dicoding.features.login.ui.state.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +22,13 @@ class LoginViewModel @Inject constructor() :
                 setState { copy(password = intent.value) }
             }
             is LoginIntent.Submit -> {
-                // Handle Login logic
+                viewModelScope.launch {
+                    setState { copy(isLoading = true) }
+                    // Simulasi API call
+                    delay(1000)
+                    setState { copy(isLoading = false) }
+                    sendEffect { LoginEffect.NavigateToHome }
+                }
             }
             is LoginIntent.NavigateToRegister -> {
                 sendEffect { LoginEffect.NavigateToRegister }

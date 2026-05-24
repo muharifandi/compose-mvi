@@ -75,6 +75,7 @@ dependencies {
     implementation(project(":features:login:impl"))
     implementation(project(":features:register:impl"))
     implementation(project(":features:forgotpassword:impl"))
+    implementation(project(":features:master:impl"))
     
     implementation(project(":core:ui"))
     implementation(project(":core:common"))

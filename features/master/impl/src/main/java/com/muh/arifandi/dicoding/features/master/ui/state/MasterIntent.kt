@@ -15,4 +15,5 @@ import com.muh.arifandi.dicoding.core.architecture.mvi.UiIntent
 sealed interface MasterIntent : UiIntent {
     data object LoadInitialData : MasterIntent
     data class SelectTab(val tab: MasterTab) : MasterIntent
+    data class SelectCard(val index: Int) : MasterIntent
 }

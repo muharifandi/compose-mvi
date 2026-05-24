@@ -71,12 +71,13 @@ data class LoginUiStrings(
     val forgotPassword: String,
     val signIn: String,
     val noAccount: String,
-    val signUp: String
+    val signUp: String,
 )
 
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
+    onNavigateToHome: () -> Unit,
     onNavigateToRegister: () -> Unit,
     onNavigateToForgotPassword: () -> Unit
 ) {
@@ -100,6 +101,7 @@ fun LoginScreen(
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
+                is LoginEffect.NavigateToHome -> onNavigateToHome()
                 is LoginEffect.NavigateToRegister -> onNavigateToRegister()
                 is LoginEffect.NavigateToForgotPassword -> onNavigateToForgotPassword()
             }

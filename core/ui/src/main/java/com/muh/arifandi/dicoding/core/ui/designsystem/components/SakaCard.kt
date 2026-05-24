@@ -1,46 +1,49 @@
-/**
- * Created by Muh. Arifandi on 12/05/2026
- * Email : arif76440@gmail.com
- * Project : My Application
- * Module : core:ui
- * File : SakaCard.kt
- *
- * Description:
- * Komponen Card kustom dengan dukungan bayangan (shadow) sesuai parameter Figma.
- */
-
 package com.muh.arifandi.dicoding.core.ui.designsystem.components
 
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.SakaTheme
+import com.muh.arifandi.dicoding.core.ui.designsystem.theme.MyApplicationTheme
 import com.muh.arifandi.dicoding.core.ui.util.sakaShadow
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.tooling.preview.Preview
-import com.muh.arifandi.dicoding.core.ui.designsystem.theme.MyApplicationTheme
-
 /**
- * Komponen Card kustom dengan dukungan bayangan (shadow) sesuai parameter Figma.
- * Menggunakan kustomisasi Blur, X, dan Y offset untuk tampilan elevasi yang halus.
+ * Komponen Card dasar untuk Saka Design System.
+ * Memberikan efek elevasi bayangan (shadow) yang halus dan latar belakang warna yang konsisten.
  *
- * @param modifier Modifier untuk layout.
- * @param isSmallShadow Jika true, menggunakan offset Y negatif (-5dp) untuk bayangan kecil.
- * @param shape Bentuk sudut kartu (default 12dp).
- * @param backgroundColor Warna latar belakang kartu.
- * @param content Konten yang akan diletakkan di dalam kartu.
+ * Komponen ini membungkus kontainer [Surface] dengan modifikasi bayangan kustom untuk memberikan
+ * kedalaman visual pada elemen UI.
+ *
+ * Contoh penggunaan:
+ * ```
+ * SakaCard(
+ *     modifier = Modifier.padding(16.dp),
+ *     isSmallShadow = true
+ * ) {
+ *     Text("Konten Kartu")
+ * }
+ * ```
+ *
+ * @param modifier Modifier untuk pengaturan layout (misal: padding, fillMaxWidth).
+ * @param isSmallShadow Jika true, memberikan offset bayangan yang lebih tipis/kecil.
+ * @param shape Bentuk sudut kartu (default: RoundedCornerShape 12.dp).
+ * @param backgroundColor Warna latar belakang kartu (default: NeutralWhite).
+ * @param content Konten Composable yang akan ditampilkan di dalam kartu.
+ */
+/**
+ * Created by Muh. Arifandi on 25/05/2026
+ * Email : arif76440@gmail.com
+ * Project : My Application
+ * Module : core:ui:components
+ * File : SakaCard.kt
  */
 @Composable
 fun SakaCard(

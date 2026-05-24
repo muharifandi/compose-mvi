@@ -1,16 +1,6 @@
-/**
- * Created by Muh. Arifandi on 12/05/2026
- * Email : arif76440@gmail.com
- * Project : My Application
- * Module : core:ui
- * File : SakaAsyncImage.kt
- *
- * Description:
- * Komponen Gambar Asinkron yang dioptimalkan untuk Saka Design System menggunakan Coil.
- */
-
 package com.muh.arifandi.dicoding.core.ui.designsystem.components
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Warning
@@ -19,23 +9,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-
-import androidx.compose.foundation.layout.size
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.MyApplicationTheme
 
 /**
  * Komponen Gambar Asinkron yang dioptimalkan untuk Saka Design System.
- * Menggunakan library Coil untuk manajemen caching dan pemuatan gambar yang efisien.
+ * Menggunakan library Coil untuk manajemen caching dan pemuatan gambar yang efisien dari berbagai sumber.
  *
- * @param model URL gambar atau resource data lainnya.
- * @param modifier Modifier kustom (misal: size, clip).
- * @param contentDescription Deskripsi aksesibilitas untuk gambar.
- * @param contentScale Cara gambar menyesuaikan ukuran kontainer (default: Crop).
- * @param crossfade Jika true, memberikan efek transisi halus saat gambar muncul.
+ * Komponen ini mendukung pemuatan gambar dari URL internet, Resource Drawable lokal, file, dan lainnya.
+ * Dilengkapi dengan transisi crossfade dan placeholder otomatis untuk meningkatkan pengalaman pengguna.
+ *
+ * Contoh penggunaan:
+ * ```
+ * SakaAsyncImage(
+ *     model = "https://example.com/image.jpg",
+ *     modifier = Modifier.size(100.dp),
+ *     contentScale = ContentScale.Crop
+ * )
+ * ```
+ *
+ * @param model Sumber data gambar (URL String, [android.graphics.drawable.Drawable], resource ID, dll).
+ * @param modifier Modifier kustom untuk pengaturan layout (misal: size, clip).
+ * @param contentDescription Deskripsi aksesibilitas untuk gambar (penting untuk screen reader).
+ * @param contentScale Cara gambar menyesuaikan ukuran kontainer (default: ContentScale.Crop).
+ * @param crossfade Jika true, memberikan efek transisi halus saat gambar muncul (default: true).
+ * @param showPlaceholder Jika true, menampilkan ikon placeholder saat loading atau error (default: true).
  */
 @Composable
 fun SakaAsyncImage(
