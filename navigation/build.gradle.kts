@@ -19,6 +19,7 @@ dependencies {
     api(project(":features:splash:api"))
     api(project(":features:onboarding:api"))
     api(project(":features:login:api"))
+    api(project(":features:master:api"))
 
     implementation(libs.kotlinx.serialization.json)
 }
