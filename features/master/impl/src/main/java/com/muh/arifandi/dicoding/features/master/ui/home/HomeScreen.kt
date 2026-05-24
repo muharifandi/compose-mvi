@@ -7,8 +7,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.CompareArrows
-import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -33,23 +31,15 @@ import com.muh.arifandi.dicoding.core.ui.designsystem.theme.SakaTheme
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.MyApplicationTheme
 import com.muh.arifandi.dicoding.features.master.domain.model.CreditCardInfo
 import com.muh.arifandi.dicoding.features.master.domain.model.MasterMenuItem
-import com.muh.arifandi.dicoding.features.master.ui.MasterViewModel
 import com.muh.arifandi.dicoding.features.master.ui.component.MasterMenuGridItem
-import com.muh.arifandi.dicoding.features.master.ui.state.MasterIntent
-import com.muh.arifandi.dicoding.features.master.ui.state.MasterState
+import com.muh.arifandi.dicoding.features.master.ui.home.state.*
+import com.muh.arifandi.dicoding.features.master.ui.home.viewmodel.HomeViewModel
 import androidx.compose.ui.tooling.preview.Preview
 import kotlin.math.absoluteValue
-/**
- * Created by Muh. Arifandi on 25/05/2026
- * Email : arif76440@gmail.com
- * Project : My Application
- * Module : features:master:impl
- * File : CreditCardInfo.kt
- */
 
 @Composable
 fun HomeScreen(
-    viewModel: MasterViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     HomeScreenContent(state = state, onIntent = viewModel::processIntent)
@@ -57,21 +47,19 @@ fun HomeScreen(
 
 @Composable
 private fun HomeScreenContent(
-    state: MasterState,
-    onIntent: (MasterIntent) -> Unit = {}
+    state: HomeState,
+    onIntent: (HomeIntent) -> Unit = {}
 ) {
     if (state.creditCards.isEmpty()) return
     
     val pagerState = rememberPagerState(pageCount = { state.creditCards.size })
-    var isDataVisible by remember { mutableStateOf(false) }
 
     // Sync pager state with ViewModel
     LaunchedEffect(pagerState.currentPage) {
-        onIntent(MasterIntent.SelectCard(pagerState.currentPage))
+        onIntent(HomeIntent.SelectCard(pagerState.currentPage))
     }
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-        // Explicitly using the scope properties to avoid IDE warnings
         val height = this.maxHeight
         val isSmallScreen = height < 640.dp
         
@@ -122,8 +110,8 @@ private fun HomeScreenContent(
                                 balance = card.balance,
                                 gradientColors = card.gradientColors,
                                 backgroundModel = card.backgroundRes,
-                                isVisible = isDataVisible,
-                                onToggleVisibility = { isDataVisible = !isDataVisible },
+                                isVisible = state.isDataVisible,
+                                onToggleVisibility = { onIntent(HomeIntent.ToggleDataVisibility) },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 16.dp)
@@ -248,22 +236,16 @@ private fun MenuGridSection(menuItems: List<MasterMenuItem>) {
     }
 }
 
-// Previews for scalability check
-@Preview(showBackground = true, device = "spec:width=320dp,height=480dp,dpi=320", name = "Small (4.5 inch)")
+// Previews
+@Preview(showBackground = true, device = "spec:width=320dp,height=480dp,dpi=320", name = "Small")
 @Composable
 fun HomeScreenSmallPreview() {
     PreviewContent()
 }
 
-@Preview(showBackground = true, device = "spec:width=360dp,height=640dp,dpi=480", name = "Standard (5 inch)")
+@Preview(showBackground = true, device = "spec:width=360dp,height=640dp,dpi=480", name = "Standard")
 @Composable
 fun HomeScreenStandardPreview() {
-    PreviewContent()
-}
-
-@Preview(showBackground = true, device = "spec:width=600dp,height=1024dp,dpi=240", name = "Large (7 inch)")
-@Composable
-fun HomeScreenLargePreview() {
     PreviewContent()
 }
 
@@ -272,19 +254,15 @@ private fun PreviewContent() {
     MyApplicationTheme {
         val dummyMenus = listOf(
             MasterMenuItem("Account", Icons.Default.AccountBalanceWallet, Color(0xFF5E5CE6)),
-            MasterMenuItem("Transfer", Icons.AutoMirrored.Filled.CompareArrows, Color(0xFFFF2D55)),
+            MasterMenuItem("Transfer", Icons.Default.CompareArrows, Color(0xFFFF2D55)),
             MasterMenuItem("Withdraw", Icons.Default.Atm, Color(0xFF007AFF)),
             MasterMenuItem("Mobile", Icons.Default.Smartphone, Color(0xFFFF9500)),
-            MasterMenuItem("Bills", Icons.AutoMirrored.Filled.ReceiptLong, Color(0xFF34C759)),
+            MasterMenuItem("Bills", Icons.Default.ReceiptLong, Color(0xFF34C759)),
             MasterMenuItem("Savings", Icons.Default.Savings, Color(0xFF5856D6)),
-            MasterMenuItem("Credit", Icons.Default.CreditCard, Color(0xFFFF2D55)),
-            MasterMenuItem("QR", Icons.Default.QrCodeScanner, Color(0xFF007AFF)),
-            MasterMenuItem("Top Up", Icons.Default.AddCircle, Color(0xFF34C759)),
-            MasterMenuItem("Extra", Icons.Default.History, Color(0xFF5856D6)),
         )
         
         HomeScreenContent(
-            state = MasterState(
+            state = HomeState(
                 creditCards = listOf(
                     CreditCardInfo("John Smith", "Amazon Platinium", "4756 •••• 9018", "$3,469", emptyList())
                 ),
