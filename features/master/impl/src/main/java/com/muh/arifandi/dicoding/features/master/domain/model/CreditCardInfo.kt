@@ -4,20 +4,19 @@
  * Project : My Application
  * Module : features:master:impl
  * File : CreditCardInfo.kt
+ *
+ * Description:
+ * Model data informasi kartu kredit.
+ * Diubah menjadi Pure Kotlin untuk mematuhi Clean Architecture.
  */
 
 package com.muh.arifandi.dicoding.features.master.domain.model
 
-import androidx.annotation.DrawableRes
-import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
-
-@Immutable
 data class CreditCardInfo(
     val holderName: String,
     val cardType: String,
     val cardNumber: String,
     val balance: String,
-    val gradientColors: List<Color>,
-    @DrawableRes val backgroundRes: Int? = null
+    val gradientColorsHex: List<String>, // Menggunakan Hex String
+    val backgroundRes: Int? = null
 )

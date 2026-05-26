@@ -11,7 +11,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.SakaTheme
 import com.muh.arifandi.dicoding.features.master.ui.message.state.MessageState
-import com.muh.arifandi.dicoding.features.master.ui.message.viewmodel.MessageViewModel
 
 @Composable
 fun MessageScreen(

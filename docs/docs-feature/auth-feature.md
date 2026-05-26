@@ -1,22 +1,27 @@
 # Dokumentasi Fitur - Authentication (Login & Signup)
 
-Modul ini menangani proses otentikasi pengguna untuk masuk atau mendaftar akun baru.
+Modul ini menangani proses otentikasi pengguna untuk masuk atau mendaftar akun baru menggunakan pola **Clean Architecture**.
+
+## Arsitektur Fitur
+*   **Domain**: `LoginUseCase`, `RegisterUseCase`.
+*   **Data**: `LoginRepositoryImpl`, `RegisterRepositoryImpl`.
+*   **Presentation**: `LoginViewModel`, `RegisterViewModel` (MVI).
 
 ## 1. Login Screen
 Menangani akses pengguna lama ke dalam aplikasi.
 * **Input**: Email & Password.
 * **Validasi**: Tombol aktif jika kedua field terisi.
-* **Navigasi**: Pindah ke Home jika sukses, atau ke Signup/Forgot Password.
+* **Flow**: UI -> Intent -> ViewModel -> UseCase -> Repository -> Result.
 
-### Alur Login
+### Alur Login (Interaction & Data Flow)
 ```mermaid
 graph TD
     Entry((Layar Login)) --> Input[Input Email & Password]
-    Input -- "Klik Sign In" --> Valid{Valid?}
-    Valid -- Ya --> Loading[Proses API]
-    Valid -- Tidak --> Error[Show Error]
-    Loading -- Sukses --> Home((Ke Home))
-    Loading -- Gagal --> Error
+    Input -- "Submit Intent" --> VM[LoginViewModel]
+    VM -- "Invoke" --> UC[LoginUseCase]
+    UC -- "Call" --> Repo[LoginRepository]
+    Repo -- "Result success/failure" --> VM
+    VM -- "Send Effect" --> Home((Navigate to Home))
     
     Entry -- "Klik Sign Up" --> RegisterFlow((Ke Signup))
     Entry -- "Klik Forgot Password" --> ForgotFlow((Ke Forgot Password))
@@ -30,13 +35,17 @@ Menangani pendaftaran akun pengguna baru.
 * **Syarat**: Centang Syarat & Ketentuan (Terms & Conditions).
 * **Validasi**: Tombol aktif jika data lengkap & T&C dicentang.
 
-### Alur Signup
+### Alur Signup (Data Flow)
 ```mermaid
 graph TD
     Entry((Layar Register)) --> Form[Input Nama, Email, Password]
     Form --> TC[Centang Syarat & Ketentuan]
-    TC -- "Klik Sign Up" --> Check{Valid & Agreed?}
-    Check -- Ya --> API[Proses Pendaftaran]
-    Check -- Tidak --> Wait[Tombol Disabled]
-    API -- Sukses --> Login((Ke Login))
+    TC -- "Submit Intent" --> VM[RegisterViewModel]
+    VM -- "Invoke" --> UC[RegisterUseCase]
+    UC -- "Result" --> VM
+    VM -- "Navigate Effect" --> Login((Ke Layar Login))
 ```
+
+## Pengiriman Data & Keamanan
+*   Semua data otentikasi dikirim melalui `Result<Unit>` untuk penanganan error yang aman.
+*   Password tidak pernah disimpan secara plain text di layer data.

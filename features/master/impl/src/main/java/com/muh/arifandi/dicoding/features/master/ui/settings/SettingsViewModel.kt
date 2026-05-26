@@ -1,7 +1,9 @@
-package com.muh.arifandi.dicoding.features.master.ui.settings.viewmodel
+package com.muh.arifandi.dicoding.features.master.ui.settings
 
 import com.muh.arifandi.dicoding.core.architecture.mvi.BaseViewModel
-import com.muh.arifandi.dicoding.features.master.ui.settings.state.*
+import com.muh.arifandi.dicoding.features.master.ui.settings.state.SettingsEffect
+import com.muh.arifandi.dicoding.features.master.ui.settings.state.SettingsIntent
+import com.muh.arifandi.dicoding.features.master.ui.settings.state.SettingsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

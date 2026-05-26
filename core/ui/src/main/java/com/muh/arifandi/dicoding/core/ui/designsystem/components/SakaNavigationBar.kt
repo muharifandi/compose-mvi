@@ -49,7 +49,8 @@ fun SakaNavigationBar(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.Transparent,
-    contentColor: Color = SakaTheme.colors.neutralDark
+    contentColor: Color = SakaTheme.colors.neutralDark,
+    showIcon: Boolean = true
 ) {
     Surface(
         color = backgroundColor,
@@ -63,15 +64,17 @@ fun SakaNavigationBar(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            IconButton(
-                onClick = onBackClick,
-                modifier = Modifier.padding(start = 4.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = "Back",
-                    tint = contentColor
-                )
+            if (showIcon){
+                IconButton(
+                    onClick = onBackClick,
+                    modifier = Modifier.padding(start = 4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = "Back",
+                        tint = contentColor
+                    )
+                }
             }
             Text(
                 text = title,

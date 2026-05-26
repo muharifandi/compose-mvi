@@ -4,18 +4,16 @@
  * Project : My Application
  * Module : features:master:impl
  * File : MasterMenuItem.kt
- *
- * Description:
- * Model data untuk item menu yang ditampilkan di grid dashboard Master.
  */
 
 package com.muh.arifandi.dicoding.features.master.domain.model
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+enum class MenuType {
+    ACCOUNT, TRANSFER, WITHDRAW, MOBILE, BILLS, SAVINGS, CREDIT, QR, TOP_UP, MORE
+}
 
 data class MasterMenuItem(
+    val type: MenuType,
     val title: String,
-    val icon: ImageVector,
-    val color: Color
+    val colorHex: String
 )

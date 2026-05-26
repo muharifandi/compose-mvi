@@ -1,27 +1,34 @@
 # Dokumentasi Fitur - Onboarding
 
-Fitur ini menangani perkenalan aplikasi kepada pengguna baru melalui serangkaian slide informatif.
+Fitur ini menangani perkenalan aplikasi kepada pengguna baru melalui serangkaian slide informatif dengan arsitektur yang terdekopel.
+
+## Arsitektur (Clean MVI)
+* **UseCase**: `GetOnboardingPagesUseCase` (Mengambil data slide dari repository).
+* **State**: `OnboardingState` (items: List<OnboardingPage>, currentPage).
+* **ViewModel**: `OnboardingViewModel` (Mengambil data saat init melalui UseCase).
 
 ## Deskripsi Fungsional
-* Menampilkan informasi keunggulan aplikasi.
+* Menampilkan informasi keunggulan aplikasi secara dinamis.
 * Mendukung navigasi swipe manual (HorizontalPager) atau tombol "Next".
-* Menyimpan status "Onboarding Completed" (opsional) untuk mencegah pengulangan.
-
-## Arsitektur UI (MVI)
-* **State**: `OnboardingState` (items, currentPage, isLastPage).
-* **Intent**: `OnboardingIntent` (NextPage, GetStarted).
-* **Effect**: `OnboardingEffect` (NavigateToLogin).
+* Menggunakan data model `OnboardingPage` yang didefinisikan di layer domain.
 
 ## Visualisasi Alur (Interaction Graph)
 ```mermaid
 graph TD
-    Start((Mulai)) --> Page1[Slide 1: Kelola Saldo]
-    Page1 -- Swipe/Next --> Page2[Slide 2: Transfer Aman]
-    Page2 -- Swipe/Next --> Page3[Slide 3: Investasi Masa Depan]
-    Page3 -- "Mulai (Get Started)" --> LoginFlow{{Navigasi ke Login}}
+    Start((Mulai)) --> UC[GetOnboardingPagesUseCase]
+    UC --> Repo[OnboardingRepository]
+    Repo -- "List<Page>" --> VM[OnboardingViewModel]
+    VM -- "Update State" --> UI[OnboardingScreen]
     
-    subgraph UI_Interaction [Interaksi Per Halaman]
-        P[Pager] --> Content[Gambar + Judul + Deskripsi]
-        Content --> Button[Tombol Dinamis: Next/Mulai]
+    UI --> Page1[Slide 1]
+    Page1 -- Next --> Page2[Slide 2]
+    Page2 -- Next --> Page3[Slide 3]
+    Page3 -- "Get Started" --> LoginFlow{{Navigasi ke Login}}
+    
+    subgraph UI_Interaction [Komponen UI]
+        P[HorizontalPager] --> Content[SakaAsyncImage + Text]
     end
 ```
+
+## Konfigurasi Data
+Data onboarding dapat diubah secara terpusat di `OnboardingRepositoryImpl.kt` tanpa menyentuh layer UI.

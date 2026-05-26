@@ -11,7 +11,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.SakaTheme
 import com.muh.arifandi.dicoding.features.master.ui.settings.state.SettingsState
-import com.muh.arifandi.dicoding.features.master.ui.settings.viewmodel.SettingsViewModel
 
 @Composable
 fun SettingsScreen(

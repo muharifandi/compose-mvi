@@ -1,5 +1,13 @@
+/**
+ * Created by Muh. Arifandi on 25/05/2026
+ * Email : arif76440@gmail.com
+ * Project : SakaAndroid
+ * File : MasterMenuGridItem.kt
+ */
+
 package com.muh.arifandi.dicoding.features.master.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -7,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -15,29 +24,25 @@ import androidx.compose.ui.unit.sp
 import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaCard
 import com.muh.arifandi.dicoding.core.ui.designsystem.theme.SakaTheme
 import com.muh.arifandi.dicoding.features.master.domain.model.MasterMenuItem
+import com.muh.arifandi.dicoding.features.master.ui.mapper.toComposeColor
+import com.muh.arifandi.dicoding.features.master.ui.mapper.toIcon
 
-/**
- * Komponen item grid menu untuk layar utama Fitur Master.
- * Menampilkan ikon di dalam kartu putih statis dengan teks label di bawahnya.
- *
- * Komponen ini dirancang untuk bekerja di dalam grid (misal: 3 kolom) dan secara otomatis
- * menyesuaikan orientasi kontennya agar tetap terpusat.
- *
- * @param item Data model [MasterMenuItem] yang berisi judul, ikon, dan warna tema menu.
- * @param modifier Modifier untuk pengaturan layout tambahan dari luar grid.
- */
 @Composable
 fun MasterMenuGridItem(
     item: MasterMenuItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .clickable { onClick() },
     ) {
         SakaCard(
             modifier = Modifier
-                .size(80.dp), // Ukuran standar untuk grid 3-kolom agar muat tanpa scroll
+                .size(80.dp),
             shape = RoundedCornerShape(16.dp),
             backgroundColor = Color.White,
             isSmallShadow = false
@@ -47,9 +52,9 @@ fun MasterMenuGridItem(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = item.icon,
+                    imageVector = item.type.toIcon(),
                     contentDescription = item.title,
-                    tint = item.color,
+                    tint = item.colorHex.toComposeColor(),
                     modifier = Modifier.size(28.dp)
                 )
             }

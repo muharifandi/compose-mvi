@@ -5,12 +5,17 @@ Fitur **Master** berfungsi sebagai container utama aplikasi setelah pengguna ber
 
 Layar ini dirancang untuk memberikan pengalaman "Dashboard Satu Halaman" tanpa scroll (*Zero-Scroll*) dengan interaksi tumpukan kartu vertikal yang modern.
 
-## Arsitektur (MVI)
+## Arsitektur (MVI + Clean Architecture)
 Fitur ini mengikuti pola arsitektur **MVI (Model-View-Intent)** yang terintegrasi dengan **Clean Architecture**:
-- **UI State**: `MasterState` mengelola status navigasi (`selectedTab`), daftar kartu, item menu, dan status interaksi.
-- **Intent**: `MasterIntent` menangani aksi pengguna seperti perpindahan tab atau pemilihan kartu.
-- **ViewModel**: `MasterViewModel` mengelola logika bisnis dan sinkronisasi data antar komponen.
-- **Effect**: `MasterEffect` menangani event satu kali seperti pesan error.
+- **Presentation Layer**: 
+    - `MasterViewModel` & `HomeViewModel`: Mengelola state UI menggunakan StateFlow.
+    - `MasterState` & `HomeState`: Model data immutable untuk UI.
+- **Domain Layer (Pure Kotlin)**:
+    - `GetCreditCardsUseCase`: Mengambil daftar kartu kredit.
+    - `GetMenuItemsUseCase`: Mengambil daftar menu berdasarkan kartu yang dipilih.
+    - `MasterRepository`: Interface kontrak data.
+- **Data Layer**:
+    - `MasterRepositoryImpl`: Implementasi pengambilan data (saat ini simulasi, siap dihubungkan ke API/Room).
 
 ## Komponen Utama & Cara Kerja
 
@@ -29,7 +34,58 @@ Grid menu yang menampilkan akses cepat ke layanan aplikasi.
 - Menyediakan navigasi Bottom Bar dengan 4 menu: Home, Search, Message, dan Settings.
 - Menggunakan `SakaTabBar` dengan animasi transisi yang halus.
 
-## Visualisasi Alur (Interaction Graph)
+## Panduan Pengembang: Menambah Menu Baru
+
+Jika Anda membuat fitur baru (misal: "QR Scanner") dan ingin menampilkannya di Dashboard Master, ikuti langkah-langkah berikut:
+
+### 1. Daftarkan Menu di Repository
+Buka `MasterRepositoryImpl.kt` di layer data dan tambahkan item ke dalam list `primaryMenus`:
+```kotlin
+MasterMenuItem(MenuType.QR, "QR Scanner", "#007AFF")
+```
+
+### 2. Definisikan Callback di Screen
+Buka `MasterScreen.kt` dan `HomeScreen.kt`, tambahkan parameter callback navigasi:
+```kotlin
+@Composable
+fun MasterScreen(
+    onNavigateToQr: () -> Unit, // Tambahkan ini
+    // ...
+)
+```
+
+### 3. Tangani Klik di UI
+Di dalam `HomeScreen.kt`, pada bagian `MenuGridSection`, teruskan aksi klik:
+```kotlin
+MasterMenuGridItem(
+    item = item,
+    onClick = {
+        when(item.type) {
+            MenuType.QR -> onNavigateToQr()
+            // ...
+        }
+    }
+)
+```
+
+## Visualisasi Alur (Clean Architecture Flow)
+```mermaid
+graph LR
+    UI[MasterScreen] -- Intent --> VM[MasterViewModel]
+    VM -- Invoke --> UC[UseCases]
+    UC -- Request --> Repo[MasterRepository]
+    Repo -- Return Flow --> VM
+    VM -- Update State --> UI
+    
+    subgraph Layers
+        direction TB
+        UI_L[Presentation Layer]
+        DO_L[Domain Layer]
+        DA_L[Data Layer]
+    end
+```
+
+## Visualisasi Interaksi (Navigation Graph)
 ```mermaid
 graph TD
     Entry((Layar Master)) --> TabSelection{Pilih Tab}
@@ -49,6 +105,3 @@ graph TD
 - **Horizontal Padding**: Konsisten **16dp** dari tepi perangkat.
 - **Spacing**: Jarak antara Carousel dan Menu Grid dikunci pada **8dp-16dp** untuk menjaga kepadatan informasi.
 - **Warna**: Menggunakan skema warna `PrimaryBase` (`0xFF2D229E`) untuk header dan `NeutralWhite` untuk kontainer konten.
-
-## Panduan Pengembang
-Untuk memodifikasi data yang tampil di layar ini, silakan perbarui fungsi `getInitialCards()` dan `getPrimaryMenus()` di dalam `MasterViewModel.kt`. Komponen visual kartu dikelola secara terpusat di modul `:core:ui` sebagai `SakaCreditCard`.

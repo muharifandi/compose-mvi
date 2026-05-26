@@ -1,3 +1,9 @@
+/**
+ * Created by Muh. Arifandi on 25/05/26.
+ * Email : arif76440@gmail.com
+ * Project: SakaAndroid
+ * File: MessageState
+ */
 package com.muh.arifandi.dicoding.features.master.ui.message.state
 
 import androidx.compose.runtime.Immutable

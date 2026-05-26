@@ -33,7 +33,7 @@ import com.muh.arifandi.dicoding.features.master.domain.model.CreditCardInfo
 import com.muh.arifandi.dicoding.features.master.domain.model.MasterMenuItem
 import com.muh.arifandi.dicoding.features.master.ui.component.MasterMenuGridItem
 import com.muh.arifandi.dicoding.features.master.ui.home.state.*
-import com.muh.arifandi.dicoding.features.master.ui.home.viewmodel.HomeViewModel
+import com.muh.arifandi.dicoding.features.master.ui.mapper.toComposeColor
 import androidx.compose.ui.tooling.preview.Preview
 import kotlin.math.absoluteValue
 
@@ -108,7 +108,7 @@ private fun HomeScreenContent(
                                 cardType = card.cardType,
                                 cardNumber = card.cardNumber,
                                 balance = card.balance,
-                                gradientColors = card.gradientColors,
+                                gradientColors = card.gradientColorsHex.map { it.toComposeColor() },
                                 backgroundModel = card.backgroundRes,
                                 isVisible = state.isDataVisible,
                                 onToggleVisibility = { onIntent(HomeIntent.ToggleDataVisibility) },
@@ -225,7 +225,9 @@ private fun MenuGridSection(menuItems: List<MasterMenuItem>) {
             ) {
                 rowItems.forEach { item ->
                     Box(modifier = Modifier.width(100.dp)) {
-                        MasterMenuGridItem(item = item)
+                        MasterMenuGridItem(item = item,   onClick = {
+
+                        })
                     }
                 }
                 repeat(3 - rowItems.size) {
@@ -237,11 +239,11 @@ private fun MenuGridSection(menuItems: List<MasterMenuItem>) {
 }
 
 // Previews
-@Preview(showBackground = true, device = "spec:width=320dp,height=480dp,dpi=320", name = "Small")
-@Composable
-fun HomeScreenSmallPreview() {
-    PreviewContent()
-}
+//@Preview(showBackground = true, device = "spec:width=320dp,height=480dp,dpi=320", name = "Small")
+//@Composable
+//fun HomeScreenSmallPreview() {
+//    PreviewContent()
+//}
 
 @Preview(showBackground = true, device = "spec:width=360dp,height=640dp,dpi=480", name = "Standard")
 @Composable
