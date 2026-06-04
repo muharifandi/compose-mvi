@@ -14,12 +14,9 @@ android {
 }
 
 dependencies {
-    api(project(":features:news:api"))
-    api(project(":features:about:api"))
     api(project(":features:splash:api"))
-    api(project(":features:onboarding:api"))
     api(project(":features:login:api"))
-    api(project(":features:master:api"))
+    api(project(":features:register:api"))
 
     implementation(libs.kotlinx.serialization.json)
 }

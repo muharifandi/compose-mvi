@@ -71,14 +71,8 @@ android {
 dependencies {
     baselineProfile(project(":baselineprofile"))
     implementation(project(":features:splash:impl"))
-    implementation(project(":features:about:impl"))
-    implementation(project(":features:news:impl"))
-    implementation(project(":features:onboarding:impl"))
     implementation(project(":features:login:impl"))
     implementation(project(":features:register:impl"))
-    implementation(project(":features:forgotpassword:impl"))
-    implementation(project(":features:master:impl"))
-    implementation(project(":features:transfer:impl"))
     
     implementation(project(":core:ui"))
     implementation(project(":core:common"))

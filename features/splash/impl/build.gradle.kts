@@ -1,5 +1,6 @@
 plugins {
     id("myapp.android.feature")
+    id("myapp.android.hilt")
 }
 
 android {
@@ -8,6 +9,8 @@ android {
 
 dependencies {
     implementation(project(":features:splash:api"))
+    implementation(project(":features:login:api"))
+    implementation(project(":core:architecture"))
     implementation(project(":navigation"))
 
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
