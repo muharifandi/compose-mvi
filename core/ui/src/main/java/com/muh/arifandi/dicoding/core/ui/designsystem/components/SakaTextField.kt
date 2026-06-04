@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -78,6 +79,7 @@ fun SakaTextField(
     suffix: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = true,
     minLines: Int = 1,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
@@ -124,6 +126,7 @@ fun SakaTextField(
             suffix = suffix,
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
             singleLine = singleLine,
             minLines = minLines,
             maxLines = maxLines,
@@ -220,13 +223,17 @@ fun SakaSearchField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     placeholder: String = "Search...",
-    onClear: () -> Unit = {}
+    onClear: () -> Unit = {},
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
     SakaTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
         placeholder = placeholder,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,

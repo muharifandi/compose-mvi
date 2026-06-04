@@ -23,7 +23,7 @@ android {
     namespace = "com.muh.arifandi.dicoding"
 
     defaultConfig {
-        applicationId = envProperties.getProperty("APP_ID") ?: "com.muh.arifandi.dicoding"
+        applicationId = envProperties.getProperty("APP_ID") ?: "com.arifandi.ibank"
         
         versionCode = envProperties.getProperty("VERSION_CODE")?.toInt() ?: 1
         versionName = envProperties.getProperty("VERSION_NAME") ?: "1.0.0"
@@ -41,6 +41,8 @@ android {
             "BASE_URL",
             "\"${envProperties.getProperty("BASE_URL") ?: ""}\""
         )
+
+        manifestPlaceholders["MAPS_API_KEY"] = envProperties.getProperty("MAPS_API_KEY") ?: ""
     }
 
     buildTypes {
@@ -76,6 +78,7 @@ dependencies {
     implementation(project(":features:register:impl"))
     implementation(project(":features:forgotpassword:impl"))
     implementation(project(":features:master:impl"))
+    implementation(project(":features:transfer:impl"))
     
     implementation(project(":core:ui"))
     implementation(project(":core:common"))

@@ -40,6 +40,9 @@ class HomeViewModel @Inject constructor(
             is HomeIntent.ToggleDataVisibility -> {
                 setState { copy(isDataVisible = !isDataVisible) }
             }
+            is HomeIntent.NavigateToTransfer -> {
+                sendEffect { HomeEffect.NavigateToTransfer }
+            }
         }
     }
 

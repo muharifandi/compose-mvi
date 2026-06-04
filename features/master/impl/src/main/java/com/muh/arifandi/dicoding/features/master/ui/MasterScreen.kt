@@ -40,12 +40,14 @@ import com.muh.arifandi.dicoding.features.master.ui.state.MasterTab
 @Composable
 fun MasterScreen(
     viewModel: MasterViewModel = hiltViewModel(),
+    onNavigateByRoute: (String) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     MasterContent(
         state = state,
         onIntent = { viewModel.processIntent(it) },
+        onNavigateByRoute = onNavigateByRoute
     )
 }
 
@@ -53,6 +55,7 @@ fun MasterScreen(
 internal fun MasterContent(
     state: MasterState,
     onIntent: (MasterIntent) -> Unit,
+    onNavigateByRoute: (String) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val items = listOf(
@@ -80,8 +83,12 @@ internal fun MasterContent(
                 .padding(bottom = paddingValues.calculateBottomPadding()),
         ) {
             when (state.selectedTab) {
-                MasterTab.HOME -> HomeScreen()
-                MasterTab.SEARCH -> SearchScreen()
+                MasterTab.HOME -> HomeScreen(
+                    onNavigateByRoute = onNavigateByRoute
+                )
+                MasterTab.SEARCH -> SearchScreen(
+                    onNavigateByRoute = onNavigateByRoute
+                )
                 MasterTab.MESSAGE -> MessageScreen()
                 MasterTab.SETTINGS -> SettingsScreen()
             }

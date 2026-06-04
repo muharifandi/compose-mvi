@@ -9,5 +9,6 @@ package com.muh.arifandi.dicoding.features.master.domain.model
 data class SearchItemModel(
     val title: String,
     val description: String,
-    val imageRes: Int
+    val imageRes: Int,
+    val targetRoute: String? = null
 )

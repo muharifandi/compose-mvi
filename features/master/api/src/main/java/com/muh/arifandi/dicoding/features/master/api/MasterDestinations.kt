@@ -14,3 +14,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data object MasterDestinations
+
+@Serializable
+data object BranchDestination
+
+@Serializable
+data object InterestRateDestination
+
+@Serializable
+data object ExchangeRateDestination
+
+@Serializable
+data object ExchangeCurrencyDestination

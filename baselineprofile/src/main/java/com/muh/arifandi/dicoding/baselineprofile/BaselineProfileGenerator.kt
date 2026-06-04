@@ -1,9 +1,10 @@
 package com.muh.arifandi.dicoding.baselineprofile
 
-import androidx.benchmark.macro.Direction
+
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.uiautomator.By
+import androidx.test.uiautomator.Direction
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,6 +36,17 @@ class BaselineProfileGenerator {
         
         // Optimize Detail Navigation
         device.findObject(By.res("article_item"))?.click()
+        device.waitForIdle()
+
+        // Optimize Branch Navigation & Maps Initialization
+        // 1. Go to Search Tab (Assuming 2nd tab)
+        device.findObject(By.desc("Search"))?.click()
+        device.waitForIdle()
+
+        // 2. Click Branch Item in Search List
+        device.findObject(By.text("Branch"))?.click()
+        
+        // 3. Wait for Maps to initialize (The most critical part for cold start)
         device.waitForIdle()
     }
 }

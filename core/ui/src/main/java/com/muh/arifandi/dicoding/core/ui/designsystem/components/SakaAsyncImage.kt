@@ -51,6 +51,7 @@ fun SakaAsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(model)
             .crossfade(crossfade)
+            .allowHardware(false) // Fix: Software rendering doesn't support hardware bitmaps
             .build(),
         contentDescription = contentDescription,
         contentScale = contentScale,

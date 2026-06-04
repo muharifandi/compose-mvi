@@ -36,10 +36,10 @@ class SearchViewModel @Inject constructor() :
 
     private fun loadSearchItems() {
         val items = listOf(
-            SearchItemModel("Branch", "Search for branch", R.drawable.ic_illustration_login),
-            SearchItemModel("Interest rate", "Search for interest rate", R.drawable.ic_illustration_login),
-            SearchItemModel("Exchange rate", "Search for exchange rate", R.drawable.ic_illustration_login),
-            SearchItemModel("Exchange", "Exchange amount of money", R.drawable.ic_illustration_login)
+            SearchItemModel("Branch", "Search for branch", R.drawable.ic_illustration_login, "branch_destination"),
+            SearchItemModel("Interest rate", "Search for interest rate", R.drawable.ic_illustration_login, "interest_rate_destination"),
+            SearchItemModel("Exchange rate", "Search for exchange rate", R.drawable.ic_illustration_login, "exchange_rate_destination"),
+            SearchItemModel("Exchange", "Exchange amount of money", R.drawable.ic_illustration_login, "exchange_currency_destination")
         )
         setState { copy(searchItems = items) }
     }
