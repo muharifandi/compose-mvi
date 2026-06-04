@@ -9,21 +9,16 @@ Berikut adalah diagram transisi layar utama dalam aplikasi:
 ```mermaid
 graph TD
     A[App Launch] --> B[Splash Screen]
-    B --> C{First Time?}
-    C -- Yes --> D[Onboarding Screen]
-    C -- No --> E{Is Logged In?}
+    B --> C{Is Logged In?}
     
-    D --> F[Login Screen]
-    E -- No --> F
-    E -- Yes --> G[Home Screen]
+    C -- No --> D[Login Screen]
+    C -- Yes --> E[Feature: Dashboard]
     
-    F --> G
-    G --> H[Feature: News]
-    G --> I[Feature: About]
+    D --> E
     
     subgraph "Navigation Rules"
-    D -.->|Clear Backstack| F
-    F -.->|Clear Backstack| G
+    B -.->|Clear Backstack| D
+    D -.->|Clear Backstack| E
     end
 ```
 
@@ -39,17 +34,12 @@ graph TD
     - `SecurityGuard` mengecek integritas aplikasi (Root check, Debug check).
 
 ### Fase 2: Splash & Routing
-1.  **SplashScreen**: Mengecek logic bisnis (misal: apakah user sudah onboarding? apakah sudah login?).
-2.  **Navigation Decision**: Berdasarkan state di atas, `NavigationManager` akan mengarahkan user ke rute yang sesuai.
+1.  **SplashScreen**: Mengecek logic bisnis (misal: apakah user sudah login?).
+2.  **Navigation Decision**: Berdasarkan state di atas, aplikasi akan mengarahkan user ke rute yang sesuai (Login atau Dashboard).
 
-### Fase 3: Onboarding (Jika Diperlukan)
-- User melihat informasi value proposition aplikasi.
-- Saat tombol "Mulai" diklik, aplikasi memicu navigasi ke **Login**.
-- **Penting**: Onboarding dihapus dari Backstack menggunakan `popUpTo` agar user tidak bisa kembali ke onboarding dengan tombol Back.
-
-### Fase 4: Main Flow (Home & Features)
-- Setelah login, user masuk ke dashboard utama.
-- Navigasi antar fitur (News, Profile, dll) dilakukan secara *distributed* melalui `FeatureApi`.
+### Fase 3: Main Flow (Features)
+- Setelah login, user masuk ke alur utama aplikasi.
+- Navigasi antar fitur dilakukan secara *distributed* melalui `FeatureApi`.
 - Insets (Padding System Bar) dikelola secara otomatis oleh `SakaScaffold`.
 
 ---

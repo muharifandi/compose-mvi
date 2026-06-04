@@ -44,17 +44,17 @@ E2E testing menguji aplikasi sebagai satu kesatuan, idealnya menggunakan *real n
 ### Robot Pattern (Best Practice)
 Kami menggunakan **Robot Pattern** untuk memisahkan logika pengujian dari detail implementasi UI agar test lebih mudah dibaca dan dipelihara.
 
-- **Robot**: Berisi fungsi interaksi teknis seperti `clickSearch()`, `verifyArticleIsShown()`.
-- **Test**: Berisi skenario bisnis tingkat tinggi seperti `testSearchArticleSuccess()`.
+- **Robot**: Berisi fungsi interaksi teknis seperti `enterEmail()`, `verifyLoginButtonIsEnabled()`.
+- **Test**: Berisi skenario bisnis tingkat tinggi seperti `testLoginSuccess()`.
 
 ```kotlin
-class NewsRobot(private val composeTestRule: ComposeTestRule) {
-    fun checkArticleIsVisible(title: String) {
-        composeTestRule.onNodeWithText(title).assertIsDisplayed()
+class LoginRobot(private val composeTestRule: ComposeTestRule) {
+    fun enterEmail(email: String) {
+        composeTestRule.onNodeWithTag("email_field").performTextInput(email)
     }
     
-    fun clickArticle(title: String) {
-        composeTestRule.onNodeWithText(title).performClick()
+    fun clickLogin() {
+        composeTestRule.onNodeWithText("Login").performClick()
     }
 }
 ```
@@ -64,9 +64,9 @@ class NewsRobot(private val composeTestRule: ComposeTestRule) {
 ## 4. Fake Data Strategy
 Gunakan **Fake Repository** daripada **Mock** untuk integration test agar lebih mendekati perilaku nyata.
 ```kotlin
-class FakeNewsRepository : NewsRepository {
-    private val articles = mutableListOf<Article>()
-    override suspend fun getNews() = flow { emit(ResultState.Success(articles)) }
+class FakeAuthRepository : AuthRepository {
+    private var isSuccess = true
+    override suspend fun login(...) = flow { emit(ResultState.Success(Unit)) }
 }
 ```
 

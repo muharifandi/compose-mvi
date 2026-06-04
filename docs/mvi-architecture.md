@@ -74,13 +74,12 @@ abstract class BaseViewModel<S : UiState, I : UiIntent, E : UiEffect>(
 ```kotlin
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getNewsUseCase: GetTopHeadlinesUseCase
+    private val loginUseCase: LoginUseCase
 ) : BaseViewModel<HomeState, HomeIntent, HomeEffect>(HomeState()) {
 
     override fun processIntent(intent: HomeIntent) {
         when (intent) {
-            is HomeIntent.Refresh -> loadNews()
-            is HomeIntent.Search -> searchNews(intent.query)
+            is HomeIntent.SubmitLogin -> performLogin()
         }
     }
     // ... loadNews implementation ...

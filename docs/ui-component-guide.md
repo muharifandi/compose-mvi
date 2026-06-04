@@ -171,14 +171,10 @@ Komponen label status/tag dengan varian warna semantik.
 
 ---
 
-## 11. Tata Letak (SakaResponsiveLayout & MasterMenuGridItem)
+## 11. Tata Letak (SakaResponsiveLayout)
 
 ### `SakaResponsiveLayout`
 Komponen pembantu untuk menangani perubahan layout otomatis berdasarkan ukuran layar (Phone vs Tablet).
-
-### `MasterMenuGridItem`
-Item menu dashboard dengan ukuran tetap **80x80dp** untuk visualisasi tanpa scroll.
-- **Properti**: `item` (MasterMenuItem), `modifier` (Modifier).
 
 ---
 

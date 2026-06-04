@@ -4,7 +4,7 @@ Dokumen ini menjelaskan bagaimana arsitektur ini mendukung pertumbuhan aplikasi 
 
 ## 1. Feature Ownership
 Setiap modul fitur (`:features:<name>`) dirancang untuk memiliki otonomi penuh.
-- **Isolasi:** Perubahan di fitur News tidak akan merusak fitur About.
+- **Isolasi:** Perubahan di fitur Login tidak akan merusak fitur Register.
 - **Ownership:** Tim yang berbeda dapat bekerja di modul yang berbeda tanpa konflik git yang sering.
 
 ---

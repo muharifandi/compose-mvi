@@ -43,13 +43,13 @@ graph TD
     end
 
     subgraph Feature_Layer
-        subgraph News_Feature
-            NEWS_API[":features:news:api"]
-            NEWS_IMPL[":features:news:impl"]
+        subgraph Splash_Feature
+            SPLASH_API[":features:splash:api"]
+            SPLASH_IMPL[":features:splash:impl"]
         end
-        subgraph About_Feature
-            ABOUT_API[":features:about:api"]
-            ABOUT_IMPL[":features:about:impl"]
+        subgraph Login_Feature
+            LOGIN_API[":features:login:api"]
+            LOGIN_IMPL[":features:login:impl"]
         end
     end
 
@@ -64,21 +64,22 @@ graph TD
         CORE_MOD[":core:model"]
     end
 
-    APP --> NEWS_IMPL
-    APP --> ABOUT_IMPL
+    APP --> SPLASH_IMPL
+    APP --> LOGIN_IMPL
     APP --> NAV
 
-    NEWS_IMPL --> NEWS_API
-    NEWS_IMPL --> CORE_NET
-    NEWS_IMPL --> CORE_ARC
-    NEWS_IMPL --> CORE_UI
-    NEWS_IMPL --> CORE_MOD
+    SPLASH_IMPL --> SPLASH_API
+    SPLASH_IMPL --> CORE_ARC
+    SPLASH_IMPL --> CORE_UI
 
-    ABOUT_IMPL --> ABOUT_API
-    ABOUT_IMPL --> CORE_UI
+    LOGIN_IMPL --> LOGIN_API
+    LOGIN_IMPL --> CORE_NET
+    LOGIN_IMPL --> CORE_ARC
+    LOGIN_IMPL --> CORE_UI
+    LOGIN_IMPL --> CORE_MOD
 
-    NAV --> NEWS_API
-    NAV --> ABOUT_API
+    NAV --> SPLASH_API
+    NAV --> LOGIN_API
     NAV --> CORE_ARC
 ```
 
@@ -100,17 +101,17 @@ Pola ini memutus ketergantungan langsung antara `:app` dan layar spesifik, sehin
 
 ### Repository Interface (Domain)
 ```kotlin
-interface NewsRepository {
-    suspend fun getTopHeadlines(): Flow<ResultState<List<Article>>>
+interface LoginRepository {
+    suspend fun login(credentials: LoginCredentials): Flow<ResultState<AuthToken>>
 }
 ```
 
 ### UseCase (Domain)
 ```kotlin
-class GetTopHeadlinesUseCase @Inject constructor(
-    private val repository: NewsRepository
+class LoginUseCase @Inject constructor(
+    private val repository: LoginRepository
 ) {
-    operator fun invoke() = repository.getTopHeadlines()
+    operator fun invoke(credentials: LoginCredentials) = repository.login(credentials)
 }
 ```
 

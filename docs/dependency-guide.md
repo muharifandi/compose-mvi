@@ -59,10 +59,10 @@ graph TD
     end
 
     subgraph "Feature Layer"
-        NEWS_IMPL[":features:news:impl"]
-        NEWS_API[":features:news:api"]
-        ABOUT_IMPL[":features:about:impl"]
-        ABOUT_API[":features:about:api"]
+        LOGIN_IMPL[":features:login:impl"]
+        LOGIN_API[":features:login:api"]
+        SPLASH_IMPL[":features:splash:impl"]
+        SPLASH_API[":features:splash:api"]
     end
 
     subgraph "Navigation"
@@ -78,24 +78,24 @@ graph TD
     end
 
     %% Dependency Directions
-    APP --> NEWS_IMPL
-    APP --> ABOUT_IMPL
+    APP --> LOGIN_IMPL
+    APP --> SPLASH_IMPL
     APP --> NAV
 
-    NEWS_IMPL --> NEWS_API
-    NEWS_IMPL --> CORE_UI
-    NEWS_IMPL --> CORE_ARCH
-    NEWS_IMPL --> CORE_NET
-    NEWS_IMPL --> CORE_MOD
+    LOGIN_IMPL --> LOGIN_API
+    LOGIN_IMPL --> CORE_UI
+    LOGIN_IMPL --> CORE_ARCH
+    LOGIN_IMPL --> CORE_NET
+    LOGIN_IMPL --> CORE_MOD
 
-    ABOUT_IMPL --> ABOUT_API
-    ABOUT_IMPL --> CORE_UI
+    SPLASH_IMPL --> SPLASH_API
+    SPLASH_IMPL --> CORE_UI
     
-    NAV --> NEWS_API
-    NAV --> ABOUT_API
+    NAV --> LOGIN_API
+    NAV --> SPLASH_API
 
-    NEWS_API --> CORE_ARCH
-    ABOUT_API --> CORE_ARCH
+    LOGIN_API --> CORE_ARCH
+    SPLASH_API --> CORE_ARCH
 ```
 
 ---
