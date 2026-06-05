@@ -13,26 +13,32 @@ Fondasi ini dirancang untuk menyelesaikan tantangan umum dalam pengembangan apli
 
 ---
 
-## 📊 Alur Arsitektur MVI
-Diagram ini menjelaskan siklus *Unidirectional Data Flow* (UDF).
+## 📊 Alur Arsitektur MVI (Technical Flow)
+Aplikasi ini menggunakan pola **Unidirectional Data Flow (UDF)** yang memastikan aliran data satu arah dan state yang dapat diprediksi.
 
 ```mermaid
-graph TD
-    UI[UI Components]
-    Process[Process Intent]
-    Reducer[Update State]
-    State[Immutable State]
-    Effect[One-time Effects]
-    Data((Data Layer))
-
-    UI -- "Intent" --> Process
-    Process -- "UseCase" --> Data
-    Data -- "Response" --> Reducer
-    Reducer -- "New State" --> State
-    State -- "Binding" --> UI
-    Process -- "Fire" --> Effect
-    Effect -- "Nav/Toast" --> UI
+sequenceDiagram
+    participant UI as UI (Compose)
+    participant VM as ViewModel
+    participant UC as UseCase / Data
+    
+    Note over UI, UC: Siklus MVI (Start to End)
+    UI->>VM: 1. Kirim Intent (contoh: LoginClick)
+    VM->>VM: 2. Update State (isLoading = true)
+    VM->>UC: 3. Panggil Logika Bisnis/Repository
+    UC-->>VM: 4. Kembalikan Data/Hasil
+    VM->>VM: 5. Reducer: Update State Akhir & Fire Effect
+    VM-->>UI: 6. Reactive Binding: UI Render State Baru
+    VM-->>UI: 7. Side Effect (Navigasi/Toast)
 ```
+
+**Penjelasan Detail Alur:**
+1.  **Start (Intent):** Pengguna berinteraksi dengan UI (klik tombol, input teks) yang memicu sebuah `Intent`.
+2.  **State Management:** `ViewModel` menerima intent dan segera memperbarui `State` awal (misal: menampilkan loading).
+3.  **Data Processing:** `ViewModel` memanggil `UseCase` atau `Repository` untuk memproses data secara asinkron.
+4.  **Result:** Setelah data didapat, `ViewModel` memetakan hasil tersebut ke dalam objek `State` yang bersifat *immutable*.
+5.  **Reactive Render:** UI secara otomatis melakukan **rekomposisi** (render ulang) karena mengamati perubahan pada `State`.
+6.  **End (Effect):** Jika ada aksi sekali jalan (seperti pindah layar atau muncul snackbar), `ViewModel` mengirimkan `Effect`.
 
 ---
 
