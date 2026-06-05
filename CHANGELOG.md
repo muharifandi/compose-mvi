@@ -1,30 +1,19 @@
-# Changelog
+# Changelog (Starter Kit)
 
-Semua perubahan signifikan pada proyek **SakaAndroid** akan didokumentasikan di file ini. Format ini mengikuti standar [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+Semua perubahan signifikan pada proyek **SakaAndroid Starter Kit** didokumentasikan di sini.
 
-## [1.1.0] - 2026-05-25 15:45 WIB
+## [2.0.0-starter] - 2026-05-25
 
 ### Added
-- **Domain Layer**: Implementasi UseCase untuk fitur Master (`GetCreditCardsUseCase`, `GetMenuItemsUseCase`).
-- **Domain Layer**: Implementasi UseCase untuk fitur Auth (`LoginUseCase`, `RegisterUseCase`, `ForgotpasswordUseCase`).
-- **Domain Layer**: Implementasi UseCase untuk fitur Onboarding (`GetOnboardingPagesUseCase`).
-- **Data Layer**: Implementasi Repository (`MasterRepositoryImpl`, `LoginRepositoryImpl`, `RegisterRepositoryImpl`, `ForgotpasswordRepositoryImpl`, `OnboardingRepositoryImpl`).
-- **UI Mapper**: `MasterMapper.kt` untuk konversi domain model (Pure Kotlin) ke objek spesifik Compose (Color, Icon).
-- **Metadata**: Header identitas author di seluruh file fitur Master, Search, Home, Auth, dan Onboarding.
-- **Documentation**: Diagram Mermaid untuk visualisasi alur Clean Architecture di `master-feature.md`.
-- **Documentation**: Troubleshooting guide untuk registrasi fitur baru di `feature-development.md`.
+- **Project Baseline**: Fondasi bersih untuk pengembangan aplikasi baru tingkat enterprise.
+- **Core Modules**: Implementasi lengkap modul `:core` (Architecture, UI, Network, Model, Common).
+- **Essential Features**: Modul `:features:splash`, `:features:login`, dan `:features:register` sebagai baseline.
+- **Documentation**: Panduan arsitektur yang disederhanakan khusus untuk starter kit.
+
+### Removed (Clean up for Starter Kit)
+- **Features**: Menghapus seluruh fitur spesifik project sebelumnya (`Transfer`, `Master`, `Message`, `News`, `About`, `Onboarding`, `ForgotPassword`).
+- **Docs**: Menghapus panduan spesifik fitur dan dokumen manajerial yang tidak esensial.
 
 ### Changed
-- **Refactor**: Transformasi Domain Model (`MasterMenuItem`, `CreditCardInfo`) menjadi Pure Kotlin dengan menghapus dependensi framework Android/Compose.
-- **Refactor**: Standarisasi pola MVI + Clean Architecture di seluruh modul utama (Master, Auth, Onboarding).
-- **UI/UX**: Perbaikan visual `SearchScreen.kt` (TopBar kontras, padding kartu, dan tipografi bold) sesuai desain.
-- **State Management**: Pemindahan logika data `searchItems` dari Composable ke `SearchViewModel` melalui `SearchState`.
-- **Architecture**: Pemisahan tanggung jawab yang lebih ketat antara Presentation, Domain, dan Data Layer.
-
-### Fixed
-- **Code Smell**: Menghapus inisialisasi data hardcoded di dalam fungsi Composable.
-- **Navigation**: Memperbaiki visibilitas ikon back dan callback navigasi pada `SearchScreen`.
-- **Consistency**: Menghilangkan duplikasi data menu grid dashboard dengan menggunakan *Single Source of Truth* di Repository.
-
----
-*Catatan: Modul `:features:news` sengaja dikecualikan dari refactor ini sesuai instruksi.*
+- **Navigation**: Restrukturisasi `AppNavHost` untuk memulai alur langsung dari Splash ke Auth.
+- **Dependencies**: Membersihkan `settings.gradle.kts` dan `build.gradle.kts` dari dependensi modul yang dihapus.

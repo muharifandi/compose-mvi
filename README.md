@@ -1,15 +1,14 @@
-# SakaAndroid - Scalable Enterprise Android Foundation
+# SakaAndroid - Scalable Enterprise Android Foundation (Starter Kit)
 
-Selamat datang di repository **SakaAndroid**. Proyek ini merupakan **fondasi arsitektur Android tingkat enterprise** yang dibangun dengan standar industri tinggi. Dirancang sebagai *boilerplate* modular yang skalabel, proyek ini menggunakan **Clean Architecture**, **pola MVI (Model-View-Intent)**, dan **Jetpack Compose** untuk mendukung pengembangan berbagai jenis aplikasi Android modern dengan efisiensi tinggi.
+Selamat datang di repository **SakaAndroid Starter Kit**. Proyek ini merupakan **fondasi arsitektur Android tingkat enterprise** yang dibangun dengan standar industri tinggi, dirancang khusus sebagai titik awal (template) yang bersih untuk membangun aplikasi baru.
 
 ## 📝 Ringkasan Fondasi
-Fondasi ini dirancang untuk menyelesaikan tantangan umum dalam pengembangan aplikasi skala besar, seperti manajemen state yang kompleks, modularisasi yang sulit dipelihara, dan performa UI. Secara teknis, proyek ini menyediakan implementasi standar untuk **Offline-First**, **Modularisasi tingkat lanjut (API/Impl split)**, serta sistem navigasi yang terdesentralisasi.
+Fondasi ini dirancang untuk menyelesaikan tantangan umum dalam pengembangan aplikasi skala besar, seperti manajemen state yang kompleks, modularisasi yang sulit dipelihara, dan performa UI.
 
 ### Key Capabilities:
 - **Saka Design System:** Sistem UI terpusat dengan komponen yang Figma-compliant, mendukung *Custom Shadow*, *Pill-shape Buttons*, dan transisi animasi halus.
 - **Modularization Engine:** Struktur modul `:api` (kontrak) dan `:impl` (detail) yang mengoptimalkan kecepatan build dan enkapsulasi fitur.
 - **Enterprise Security:** Implementasi `SecurityGuard` terintegrasi untuk deteksi Root, Emulator, dan Debug secara *out-of-the-box*.
-- **High Performance Foundation:** Integrasi *Baseline Profile* dan *Paging 3* yang siap digunakan untuk pengalaman UI tanpa hambatan.
 - **Predictable Robustness:** Arsitektur MVI yang menjamin konsistensi state UI dan kemudahan pengujian otomatis (Unit/UI Testing).
 
 ---
@@ -44,22 +43,6 @@ graph TD
 
 ---
 
-## 🛠 Contoh Implementasi Alur Bisnis (Example Flow)
-Diagram fungsional yang menjelaskan bagaimana fondasi ini menangani perjalanan pengguna dalam sebuah aplikasi secara modular.
-
-```mermaid
-graph LR
-    Splash[Splash Screen] --> Home[List View]
-    Home -- "Action/Filter" --> Home
-    Home -- "Select Item" --> Detail[Detail View]
-    Detail -- "Primary Action" --> LocalDB[(Local DB)]
-    Home -- "Secondary View" --> Auxiliary[Auxiliary Screen]
-    Auxiliary -- "Action" --> Detail
-    Home -- "About/Settings" --> About[About/Profile Screen]
-```
-
----
-
 ## 📦 Struktur Modul & Dependency Graph (Module Visualization)
 SakaAndroid menggunakan struktur **Multi-module** tingkat lanjut dengan pemisahan `:api` dan `:impl` untuk mendukung skalabilitas build dan enkapsulasi kode.
 
@@ -74,9 +57,9 @@ graph TD
     end
 
     subgraph Feature_Layer [Feature Layer]
-        subgraph Feature_X [Feature X]
-            FX_API[":features:X:api"]
-            FX_IMPL[":features:X:impl"]
+        subgraph Feature_Auth [Auth Feature]
+            AUTH_API[":features:login:api"]
+            AUTH_IMPL[":features:login:impl"]
         end
     end
 
@@ -93,16 +76,16 @@ graph TD
     end
 
     %% Dependencies
-    APP --> FX_IMPL
+    APP --> AUTH_IMPL
     APP --> NAV
 
-    FX_IMPL --> FX_API
-    FX_IMPL --> CORE_ARC
-    FX_IMPL --> CORE_UI
-    FX_IMPL --> CORE_NET
-    FX_IMPL --> CORE_MOD
+    AUTH_IMPL --> AUTH_API
+    AUTH_IMPL --> CORE_ARC
+    AUTH_IMPL --> CORE_UI
+    AUTH_IMPL --> CORE_NET
+    AUTH_IMPL --> CORE_MOD
 
-    NAV --> FX_API
+    NAV --> AUTH_API
     NAV --> CORE_ARC
 
     %% Build logic applied (Simplified)
@@ -114,12 +97,10 @@ graph TD
 ---
 
 ## 🚀 Quick Start
-1. **Clone:** `git clone https://github.com/muharifandi/compose-mvi.git`
+1. **Clone:** `git clone -b starter-project https://github.com/muharifandi/compose-mvi.git`
 2. **Setup:** Gunakan Android Studio Ladybug (2024.2.1) atau lebih baru.
 3. **Build:** Jalankan `./gradlew assembleDebug`.
-4. **Offline Ready:** Jalankan `./gradlew prepareOfflineBuild --no-configuration-cache` saat online untuk mendukung pengembangan tanpa internet.
-5. **Generate Feature:** Gunakan skrip `./generate_feature.sh <nama_fitur>` untuk membuat modul baru secara instan.
-6. **Docs:** Baca [Onboarding Guide](docs/onboarding-guide.md) untuk memulai pengembangan fitur baru.
+4. **Docs:** Baca [Architecture Guide](docs/architecture.md) untuk memahami standar pengembangan.
 
 ---
 
@@ -131,28 +112,17 @@ Proyek ini mengadopsi standar **Modern Android Development (MAD)** dengan pilar 
 
 ---
 
-## 📚 Referensi & Standar Pengembangan
-Pengembangan proyek ini merujuk pada standar industri dan dokumentasi resmi berikut:
-- **[Guide to App Architecture](https://developer.android.com/topic/architecture):** Panduan resmi Google untuk arsitektur aplikasi Android yang skalabel.
-- **[Now in Android (NiA)](https://github.com/android/nowinandroid):** Project referensi resmi Google untuk implementasi modularisasi dan tech stack terbaru.
-- **[Kotlin Coroutines & Flow](https://kotlinlang.org/docs/coroutines-overview.html):** Standar manajemen asinkron dan reaktif di Kotlin.
-
----
-
-## 📖 Dokumentasi Lengkap
-Kami menyediakan dokumentasi teknis mendalam untuk setiap aspek:
+## 📖 Dokumentasi Lengkap (Starter Kit)
+Berikut adalah daftar panduan yang tersedia di folder `docs/`:
 | Dokumen | Deskripsi |
 | :--- | :--- |
-| [Playbook](docs/engineering-playbook.md) | Pusat navigasi seluruh standar engineering. |
-| [Feature Generator](docs/feature-generator.md) | Cara menggunakan skrip otomatisasi fitur. |
-| [Offline Guide](docs/offline-guide.md) | Panduan pengembangan tanpa koneksi internet. |
 | [Architecture](docs/architecture.md) | Detail Clean Architecture, Layering, & Data Flow. |
 | [Design System](docs/ui-component-guide.md) | Katalog komponen UI Saka (Button, Card, dll). |
 | [Modularization](docs/modularization.md) | Struktur modul & aturan dependency. |
 | [MVI Guide](docs/mvi-architecture.md) | Panduan State, Intent, & Effect. |
 | [Standards](docs/engineering-standards.md) | Aturan coding, arsitektur, & workflow. |
 | [Feature Guide](docs/feature-development.md) | Panduan langkah demi langkah membuat fitur baru. |
-| [App Lifecycle](docs/app-lifecycle.md) | Diagram alur aplikasi dari Startup hingga Finish. |
+| [App Lifecycle](docs/app-lifecycle.md) | Diagram alur aplikasi (Splash -> Auth). |
 | [Testing Guide](docs/testing-guide.md) | Strategi pengujian & Robot Pattern. |
 
 ---
@@ -160,10 +130,9 @@ Kami menyediakan dokumentasi teknis mendalam untuk setiap aspek:
 ## 🛠 Tech Stack
 - **UI:** Jetpack Compose, Material 3, **Saka Design System**
 - **Network:** Retrofit, OkHttp, Kotlin Serialization
-- **Database:** Room, Paging 3
 - **DI:** Hilt (Dagger)
 - **Image:** Coil
-- **Quality:** Detekt, JUnit 5, MockK, Turbine
+- **Quality:** JUnit 5, MockK, Turbine
 
 ---
 **Created by:** Muh. Arifandi  
