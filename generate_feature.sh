@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Saka Feature Generator (Standardized with SakaScaffold and Navigation)
+# Saka Feature Generator (Standardized for XML/View and Navigation)
 # Usage: ./generate_feature.sh <feature_name>
 
 FEATURE_NAME=$1
@@ -26,7 +26,7 @@ FEATURE_DIR="features/${FEATURE_NAME}"
 MODULE_NAME_API="features:${FEATURE_NAME}:api"
 MODULE_NAME_IMPL="features:${FEATURE_NAME}:impl"
 
-echo "🚀 Memulai pembuatan fitur: ${FEATURE_NAME}..."
+echo "🚀 Memulai pembuatan fitur: ${FEATURE_NAME} (XML/View version)..."
 
 # 1. Buat struktur folder
 mkdir -p "${FEATURE_DIR}/api/src/main/java/${PACKAGE_PATH}/api"
@@ -37,8 +37,9 @@ mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/domain/model"
 mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/domain/usecase"
 mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/domain/repository"
 mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/state"
+mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/fragment"
 mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/di"
-mkdir -p "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/navigation"
+mkdir -p "${FEATURE_DIR}/impl/src/main/res/layout"
 
 # Fungsi untuk membuat Header
 create_header() {
@@ -99,9 +100,7 @@ CLASS_NAME_PREFIX="$(tr '[:lower:]' '[:upper:]' <<< ${FEATURE_NAME:0:1})${FEATUR
 package ${FEATURE_PACKAGE}.ui.state
 
 import com.muh.arifandi.dicoding.core.architecture.mvi.UiState
-import androidx.compose.runtime.Immutable
 
-@Immutable
 data class ${CLASS_NAME_PREFIX}State(
     val isLoading: Boolean = false,
     val data: String? = null
@@ -137,73 +136,40 @@ sealed interface ${CLASS_NAME_PREFIX}Effect : UiEffect {
 EOF
 } > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/state/${CLASS_NAME_PREFIX}Effect.kt"
 
-# 5. Buat Destinations di API
-{
-    create_header "${CLASS_NAME_PREFIX}Destinations.kt" "${MODULE_NAME_API}"
-    cat <<EOF
-package ${FEATURE_PACKAGE}.api
+# 5. Buat Layout XML
+LOWER_FEATURE=$(echo "$FEATURE_NAME" | tr '[:upper:]' '[:lower:]')
+LAYOUT_NAME="fragment_${LOWER_FEATURE}"
+cat <<EOF > "${FEATURE_DIR}/impl/src/main/res/layout/${LAYOUT_NAME}.xml"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-import kotlinx.serialization.Serializable
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-@Serializable
-data object ${CLASS_NAME_PREFIX}Destinations
+    <TextView
+        android:id="@+id/tv_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to ${CLASS_NAME_PREFIX} Feature"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 EOF
-} > "${FEATURE_DIR}/api/src/main/java/${PACKAGE_PATH}/api/${CLASS_NAME_PREFIX}Destinations.kt"
 
-# 6. Buat FeatureApiImpl di IMPL
-{
-    create_header "${CLASS_NAME_PREFIX}FeatureApiImpl.kt" "${MODULE_NAME_IMPL}"
-    cat <<EOF
-package ${FEATURE_PACKAGE}.navigation
-
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import com.muh.arifandi.dicoding.core.architecture.navigation.FeatureApi
-import ${FEATURE_PACKAGE}.api.${CLASS_NAME_PREFIX}Destinations
-import ${FEATURE_PACKAGE}.ui.${CLASS_NAME_PREFIX}Screen
-import javax.inject.Inject
-
-class ${CLASS_NAME_PREFIX}FeatureApiImpl @Inject constructor() : FeatureApi {
-    override fun registerGraph(
-        navGraphBuilder: NavGraphBuilder,
-        navController: NavHostController
-    ) {
-        navGraphBuilder.composable<${CLASS_NAME_PREFIX}Destinations> {
-            ${CLASS_NAME_PREFIX}Screen()
-        }
-    }
-}
-EOF
-} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/navigation/${CLASS_NAME_PREFIX}FeatureApiImpl.kt"
-
-# 7. Buat DI Module untuk Navigation
-{
-    create_header "NavigationModule.kt" "${MODULE_NAME_IMPL}"
-    cat <<EOF
-package ${FEATURE_PACKAGE}.di
-
-import com.muh.arifandi.dicoding.core.architecture.navigation.FeatureApi
-import ${FEATURE_PACKAGE}.navigation.${CLASS_NAME_PREFIX}FeatureApiImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.IntoSet
-import javax.inject.Singleton
-
-@Module
-@InstallIn(SingletonComponent::class)
-interface NavigationModule {
-    @Binds
-    @IntoSet
-    @Singleton
-    fun bind${CLASS_NAME_PREFIX}FeatureApi(impl: ${CLASS_NAME_PREFIX}FeatureApiImpl): FeatureApi
-}
-EOF
-} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/di/NavigationModule.kt"
-
-# 8. Buat ViewModel
+# 6. Buat ViewModel
 {
     create_header "${CLASS_NAME_PREFIX}ViewModel.kt" "${MODULE_NAME_IMPL}"
     cat <<EOF
@@ -227,92 +193,75 @@ class ${CLASS_NAME_PREFIX}ViewModel @Inject constructor() :
 EOF
 } > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/${CLASS_NAME_PREFIX}ViewModel.kt"
 
-# 9. Buat Screen dengan SakaScaffold
+# 7. Buat Fragment
 {
-    create_header "${CLASS_NAME_PREFIX}Screen.kt" "${MODULE_NAME_IMPL}"
+    create_header "${CLASS_NAME_PREFIX}Fragment.kt" "${MODULE_NAME_IMPL}"
     cat <<EOF
-package ${FEATURE_PACKAGE}.ui
+package ${FEATURE_PACKAGE}.ui.fragment
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaLoadingView
-import com.muh.arifandi.dicoding.core.ui.designsystem.components.SakaScaffold
-import com.muh.arifandi.dicoding.core.ui.designsystem.theme.MyApplicationTheme
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import ${FEATURE_PACKAGE}.databinding.Fragment${CLASS_NAME_PREFIX}Binding
+import ${FEATURE_PACKAGE}.ui.${CLASS_NAME_PREFIX}ViewModel
 import ${FEATURE_PACKAGE}.ui.state.${CLASS_NAME_PREFIX}State
-import ${FEATURE_PACKAGE}.ui.state.${CLASS_NAME_PREFIX}Intent
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-@Composable
-fun ${CLASS_NAME_PREFIX}Screen(
-    viewModel: ${CLASS_NAME_PREFIX}ViewModel = hiltViewModel()
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+@AndroidEntryPoint
+class ${CLASS_NAME_PREFIX}Fragment : Fragment() {
 
-    ${CLASS_NAME_PREFIX}Content(
-        state = state,
-        onIntent = { viewModel.processIntent(it) }
-    )
-}
+    private val viewModel: ${CLASS_NAME_PREFIX}ViewModel by viewModels()
+    private var _binding: Fragment${CLASS_NAME_PREFIX}Binding? = null
+    private val binding get() = _binding!!
 
-@Composable
-internal fun ${CLASS_NAME_PREFIX}Content(
-    state: ${CLASS_NAME_PREFIX}State,
-    onIntent: (${CLASS_NAME_PREFIX}Intent) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    SakaScaffold(
-        modifier = modifier.fillMaxSize()
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            if (state.isLoading) {
-                SakaLoadingView()
-            } else {
-                Text(text = "Welcome to ${CLASS_NAME_PREFIX} Screen")
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = Fragment${CLASS_NAME_PREFIX}Binding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeState()
+    }
+
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+                    render(state)
+                }
             }
         }
     }
-}
 
-@Preview(showBackground = true)
-@Composable
-private fun ${CLASS_NAME_PREFIX}ScreenPreview() {
-    MyApplicationTheme {
-        ${CLASS_NAME_PREFIX}Content(
-            state = ${CLASS_NAME_PREFIX}State(
-                isLoading = false,
-                data = "Preview Data"
-            ),
-            onIntent = {}
-        )
+    private fun render(state: ${CLASS_NAME_PREFIX}State) {
+        binding.progressBar.isVisible = state.isLoading
+        state.data?.let {
+            binding.tvWelcome.text = it
+        }
     }
-}
 
-@Preview(showBackground = true)
-@Composable
-private fun ${CLASS_NAME_PREFIX}ScreenLoadingPreview() {
-    MyApplicationTheme {
-        ${CLASS_NAME_PREFIX}Content(
-            state = ${CLASS_NAME_PREFIX}State(
-                isLoading = true
-            ),
-            onIntent = {}
-        )
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 EOF
-} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/${CLASS_NAME_PREFIX}Screen.kt"
+} > "${FEATURE_DIR}/impl/src/main/java/${PACKAGE_PATH}/ui/fragment/${CLASS_NAME_PREFIX}Fragment.kt"
 
-# 10. Daftarkan di settings.gradle.kts
+# 8. Daftarkan di settings.gradle.kts
 if ! grep -q ":features:${FEATURE_NAME}:api" settings.gradle.kts; then
     echo "include(\":features:${FEATURE_NAME}:api\")" >> settings.gradle.kts
 fi
@@ -320,8 +269,8 @@ if ! grep -q ":features:${FEATURE_NAME}:impl" settings.gradle.kts; then
     echo "include(\":features:${FEATURE_NAME}:impl\")" >> settings.gradle.kts
 fi
 
-echo "✅ Fitur ${FEATURE_NAME} berhasil dibuat dengan standar SakaScaffold & Navigation!"
+echo "✅ Fitur ${FEATURE_NAME} berhasil dibuat dengan standar Fragment & XML!"
 echo "⚠️  Langkah selanjutnya:"
 echo "1. Lakukan 'Gradle Sync'."
-echo "2. Daftarkan project(\":features:${FEATURE_NAME}:api\") di navigation/build.gradle.kts."
-echo "3. Gunakan ${CLASS_NAME_PREFIX}Destinations untuk navigasi."
+echo "2. Daftarkan Fragment di nav_graph (biasanya di app/src/main/res/navigation/)."
+echo "3. Update ${CLASS_NAME_PREFIX}Fragment untuk logic UI spesifik."

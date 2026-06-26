@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import android.net.Uri
 import com.muh.arifandi.dicoding.features.splash.databinding.FragmentSplashBinding
 import com.muh.arifandi.dicoding.features.splash.ui.state.SplashEffect
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,9 +43,11 @@ class SplashFragment : Fragment() {
                 viewModel.effect.collect { effect ->
                     when (effect) {
                         is SplashEffect.NavigateToLogin -> {
-                            // findNavController().navigate(R.id.login_fragment)
+                            findNavController().navigate(Uri.parse("saka://login"))
                         }
-                        else -> {}
+                        is SplashEffect.NavigateToHome -> {
+                            findNavController().navigate(Uri.parse("saka://home"))
+                        }
                     }
                 }
             }

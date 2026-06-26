@@ -77,6 +77,10 @@ dependencies {
     implementation(project(":features:splash:impl"))
     implementation(project(":features:login:impl"))
     implementation(project(":features:register:impl"))
+    implementation(project(":features:home:impl"))
+    implementation(project(":features:network:impl"))
+    implementation(project(":features:history:impl"))
+    implementation(project(":features:jobs:impl"))
     
     implementation(project(":core:ui"))
     implementation(project(":core:common"))

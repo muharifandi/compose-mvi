@@ -20,7 +20,6 @@ plugins {
     alias(libs.plugins.google.hilt) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlin.serialization) apply false
-    alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.androidx.baselineprofile) apply false
     alias(libs.plugins.module.graph.assert)
     alias(libs.plugins.detekt) apply false

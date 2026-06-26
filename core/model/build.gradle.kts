@@ -5,5 +5,4 @@ plugins {
 
 dependencies {
     implementation(libs.kotlinx.serialization.json)
-    compileOnly(libs.androidx.compose.ui)
 }

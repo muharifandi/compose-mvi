@@ -2,7 +2,6 @@
     <string name="app_name">ArifNews</string>
     <string name="retry">Retry</string>
     <string name="news_app">News App</string>
-    <string name="jetpack_compose">Jetpack Compose</string>
     <string name="search_news">Search news...</string>
     <string name="loading_more">Loading more...</string>
     <string name="empty_articles">No articles found.</string>

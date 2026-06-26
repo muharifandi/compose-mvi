@@ -7,7 +7,6 @@ group = "com.muh.arifandi.dicoding.convention"
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.compose.compiler.gradlePlugin)
     compileOnly(libs.detekt.gradlePlugin)
 }
 
@@ -28,10 +27,6 @@ gradlePlugin {
         register("androidFeature") {
             id = "myapp.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
-        }
-        register("androidCompose") {
-            id = "myapp.android.compose"
-            implementationClass = "AndroidComposeConventionPlugin"
         }
         register("androidHilt") {
             id = "myapp.android.hilt"

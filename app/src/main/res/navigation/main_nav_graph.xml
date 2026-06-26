@@ -6,12 +6,36 @@
 
     <fragment
         android:id="@+id/splash_fragment"
-        android:name="com.muh.arifandi.dicoding.features.splash.SplashFragment"
+        android:name="com.muh.arifandi.dicoding.features.splash.ui.SplashFragment"
         android:label="SplashFragment" />
 
     <fragment
         android:id="@+id/login_fragment"
-        android:name="com.muh.arifandi.dicoding.features.login.LoginFragment"
-        android:label="LoginFragment" />
+        android:name="com.muh.arifandi.dicoding.features.login.ui.LoginFragment"
+        android:label="LoginFragment">
+        <deepLink app:uri="saka://login" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.muh.arifandi.dicoding.features.home.ui.HomeFragment"
+        android:label="Home">
+        <deepLink app:uri="saka://home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_network"
+        android:name="com.muh.arifandi.dicoding.features.network.ui.NetworkFragment"
+        android:label="Network" />
+
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="com.muh.arifandi.dicoding.features.history.ui.HistoryFragment"
+        android:label="Riwayat" />
+
+    <fragment
+        android:id="@+id/navigation_jobs"
+        android:name="com.muh.arifandi.dicoding.features.jobs.ui.JobsFragment"
+        android:label="Kerjaan" />
 
 </navigation>

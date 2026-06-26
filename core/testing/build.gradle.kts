@@ -1,5 +1,6 @@
 plugins {
     id("myapp.android.library")
+    id("myapp.android.hilt")
 }
 
 android {
@@ -7,15 +8,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
     implementation(project(":core:model"))
-    
     api(libs.junit)
-    api(libs.mockk)
+    api(libs.androidx.junit)
+    api(libs.androidx.espresso.core)
     api(libs.kotlinx.coroutines.test)
+    api(libs.mockk)
     api(libs.turbine)
-    api(libs.archunit)
-    
-    api(libs.androidx.compose.ui.test.junit4)
-    debugApi(libs.androidx.compose.ui.test.manifest)
 }

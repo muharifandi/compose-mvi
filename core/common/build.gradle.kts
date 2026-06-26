@@ -18,7 +18,5 @@ dependencies {
     api(project(":core:model"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.compose.ui)
     implementation(libs.timber)
 }

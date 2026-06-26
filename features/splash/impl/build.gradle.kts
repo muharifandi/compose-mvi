@@ -13,8 +13,6 @@ dependencies {
     implementation(project(":core:architecture"))
     implementation(project(":navigation"))
 
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.mockk)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

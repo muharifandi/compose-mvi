@@ -8,7 +8,6 @@ class AndroidPagingConventionPlugin : Plugin<Project> {
         with(target) {
             dependencies {
                 add("implementation", libs.findLibrary("androidx-paging-runtime").get())
-                add("implementation", libs.findLibrary("androidx-paging-compose").get())
             }
         }
     }

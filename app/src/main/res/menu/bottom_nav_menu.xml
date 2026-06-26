@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Home" />
+    <item
+        android:id="@+id/navigation_network"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="Network" />
+    <item
+        android:id="@+id/navigation_history"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Riwayat" />
+    <item
+        android:id="@+id/navigation_jobs"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Kerjaan" />
+</menu>
