@@ -18,7 +18,7 @@ Aplikasi ini menggunakan pola **Unidirectional Data Flow (UDF)** yang memastikan
 
 ```mermaid
 sequenceDiagram
-    participant UI as UI (Compose)
+    participant UI as UI (XML/View)
     participant VM as ViewModel
     participant UC as UseCase / Data
     
@@ -28,7 +28,7 @@ sequenceDiagram
     VM->>UC: 3. Panggil Logika Bisnis/Repository
     UC-->>VM: 4. Kembalikan Data/Hasil
     VM->>VM: 5. Reducer: Update State Akhir & Fire Effect
-    VM-->>UI: 6. Reactive Binding: UI Render State Baru
+    VM-->>UI: 6. Reactive Binding: UI Render (ViewBinding)
     VM-->>UI: 7. Side Effect (Navigasi/Toast)
 ```
 
@@ -37,7 +37,7 @@ sequenceDiagram
 2.  **State Management:** `ViewModel` menerima intent dan segera memperbarui `State` awal (misal: menampilkan loading).
 3.  **Data Processing:** `ViewModel` memanggil `UseCase` atau `Repository` untuk memproses data secara asinkron.
 4.  **Result:** Setelah data didapat, `ViewModel` memetakan hasil tersebut ke dalam objek `State` yang bersifat *immutable*.
-5.  **Reactive Render:** UI secara otomatis melakukan **rekomposisi** (render ulang) karena mengamati perubahan pada `State`.
+5.  **Reactive Render:** UI secara otomatis memperbarui tampilan menggunakan **ViewBinding** karena mengamati perubahan pada `State`.
 6.  **End (Effect):** Jika ada aksi sekali jalan (seperti pindah layar atau muncul snackbar), `ViewModel` mengirimkan `Effect`.
 
 ---
@@ -93,8 +93,8 @@ Proyek ini mengadopsi standar **Modern Android Development (MAD)**:
 ---
 
 ## 🛠 Tech Stack
-- **UI:** Jetpack Compose, Material 3
-- **Network:** Retrofit, OkHttp
+- **UI:** XML Layout, ViewBinding, Material Components
+- **Network:** Retrofit, OkHttp, Kotlin Serialization
 - **DI:** Hilt (Dagger)
 - **Quality:** JUnit 5, MockK, Turbine
 

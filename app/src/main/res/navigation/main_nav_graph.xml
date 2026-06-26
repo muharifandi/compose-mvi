@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/splash_fragment">
+
+    <fragment
+        android:id="@+id/splash_fragment"
+        android:name="com.muh.arifandi.dicoding.features.splash.SplashFragment"
+        android:label="SplashFragment" />
+
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="com.muh.arifandi.dicoding.features.login.LoginFragment"
+        android:label="LoginFragment" />
+
+</navigation>

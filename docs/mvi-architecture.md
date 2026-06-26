@@ -1,6 +1,6 @@
 # Arsitektur MVI (Model-View-Intent)
 
-Dokumen ini menjelaskan implementasi pola MVI di lapisan presentasi menggunakan Jetpack Compose dan Kotlin Flow.
+Dokumen ini menjelaskan implementasi pola MVI di lapisan presentasi menggunakan XML Layouts, ViewBinding, dan Kotlin Flow.
 
 ## 1. Komponen MVI (File Separation Standard)
 Untuk menjaga keterbacaan dan skalabilitas, setiap fitur **wajib** memisahkan komponen MVI ke dalam file masing-masing di dalam paket `ui.state`:
@@ -41,7 +41,7 @@ sealed interface HomeEffect : UiEffect {
 2. **ViewModel Processing**: **ViewModel** menerima Intent -> Proses ke Repository/UseCase.
 3. **State Update**: **ViewModel** memperbarui **State** secara atomik menggunakan `setState`.
 4. **Effect Processing**: Jika diperlukan aksi satu kali, ViewModel memanggil `sendEffect`.
-5. **UI Recomposition**: **Compose** mengamati State via `collectAsStateWithLifecycle()` -> **Recomposition** UI.
+5. **UI Rendering**: **Fragment/Activity** mengamati State via `collect` di dalam `lifecycleScope` -> Perbarui UI melalui **ViewBinding**.
 
 ## 3. Implementasi Teknis (BaseViewModel)
 Semua ViewModel dalam proyek ini mewarisi `BaseViewModel` dari `:core:architecture` untuk standarisasi boilerplate.
@@ -96,4 +96,4 @@ class HomeViewModel @Inject constructor(
 ---
 
 ## 5. Kesimpulan
-MVI adalah pilihan terbaik untuk aplikasi berbasis Compose karena sinkronisasi state yang ketat, memastikan pengalaman pengguna yang mulus tanpa *flicker* atau data yang tidak konsisten.
+MVI tetap relevan untuk aplikasi berbasis XML/View karena sinkronisasi state yang ketat, memastikan pengalaman pengguna yang mulus dan data yang konsisten.

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Colors -->
+    <color name="saka_primary">#3629B7</color>
+    <color name="saka_primary_subtle">#F2F1F9</color>
+
+    <!-- Neutral Colors -->
+    <color name="saka_white">#FFFFFF</color>
+    <color name="saka_black">#333333</color>
+    <color name="saka_grey">#666666</color>
+    <color name="saka_silver">#E0E0E0</color>
+    <color name="saka_platinum">#F8F9FA</color>
+
+    <!-- Semantic Colors -->
+    <color name="saka_error">#FF4B6E</color>
+    <color name="saka_success">#43D8B5</color>
+    <color name="saka_warning">#FEAF3A</color>
+    <color name="saka_info">#0081FF</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+</resources>

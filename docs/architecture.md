@@ -16,7 +16,7 @@ Kami mengadopsi **Clean Architecture** yang dipopulerkan oleh Robert C. Martin (
 
 ### A. Presentation Layer (UI)
 Bertanggung jawab untuk menampilkan data ke layar dan menangkap interaksi pengguna.
-- **Teknologi:** Jetpack Compose & ViewModel.
+- **Teknologi:** XML Layout, ViewBinding, Fragment/Activity & ViewModel.
 - **Pola:** MVI (Model-View-Intent).
 - **Dependency:** Tergantung pada **Domain Layer**.
 
