@@ -8,7 +8,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply {
                 apply("myapp.android.library")
-                apply("myapp.android.compose")
                 apply("myapp.android.hilt")
             }
 
@@ -17,10 +16,13 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", project(":core:common"))
                 add("implementation", project(":core:model"))
                 
-                add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.runtime.ktx").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.viewmodel.compose").get())
-                add("implementation", libs.findLibrary("androidx.navigation.compose").get())
+                add("implementation", libs.findLibrary("androidx.lifecycle.viewmodel.ktx").get())
+                add("implementation", libs.findLibrary("androidx.lifecycle.livedata-ktx").get())
+                add("implementation", libs.findLibrary("androidx.navigation.fragment.ktx").get())
+                add("implementation", libs.findLibrary("androidx.navigation.ui.ktx").get())
+                add("implementation", libs.findLibrary("androidx.appcompat").get())
+                add("implementation", libs.findLibrary("material").get())
             }
         }
     }

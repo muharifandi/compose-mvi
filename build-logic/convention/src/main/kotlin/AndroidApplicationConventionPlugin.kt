@@ -29,6 +29,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 defaultConfig.targetSdk = 35
                 buildFeatures {
                     buildConfig = true
+                    viewBinding = true
+                    dataBinding = true
                 }
             }
         }
