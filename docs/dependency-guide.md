@@ -7,10 +7,8 @@ Dokumen ini menjelaskan seluruh ekosistem library, plugin Gradle, dan dependensi
 | Library | Purpose | Why Chosen | When To Use | When NOT To Use | Alternative | Scalability Impact |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Hilt** | Dependency Injection | Standard Google, boilerplate rendah. | Seluruh lifecycle aplikasi. | Project sangat kecil/scripting. | Koin, Dagger | Tinggi (Modularisasi mudah) |
-| **Compose** | UI Framework | Declarative UI, modern, produktif. | Semua layer presentasi. | View-based legacy project. | XML Layouts | Sangat Tinggi (Reusable UI) |
-| **Coroutines**| Concurrency | Ringan, native Kotlin, readable. | Operasi Async/Background. | Simple synchronous logic. | RxJava, Java Threads| Tinggi (Structured Concurrency)|
-| **StateFlow** | State Management | Lifecycle-aware, cold/hot stream. | Mengirim data dari VM ke UI. | Simple callback. | LiveData, RxJava | Tinggi (MVI Friendly) |
-| **Hilt Nav** | Navigation DI | Integrasi Hilt dengan Compose Nav. | Injeksi VM di NavGraph. | Tanpa navigasi Compose. | Manual Injection | Medium |
+| **DataBinding** | UI Library | Deklaratif, sinkronisasi state ke UI otomatis. | Semua layer presentasi (XML). | Layout sangat sederhana (ViewBinding cukup). | ViewBinding, Compose | Medium (Kompilasi sedikit lebih lama) |
+| **Hilt Nav** | Navigation DI | Injeksi ViewModel di Fragment. | Injeksi VM di Fragment. | Tanpa navigasi fragment. | Manual Injection | Medium |
 
 ---
 

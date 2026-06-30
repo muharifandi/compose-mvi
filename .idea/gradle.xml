@@ -33,9 +33,17 @@
             <option value="$PROJECT_DIR$/core/testing" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/history" />
+            <option value="$PROJECT_DIR$/features/history/impl" />
+            <option value="$PROJECT_DIR$/features/home" />
+            <option value="$PROJECT_DIR$/features/home/impl" />
+            <option value="$PROJECT_DIR$/features/jobs" />
+            <option value="$PROJECT_DIR$/features/jobs/impl" />
             <option value="$PROJECT_DIR$/features/login" />
             <option value="$PROJECT_DIR$/features/login/api" />
             <option value="$PROJECT_DIR$/features/login/impl" />
+            <option value="$PROJECT_DIR$/features/network" />
+            <option value="$PROJECT_DIR$/features/network/impl" />
             <option value="$PROJECT_DIR$/features/register" />
             <option value="$PROJECT_DIR$/features/register/api" />
             <option value="$PROJECT_DIR$/features/register/impl" />

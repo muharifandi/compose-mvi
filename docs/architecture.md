@@ -8,7 +8,7 @@ Kami mengadopsi **Clean Architecture** yang dipopulerkan oleh Robert C. Martin (
 ### Mengapa Clean Architecture?
 - **Maintainability:** Mudah mengubah library (misalnya ganti Retrofit ke Ktor) tanpa merusak logika bisnis.
 - **Testability:** Logika bisnis (Domain) dapat diuji secara mandiri dengan Unit Test tanpa emulator.
-- **Independence:** UI bisa berubah total (XML ke Compose) tanpa menyentuh repository.
+- **Independence:** UI bisa berubah total (XML ke Compose atau sebaliknya) tanpa menyentuh repository.
 
 ---
 
@@ -16,7 +16,7 @@ Kami mengadopsi **Clean Architecture** yang dipopulerkan oleh Robert C. Martin (
 
 ### A. Presentation Layer (UI)
 Bertanggung jawab untuk menampilkan data ke layar dan menangkap interaksi pengguna.
-- **Teknologi:** XML Layout, ViewBinding, Fragment/Activity & ViewModel.
+- **Teknologi:** XML Layout, DataBinding, Fragment/Activity & ViewModel.
 - **Pola:** MVI (Model-View-Intent).
 - **Dependency:** Tergantung pada **Domain Layer**.
 
@@ -123,7 +123,7 @@ Aliran data dalam aplikasi mengikuti pola reaktif menggunakan Kotlin Flow.
 
 ```mermaid
 sequenceDiagram
-    participant UI as Compose Screen
+    participant UI as XML View / Fragment
     participant VM as ViewModel
     participant UC as UseCase
     participant REP as Repository
@@ -141,7 +141,7 @@ sequenceDiagram
     REP-->>UC: Return Flow<Model>
     UC-->>VM: Emit Result
     VM->>VM: Update State (Loading = false, Data = result)
-    VM-->>UI: Observe State Change (Recomposition)
+    VM-->>UI: Observe State Change (State Collection)
 ```
 
 ---
@@ -150,7 +150,7 @@ sequenceDiagram
 - **God ViewModel:** Menaruh logika bisnis atau parsing JSON di dalam ViewModel.
 - **Context Leak:** Mengirim `Context` ke Repository atau UseCase.
 - **Circular Dependency:** Module A butuh B, Module B butuh A.
-- **Direct DB Access:** Fragment/Compose langsung memanggil DAO.
+- **Direct DB Access:** Fragment langsung memanggil DAO.
 
 ---
 

@@ -6,7 +6,7 @@ Dokumen ini mendefinisikan standar penulisan kode, tata kelola arsitektur, dan a
 - **Class:** `PascalCase` (Contoh: `HomeViewModel`).
 - **Function/Variable:** `camelCase` (Contoh: `onRefreshClick`).
 - **XML Resource:** `snake_case` (Contoh: `ic_back_button`).
-- **Compose Composable:** `PascalCase` dan harus kata benda (Contoh: `PrimaryButton`).
+- **UI Component:** `PascalCase` dan sebaiknya kata benda (Contoh: `SakaToolbar`).
 
 ## 2. Tata Kelola Arsitektur (Hard Rules)
 - **Boundary Modul:** Modul `:core` dilarang bergantung pada modul `:features`.
@@ -18,26 +18,26 @@ Dokumen ini mendefinisikan standar penulisan kode, tata kelola arsitektur, dan a
 1. **Planning:** Pahami spesifikasi Produk & Desain.
 2. **Module Creation:** Gunakan pola `:api` dan `:impl` jika fitur baru.
 3. **Domain First:** Buat Entity, Repository Interface, dan UseCase terlebih dahulu.
-4. **Implementation:** Selesaikan Data Layer (Retrofit/Room) dan UI Layer (Compose/MVI).
+4. **Implementation:** Selesaikan Data Layer (Retrofit/Room) dan UI Layer (XML/Fragment/MVI).
 5. **Testing:** Wajib membuat Unit Test untuk UseCase dan ViewModel.
 6. **Code Review:** Kirim PR dan pastikan lolos pengecekan Detekt.
 
-## 4. Compose Architecture & Guidelines
-- **State Hoisting:** Pindahkan state ke tingkat yang lebih tinggi agar komponen tetap stateless dan mudah diuji.
-- **Immutable State:** Selalu gunakan data model yang immutable (`val`) untuk memicu rekomposisi yang efisien.
-- **Optimasi Rekomposisi:**
-    - Gunakan `remember` untuk menyimpan hasil komputasi berat.
-    - Gunakan `derivedStateOf` saat state tergantung pada state lain yang sering berubah.
+## 4. UI Architecture & Guidelines (XML & DataBinding)
+- **DataBinding Expression:** Gunakan ekspresi DataBinding hanya untuk logika tampilan sederhana. Logika kompleks tetap di ViewModel atau Mapper.
+- **Two-way Binding:** Gunakan hanya jika diperlukan (misal: input form), pastikan tidak menyebabkan infinite loop.
+- **Optimasi Layout:**
+    - Hindari hierarki view yang terlalu dalam (Gunakan `ConstraintLayout`).
+    - Gunakan `<merge>` dan `<include>` untuk efisiensi layout.
 - **Anti-Pattern:**
-    - Dilarang mengirim ViewModel ke sub-komponen kecil. Kirim hanya State dan Callback.
-    - Hindari fungsi Composable lebih dari 200 baris.
-    - Jangan lakukan komputasi berat (format tanggal, parsing) di dalam body Composable.
+    - Dilarang memanggil ViewModel langsung dari expression XML jika bisa menggunakan State.
+    - Hindari file XML lebih dari 500 baris. Gunakan `<include>`.
+    - Jangan lakukan format data berat di dalam XML (misal: format mata uang). Lakukan di ViewModel/Mapper.
 
 ## 5. ViewModel & MVI
 - **UDF (Unidirectional Data Flow):** Jangan pernah mengubah state langsung dari UI. Selalu kirim Intent ke ViewModel.
 - **Immutable State:** Gunakan `data class` dengan `val` untuk State.
 - **MVI File Separation:** Pisahkan `State`, `Intent`, dan `Effect` ke dalam file masing-masing (contoh: `HomeState.kt`, `HomeIntent.kt`, `HomeEffect.kt`) di dalam package `ui.state`.
-- **Lifecycle Aware:** Gunakan `collectAsStateWithLifecycle()` di Screen.
+- **Lifecycle Aware:** Gunakan `lifecycleScope.launch` dengan `repeatOnLifecycle` untuk collect state di Fragment.
 
 ## 6. Documentation Convention
 - Gunakan **KDoc** (`/** ... */`) untuk mendokumentasikan logika bisnis yang kompleks.

@@ -1,6 +1,6 @@
 # Arsitektur MVI (Model-View-Intent)
 
-Dokumen ini menjelaskan implementasi pola MVI di lapisan presentasi menggunakan XML Layouts, ViewBinding, dan Kotlin Flow.
+Dokumen ini menjelaskan implementasi pola MVI di lapisan presentasi menggunakan XML Layouts, DataBinding, dan Kotlin Flow.
 
 ## 1. Komponen MVI (File Separation Standard)
 Untuk menjaga keterbacaan dan skalabilitas, setiap fitur **wajib** memisahkan komponen MVI ke dalam file masing-masing di dalam paket `ui.state`:
@@ -41,7 +41,7 @@ sealed interface HomeEffect : UiEffect {
 2. **ViewModel Processing**: **ViewModel** menerima Intent -> Proses ke Repository/UseCase.
 3. **State Update**: **ViewModel** memperbarui **State** secara atomik menggunakan `setState`.
 4. **Effect Processing**: Jika diperlukan aksi satu kali, ViewModel memanggil `sendEffect`.
-5. **UI Rendering**: **Fragment/Activity** mengamati State via `collect` di dalam `lifecycleScope` -> Perbarui UI melalui **ViewBinding**.
+5. **UI Rendering**: **Fragment/Activity** mengamati State via `collect` di dalam `lifecycleScope` -> Perbarui UI melalui **DataBinding**.
 
 ## 3. Implementasi Teknis (BaseViewModel)
 Semua ViewModel dalam proyek ini mewarisi `BaseViewModel` dari `:core:architecture` untuk standarisasi boilerplate.

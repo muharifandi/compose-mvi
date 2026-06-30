@@ -6,7 +6,7 @@ Dokumen ini menjelaskan bagaimana aplikasi dipecah menjadi modul-modul kecil unt
 
 ### A. Core Modules (`:core`)
 Modul yang berisi kode yang digunakan oleh banyak fitur.
-- `:core:ui`: Design system, komponen Compose global, tema.
+- `:core:ui`: Design system, komponen UI global (XML), tema.
 - `:core:network`: Konfigurasi Retrofit, OkHttp, dan base API service.
 - `:core:architecture`: Base class untuk MVI, ViewModel, dan Navigasi.
 - `:core:common`: Utility, Extension, dan Security logic.
@@ -15,7 +15,7 @@ Modul yang berisi kode yang digunakan oleh banyak fitur.
 ### B. Feature Modules (`:features`)
 Setiap fitur besar harus dipisah menggunakan pola **API/Impl Split**.
 - **`:api` module:** Berisi kontrak navigasi (Destination) dan data model publik. Ringan dan cepat di-compile.
-- **`:impl` module:** Berisi UI (Compose), ViewModel, UseCase, dan Repository.
+- **`:impl` module:** Berisi UI (XML/Fragment), ViewModel, UseCase, dan Repository.
 
 ---
 

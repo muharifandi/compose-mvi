@@ -8,7 +8,7 @@ Dokumen ini mendokumentasikan bagaimana aplikasi berkomunikasi dengan server dan
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Retrofit** | Type-safe HTTP Client | Integrasi Flow, Mapper mudah. | Semua API Call. | Low-level Socket. | Ktor, Volley | Low overhead |
 | **OkHttp** | HTTP Engine | Interceptor, Caching, Logging. | Networking layer. | - | Java URLConnection | High (Optimized) |
-| **Coil** | Image Loading | Kotlin-first, Compose support. | Menampilkan gambar URL. | Local static drawable. | Glide, Fresco | Low (Memory efficient) |
+| **Coil** | Image Loading | Kotlin-first, ringan. | Menampilkan gambar URL. | Local static drawable. | Glide, Fresco | Low (Memory efficient) |
 | **Kotlin Ser.** | JSON Serialization | Native Kotlin, Type-safe. | Parsing JSON. | Manual JSON parsing. | Gson, Moshi | Fast (No reflection) |
 
 ---
@@ -25,15 +25,16 @@ Dokumen ini mendokumentasikan bagaimana aplikasi berkomunikasi dengan server dan
 ---
 
 ## 3. Image Loading dengan Coil
-- **Kenapa dipilih:** Coil jauh lebih ringan dibanding Glide dan mendukung Jetpack Compose secara native tanpa wrapper tambahan.
+- **Kenapa dipilih:** Coil jauh lebih ringan dibanding Glide dan terintegrasi dengan baik menggunakan ekstensi Kotlin.
 - **APK Size Impact:** Sangat kecil (~2000 method) dibanding library lain.
-- **Integration Flow:**
+- **Integration Flow (View Implementation):**
   ```kotlin
-  AsyncImage(
-      model = "https://example.com/image.jpg",
-      contentDescription = null,
-      modifier = Modifier.clip(CircleShape)
-  )
+  // Di dalam Fragment atau Activity
+  binding.imageView.load("https://example.com/image.jpg") {
+      crossfade(true)
+      placeholder(R.drawable.placeholder)
+      transformations(CircleCropTransformation())
+  }
   ```
 - **Tradeoff:** Fitur video atau GIF mungkin tidak sekomplet Glide tanpa library extension.
 

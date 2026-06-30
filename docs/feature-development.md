@@ -1,6 +1,6 @@
-# Panduan Pengembangan Fitur Baru
+# Panduan Pengembangan Fitur Baru (XML & Fragment)
 
-Dokumen ini adalah panduan *step-by-step* bagi developer untuk membuat fitur baru dengan standar Clean Architecture dan MVI.
+Dokumen ini adalah panduan *step-by-step* bagi developer untuk membuat fitur baru dengan standar Clean Architecture dan MVI menggunakan XML Layouts dan Fragments.
 
 ## 1. Struktur Folder Standar
 Setiap fitur di dalam modul `:features:<name>:impl` harus mengikuti struktur berikut:
@@ -9,7 +9,6 @@ Setiap fitur di dalam modul `:features:<name>:impl` harus mengikuti struktur ber
 com.muh.arifandi.dicoding.features.<name>
 ├── data
 │   ├── network (API Service, DTO)
-│   ├── database (DAO, Entity)
 │   ├── repository (Implementation)
 │   └── mapper (DTO/Entity to Domain Model)
 ├── domain
@@ -18,9 +17,8 @@ com.muh.arifandi.dicoding.features.<name>
 │   └── repository (Interface)
 ├── ui
 │   ├── <screen_name>
-│   │   ├── components (UI Components)
 │   │   ├── state (State, Intent, Effect)
-│   │   ├── <Name>Screen.kt
+│   │   ├── <Name>Fragment.kt
 │   │   └── <Name>ViewModel.kt
 ├── di (Hilt Modules)
 └── navigation (FeatureApi Implementation)
@@ -49,7 +47,7 @@ sealed class MyEffect : UiEffect {
 class MyViewModel @Inject constructor(
     private val useCase: MyUseCase
 ) : BaseViewModel<MyState, MyIntent, MyEffect>(MyState()) {
-    override fun onIntent(intent: MyIntent) {
+    override fun processIntent(intent: MyIntent) {
         when (intent) {
             is MyIntent.LoadData -> { /* Logic */ }
         }
@@ -57,72 +55,56 @@ class MyViewModel @Inject constructor(
 }
 ```
 
+### C. Fragment & DataBinding
+Pastikan layout XML dibungkus dengan tag `<layout>` dan Fragment mewarisi `BaseFragment`.
+
+```kotlin
+@AndroidEntryPoint
+class MyFragment : BaseFragment<FragmentMyBinding>(R.layout.fragment_my) {
+    private val viewModel: MyViewModel by viewModels()
+
+    override fun onInitViews() {
+        binding.btnLoad.setOnClickListener {
+            viewModel.processIntent(MyIntent.LoadData)
+        }
+    }
+
+    override fun onInitObservers() {
+        lifecycleScope.launch {
+            viewModel.state.collect { state ->
+                // Update UI from state
+                binding.progressBar.isVisible = state.isLoading
+            }
+        }
+    }
+}
+```
+
 ---
 
-## 3. Registrasi Fitur & Navigasi (PENTING)
-Agar fitur dapat dikenali oleh aplikasi dan tidak menyebabkan error "Unresolved Reference", ikuti langkah wajib ini:
+## 3. Registrasi Fitur & Navigasi (Jetpack Navigation)
+Proyek ini menggunakan Jetpack Navigation Component dengan Navigation Graph XML.
 
 ### Step 1: Daftarkan di Modul API
-Buat interface di `:features:<name>:api`:
-```kotlin
-interface MyFeatureApi : FeatureApi {
-    fun registerGraph(navGraphBuilder: NavGraphBuilder, navController: NavHostController)
-}
-```
+Buat interface di `:features:<name>:api` untuk mendefinisikan kontrak navigasi jika diperlukan secara dinamis.
 
-### Step 2: Tambahkan Dependensi di Modul Navigasi
-Buka `:navigation/build.gradle.kts` (atau modul tempat NavHost berada) dan tambahkan:
-```kotlin
-dependencies {
-    implementation(project(":features:<name>:impl"))
-}
-```
+### Step 2: Tambahkan rute di Navigation Graph
+Edit file navigasi utama (misal `main_nav_graph.xml`) dan tambahkan fragment fitur tersebut.
 
 ### Step 3: Implementasi & Binding Hilt
-Di dalam modul `:impl`, buat modul DI untuk membinding API ke Implementasi agar Hilt bisa melakukan *Multi-Binding*:
-```kotlin
-@Module
-@InstallIn(SingletonComponent::class)
-interface MyNavigationModule {
-    @Binds
-    @IntoSet
-    fun bindMyFeatureApi(impl: MyFeatureApiImpl): FeatureApi
-}
-```
-
-### Step 4: Daftarkan di settings.gradle.kts
-Pastikan modul baru sudah terdaftar (biasanya otomatis jika menggunakan skrip generator):
-```kotlin
-include(":features:<name>:api")
-include(":features:<name>:impl")
-```
+Gunakan `@AndroidEntryPoint` pada Fragment dan Activity agar Hilt dapat melakukan injeksi dependensi.
 
 ---
 
 ## 4. Cara Memanggil Fitur dari Modul Lain
-Untuk menjaga *decoupling* (agar antar modul tidak saling kenal), gunakan mekanisme callback:
-
-1. **Di Modul Pemanggil (misal Master):** Tambahkan parameter lambda di Screen.
-   ```kotlin
-   @Composable
-   fun MasterScreen(onNavigateToDetail: (String) -> Unit)
-   ```
-2. **Di Navigasi Utama:** Hubungkan rute secara nyata.
-   ```kotlin
-   // Di dalam registerGraph
-   MasterScreen(
-       onNavigateToDetail = { id -> 
-           navController.navigate(DetailDestinations(id)) 
-       }
-   )
-   ```
+Untuk menjaga *decoupling*, gunakan Deep Links atau interface `FeatureApi` yang membungkus ID navigasi.
 
 ---
 
 ## 5. Troubleshooting: Kenapa Fitur Saya Error?
 | Error | Penyebab Utama | Solusi |
 | :--- | :--- | :--- |
-| `Unresolved reference` | Dependensi Gradle belum ditambahkan. | Cek `build.gradle.kts` di modul pemanggil. |
-| `Hilt Missing Binding` | `@Binds` atau `@IntoSet` belum dibuat. | Cek Step 3 (Modul DI Navigasi). |
-| `Route not found` | `registerGraph` belum dipanggil. | Pastikan `FeatureApi` sudah masuk ke dalam `Set<FeatureApi>` di NavHost. |
+| `Unresolved reference Binding` | Layout XML belum menggunakan tag `<layout>`. | Bungkus root element dengan `<layout>`. |
+| `Type argument is not within its bounds` | VB di BaseActivity/BaseFragment bukan ViewDataBinding. | Pastikan XML sudah menggunakan DataBinding. |
+| `Hilt Missing Binding` | `@AndroidEntryPoint` lupa ditambahkan. | Tambahkan anotasi pada Fragment/Activity. |
 | `Module not found` | Modul belum ada di `settings.gradle`. | Cek `settings.gradle.kts` di root. |

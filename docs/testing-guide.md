@@ -1,4 +1,4 @@
-# Strategi & Panduan Testing
+# Strategi & Panduan Testing (XML & Fragment)
 
 Dokumen ini menjelaskan arsitektur dan standar pengujian yang digunakan untuk menjaga stabilitas aplikasi dari unit terkecil hingga alur pengguna utuh.
 
@@ -6,7 +6,7 @@ Dokumen ini menjelaskan arsitektur dan standar pengujian yang digunakan untuk me
 Kami mengikuti strategi **Test Pyramid** untuk menyeimbangkan kecepatan dan akurasi:
 - **Unit Tests (70%)**: Menguji logika bisnis di UseCase, ViewModel, dan Mapper. Cepat dan dijalankan di JVM.
 - **Integration Tests (20%)**: Menguji interaksi antar komponen, seperti Repository dengan Database.
-- **UI & E2E Tests (10%)**: Menguji UI Compose dan alur pengguna ujung-ke-ujung (End-to-End).
+- **UI & E2E Tests (10%)**: Menguji Fragment (XML) dan alur pengguna ujung-ke-ujung (End-to-End).
 
 ---
 
@@ -22,7 +22,7 @@ fun `loadArticles should emit Success state when repository is successful`() = r
     coEvery { useCase() } returns flowOf(ResultState.Success(articles))
 
     // When
-    viewModel.onIntent(HomeIntent.Refresh)
+    viewModel.processIntent(HomeIntent.Refresh)
 
     // Then
     viewModel.state.test {
@@ -38,23 +38,23 @@ Gunakan `runTest` dari library `kotlinx-coroutines-test` dan `test()` dari libra
 
 ---
 
-## 3. Compose UI & E2E Testing
-E2E testing menguji aplikasi sebagai satu kesatuan, idealnya menggunakan *real network* atau *staging environment*.
+## 3. UI & E2E Testing (Espresso)
+E2E testing menguji aplikasi sebagai satu kesatuan, menggunakan **Espresso** untuk interaksi UI XML.
 
 ### Robot Pattern (Best Practice)
 Kami menggunakan **Robot Pattern** untuk memisahkan logika pengujian dari detail implementasi UI agar test lebih mudah dibaca dan dipelihara.
 
-- **Robot**: Berisi fungsi interaksi teknis seperti `enterEmail()`, `verifyLoginButtonIsEnabled()`.
+- **Robot**: Berisi fungsi interaksi teknis menggunakan Espresso API.
 - **Test**: Berisi skenario bisnis tingkat tinggi seperti `testLoginSuccess()`.
 
 ```kotlin
-class LoginRobot(private val composeTestRule: ComposeTestRule) {
+class LoginRobot {
     fun enterEmail(email: String) {
-        composeTestRule.onNodeWithTag("email_field").performTextInput(email)
+        onView(withId(R.id.edt_email)).perform(typeText(email))
     }
     
     fun clickLogin() {
-        composeTestRule.onNodeWithText("Login").performClick()
+        onView(withId(R.id.btn_login)).perform(click())
     }
 }
 ```
@@ -73,7 +73,7 @@ class FakeAuthRepository : AuthRepository {
 ---
 
 ## 5. Automation Workflow
-1. **Trigger:** Setiap kali ada merge ke branch `develop`.
+1. **Trigger:** Setiap kali ada merge ke branch utama.
 2. **Execution:** Jalankan `./gradlew connectedDebugAndroidTest` via CI/CD.
 3. **Reporting:** Report diunggah ke Firebase Test Lab atau platform QA lainnya.
 
@@ -82,7 +82,7 @@ class FakeAuthRepository : AuthRepository {
 ## 6. Testing Checklist
 - [ ] Unit Test untuk UseCase (Bisnis Logika).
 - [ ] Unit Test untuk ViewModel (State & Effect).
-- [ ] UI Test untuk komponen kritis di `:core:ui`.
+- [ ] UI Test (Espresso) untuk komponen kritis di `:core:ui`.
 - [ ] Edge case (Error network, list kosong) sudah dites.
 - [ ] Coroutine menggunakan `TestDispatcher`.
 - [ ] Menggunakan data dummy dari `:core:testing`.

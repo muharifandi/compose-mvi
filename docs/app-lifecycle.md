@@ -40,17 +40,17 @@ graph TD
 ### Fase 3: Main Flow (Features)
 - Setelah login, user masuk ke alur utama aplikasi.
 - Navigasi antar fitur dilakukan secara *distributed* melalui `FeatureApi`.
-- Insets (Padding System Bar) dikelola secara otomatis oleh `SakaScaffold`.
+- Insets (Padding System Bar) dikelola secara manual melalui `fitsSystemWindows="true"` di XML root atau via `ViewCompat.setOnApplyWindowInsetsListener`.
 
 ---
 
 ## 3. Mekanisme Navigasi Teknis
 
-Aplikasi ini menggunakan pola **Distributed Navigation**:
+Aplikasi ini menggunakan **Navigation Component** dengan Navigation Graph XML:
 
-1.  **API Module**: Mendefinisikan rute (misal: `NewsDestinations`).
-2.  **IMPL Module**: Mengimplementasikan `FeatureApi` untuk mendaftarkan rute tersebut ke NavGraph.
-3.  **App Module**: Melalui `AppNavHost`, mengumpulkan semua `FeatureApi` yang terdaftar via Hilt Multibinding dan menyatukannya dalam satu `NavHost`.
+1.  **Navigation Graph**: Mendefinisikan rute dan aksi navigasi di dalam file XML (`res/navigation/main_nav_graph.xml`).
+2.  **FragmentContainerView**: Bertindak sebagai host navigasi di `MainActivity`.
+3.  **NavController**: Mengelola perpindahan antar fragment secara type-safe melalui Safe Args.
 
 ### Keuntungan:
 - **Modular**: Modul fitur tidak perlu tahu keberadaan modul fitur lain.
