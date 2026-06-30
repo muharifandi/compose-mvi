@@ -7,7 +7,6 @@ plugins {
     id("myapp.android.room")
     id("myapp.android.paging")
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.androidx.baselineprofile)
     alias(libs.plugins.module.graph.assert)
 }
 
@@ -73,7 +72,6 @@ android {
 }
 
 dependencies {
-    baselineProfile(project(":baselineprofile"))
     implementation(project(":features:splash:impl"))
     implementation(project(":features:login:impl"))
     implementation(project(":features:register:impl"))

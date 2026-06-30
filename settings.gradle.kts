@@ -31,7 +31,6 @@ rootProject.name = "SakaAndroid"
 // App & Navigation
 include(":app")
 include(":navigation")
-include(":baselineprofile")
 
 // Core Modules
 include(":core:common")
