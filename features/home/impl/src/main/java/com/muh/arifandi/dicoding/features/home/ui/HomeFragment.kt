@@ -1,18 +1,17 @@
 package com.muh.arifandi.dicoding.features.home.ui
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.muh.arifandi.dicoding.features.home.impl.R
+import com.muh.arifandi.dicoding.core.architecture.base.BaseFragment
+import com.muh.arifandi.dicoding.features.home.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+@AndroidEntryPoint
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+
+    override fun onInitViews() {
+        // Initialize Home views
+    }
+
+    override fun onInitObservers() {
+        // Observe Home state
     }
 }

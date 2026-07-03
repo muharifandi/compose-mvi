@@ -27,7 +27,8 @@ class SplashViewModel @Inject constructor() :
     private fun checkSession() {
         viewModelScope.launch {
             delay(2000) // Simulate splash delay
-            sendEffect { SplashEffect.NavigateToLogin }
+            // logic standar: Jika pertama kali buka -> Intro, jika sudah -> Login/Home
+            sendEffect { SplashEffect.NavigateToIntro }
         }
     }
 }

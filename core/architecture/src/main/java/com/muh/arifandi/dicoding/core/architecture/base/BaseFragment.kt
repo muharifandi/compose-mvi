@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
+import java.lang.reflect.ParameterizedType
 
-abstract class BaseFragment<VB : ViewDataBinding>(@LayoutRes private val layoutResId: Int) : Fragment() {
+/**
+ * Base Fragment dengan Auto-Binding menggunakan Reflection.
+ * Tidak perlu lagi menulis delegate manual.
+ */
+abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     private var _binding: VB? = null
     val binding get() = _binding!!
@@ -19,8 +22,12 @@ abstract class BaseFragment<VB : ViewDataBinding>(@LayoutRes private val layoutR
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
+        val type = javaClass.genericSuperclass as ParameterizedType
+        val clazz = type.actualTypeArguments[0] as Class<VB>
+        val method = clazz.getMethod("inflate", LayoutInflater::class.java, ViewGroup::class.java, Boolean::class.javaPrimitiveType)
+        
+        @Suppress("UNCHECKED_CAST")
+        _binding = method.invoke(null, inflater, container, false) as VB
         return binding.root
     }
 

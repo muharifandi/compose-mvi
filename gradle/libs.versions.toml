@@ -30,6 +30,7 @@ material = "1.12.0"
 constraintlayout = "2.1.4"
 navigation = "2.8.0"
 coil = "2.6.0"
+androidx-baselineprofile = "1.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -84,3 +85,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 module-graph-assert = { id = "com.jraska.module.graph.assertion", version = "2.5.0" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.6" }
+androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidx-baselineprofile" }

@@ -1,43 +1,27 @@
 package com.muh.arifandi.dicoding.features.splash.ui
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.net.Uri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import android.net.Uri
+import com.muh.arifandi.dicoding.core.architecture.base.BaseFragment
 import com.muh.arifandi.dicoding.features.splash.databinding.FragmentSplashBinding
 import com.muh.arifandi.dicoding.features.splash.ui.state.SplashEffect
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SplashFragment : Fragment() {
+class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
     private val viewModel: SplashViewModel by viewModels()
-    private var _binding: FragmentSplashBinding? = null
-    private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentSplashBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun onInitViews() {
+        // No views to initialize
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        observeEffect()
-    }
-
-    private fun observeEffect() {
+    override fun onInitObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.effect.collect { effect ->
@@ -48,14 +32,12 @@ class SplashFragment : Fragment() {
                         is SplashEffect.NavigateToHome -> {
                             findNavController().navigate(Uri.parse("saka://home"))
                         }
+                        is SplashEffect.NavigateToIntro -> {
+                            findNavController().navigate(Uri.parse("saka://intro"))
+                        }
                     }
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

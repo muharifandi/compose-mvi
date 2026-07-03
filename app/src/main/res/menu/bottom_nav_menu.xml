@@ -3,17 +3,17 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@android:drawable/ic_menu_today"
-        android:title="Home" />
-    <item
-        android:id="@+id/navigation_network"
-        android:icon="@android:drawable/ic_menu_share"
-        android:title="Network" />
-    <item
-        android:id="@+id/navigation_history"
-        android:icon="@android:drawable/ic_menu_recent_history"
-        android:title="Riwayat" />
+        android:title="@string/title_home" />
     <item
         android:id="@+id/navigation_jobs"
         android:icon="@android:drawable/ic_menu_manage"
-        android:title="Kerjaan" />
+        android:title="@string/title_jobs" />
+    <item
+        android:id="@+id/navigation_history"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="@string/title_history" />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="@string/title_profile" />
 </menu>

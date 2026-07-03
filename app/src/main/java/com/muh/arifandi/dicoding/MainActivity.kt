@@ -9,7 +9,6 @@
 package com.muh.arifandi.dicoding
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
@@ -26,7 +25,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     @Inject
     lateinit var securityGuard: SecurityGuard
@@ -52,22 +51,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         
-        // Define top-level destinations (no back button, show drawer/bottom nav)
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
-                R.id.navigation_network,
+                R.id.navigation_jobs,
                 R.id.navigation_history,
-                R.id.navigation_jobs
+                R.id.navigation_profile
             ),
             binding.drawerLayout
         )
 
-        // Setup BottomNav
         binding.customBottomNav.bottomNav.setupWithNavController(navController)
         binding.customBottomNav.bottomNav.inflateMenu(R.menu.bottom_nav_menu)
         
-        // Setup Drawer
         binding.customNavView.navView.setupWithNavController(navController)
         binding.customNavView.navView.inflateMenu(R.menu.nav_drawer_menu)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -75,9 +71,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_home,
-                R.id.navigation_network,
+                R.id.navigation_jobs,
                 R.id.navigation_history,
-                R.id.navigation_jobs -> {
+                R.id.navigation_profile -> {
                     binding.customToolbar.root.visibility = View.VISIBLE
                     binding.customBottomNav.root.visibility = View.VISIBLE
                     binding.drawerLayout.setDrawerLockMode(androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED)

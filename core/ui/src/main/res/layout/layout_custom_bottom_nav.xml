@@ -6,5 +6,8 @@
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground" />
+        android:background="@color/saka_white"
+        app:itemIconTint="@color/bnv_item_color"
+        app:itemTextColor="@color/bnv_item_color"
+        app:labelVisibilityMode="labeled" />
 </layout>

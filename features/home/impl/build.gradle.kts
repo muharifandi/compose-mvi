@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.muh.arifandi.dicoding.features.home.impl"
+    namespace = "com.muh.arifandi.dicoding.features.home"
 }
 
 dependencies {

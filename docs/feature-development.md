@@ -96,8 +96,9 @@ Gunakan `@AndroidEntryPoint` pada Fragment dan Activity agar Hilt dapat melakuka
 
 ---
 
-## 4. Cara Memanggil Fitur dari Modul Lain
-Untuk menjaga *decoupling*, gunakan Deep Links atau interface `FeatureApi` yang membungkus ID navigasi.
+## 4. Cara Memanggil Fitur & Navigasi
+Untuk panduan mendalam mengenai perpindahan halaman dan pengiriman parameter, silakan baca:
+👉 **[Panduan Navigasi & Parameter](navigation-guide.md)**
 
 ---
 

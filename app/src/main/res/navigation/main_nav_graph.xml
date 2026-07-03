@@ -4,11 +4,21 @@
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/splash_fragment">
 
+    <!-- SPLASH -->
     <fragment
         android:id="@+id/splash_fragment"
         android:name="com.muh.arifandi.dicoding.features.splash.ui.SplashFragment"
         android:label="SplashFragment" />
 
+    <!-- INTRO / ONBOARDING -->
+    <fragment
+        android:id="@+id/intro_fragment"
+        android:name="com.muh.arifandi.dicoding.features.intro.ui.IntroFragment"
+        android:label="IntroFragment">
+        <deepLink app:uri="saka://intro" />
+    </fragment>
+
+    <!-- AUTH FLOW -->
     <fragment
         android:id="@+id/login_fragment"
         android:name="com.muh.arifandi.dicoding.features.login.ui.LoginFragment"
@@ -16,6 +26,7 @@
         <deepLink app:uri="saka://login" />
     </fragment>
 
+    <!-- MAIN FLOW (Bottom Nav / Drawer) -->
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.muh.arifandi.dicoding.features.home.ui.HomeFragment"
@@ -24,18 +35,30 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_network"
-        android:name="com.muh.arifandi.dicoding.features.network.ui.NetworkFragment"
-        android:label="Network" />
+        android:id="@+id/navigation_jobs"
+        android:name="com.muh.arifandi.dicoding.features.jobs.ui.JobsFragment"
+        android:label="Jobs">
+        <deepLink app:uri="saka://jobs" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_history"
         android:name="com.muh.arifandi.dicoding.features.history.ui.HistoryFragment"
-        android:label="Riwayat" />
+        android:label="History">
+        <deepLink app:uri="saka://history" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_jobs"
-        android:name="com.muh.arifandi.dicoding.features.jobs.ui.JobsFragment"
-        android:label="Kerjaan" />
+        android:id="@+id/navigation_profile"
+        android:name="com.muh.arifandi.dicoding.features.profile.ui.ProfileFragment"
+        android:label="Profile">
+        <deepLink app:uri="saka://profile" />
+    </fragment>
+
+    <!-- OTHERS -->
+    <fragment
+        android:id="@+id/navigation_network"
+        android:name="com.muh.arifandi.dicoding.features.network.ui.NetworkFragment"
+        android:label="Network" />
 
 </navigation>

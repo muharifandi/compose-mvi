@@ -11,7 +11,7 @@ plugins {
 }
 
 val envProperties = Properties().apply {
-    val envFile = rootProject.file("config.env")
+    val envFile = rootProject.file(".env")
     if (envFile.exists()) {
         load(FileInputStream(envFile))
     }
@@ -76,6 +76,8 @@ dependencies {
     implementation(project(":features:login:impl"))
     implementation(project(":features:register:impl"))
     implementation(project(":features:home:impl"))
+    implementation(project(":features:intro:impl"))
+    implementation(project(":features:profile:impl"))
     implementation(project(":features:network:impl"))
     implementation(project(":features:history:impl"))
     implementation(project(":features:jobs:impl"))

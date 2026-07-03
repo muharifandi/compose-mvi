@@ -1,20 +1,33 @@
 package com.muh.arifandi.dicoding.core.architecture.base
 
 import android.os.Bundle
-import androidx.annotation.LayoutRes
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
+import java.lang.reflect.ParameterizedType
 
-abstract class BaseActivity<VB : ViewDataBinding>(@LayoutRes private val layoutResId: Int) : AppCompatActivity() {
+/**
+ * Base Activity dengan Auto-Binding menggunakan Reflection.
+ * Developer tidak perlu lagi menulis delegate manual di subclass.
+ */
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     private var _binding: VB? = null
     val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = DataBindingUtil.setContentView(this, layoutResId)
-        binding.lifecycleOwner = this
+        
+        // Reflection untuk mencari class VB dan memanggil method inflate
+        val type = javaClass.genericSuperclass as ParameterizedType
+        val clazz = type.actualTypeArguments[0] as Class<VB>
+        val method = clazz.getMethod("inflate", LayoutInflater::class.java)
+        
+        @Suppress("UNCHECKED_CAST")
+        _binding = method.invoke(null, layoutInflater) as VB
+        
+        setContentView(binding.root)
+        
         onInitViews()
         onInitObservers()
     }

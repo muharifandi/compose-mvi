@@ -9,4 +9,10 @@
     <string name="article_detail">Article Detail</string>
     <string name="back">Back</string>
     <string name="favorite">Favorite</string>
+
+    <!-- Bottom Navigation -->
+    <string name="title_home">Home</string>
+    <string name="title_jobs">Jobs</string>
+    <string name="title_history">History</string>
+    <string name="title_profile">Profile</string>
 </resources>
